@@ -11,12 +11,12 @@ namespace Graphikos.ViewModels
    
     public class ShellViewModel
     {
-        private SchemeHandler schemeHandler;
+        private readonly ISchemeHandler _schemeHandler;
         public string SomeMessage { get; set; }
-        public ShellViewModel()
+        public ShellViewModel(ISchemeHandler schemeHandler)
         {
-            schemeHandler = new SchemeHandler();
-            SomeMessage = schemeHandler.Evaluate("(+ 1 2 3)").ToString();
+            _schemeHandler = schemeHandler;
+            SomeMessage = _schemeHandler.Evaluate("(+ 1 2 3)").ToString();
            
         }
     }

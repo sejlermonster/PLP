@@ -2,7 +2,7 @@
 
 namespace Graphikos.Scheme
 {
-    public class SchemeHandler
+    public class SchemeHandler : ISchemeHandler
     {
         public object Evaluate(string input)
         {
