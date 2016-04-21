@@ -121,7 +121,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="HelloWorld.ss" />
+    <None Include="SchemeFiles\HelloWorld.ss" />
     <None Include="lib\as-match.sls" />
     <None Include="lib\bench.sls" />
     <None Include="lib\datatype.sls" />
@@ -382,7 +382,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="test.ss" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
