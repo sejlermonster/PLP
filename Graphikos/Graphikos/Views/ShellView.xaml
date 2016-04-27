@@ -3,8 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:cal="http://www.caliburnproject.org"
              Width="500" Height="300">
-    <StackPanel Orientation="Horizontal">
-        <TextBlock Width="400" FontSize="50" x:Name="SomeMessage" Background="White"/>
-        <TextBox  Width="90" x:Name="Input" cal:Message.Attach="[Event KeyDown] = [Action Evaluate($eventArgs)]"></TextBox>
+
+    <StackPanel Orientation="Vertical" Height="300">
+        <StackPanel Orientation="Horizontal" Height="110">
+            <TextBlock Width="250" FontSize="20" x:Name="SomeMessage" Background="White" Margin="0,0,0,0"/>
+            <TextBox Width="250" AcceptsReturn="True" TextWrapping="Wrap" x:Name="Input" Margin="0,0,0,0"></TextBox>
+        </StackPanel>
+        <ItemsControl ItemsSource="{Binding Path=Lines}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas Background="White" Width="500" Height="170"  />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Line X1="{Binding X1}" Y1="{Binding Y1}" X2="{Binding X2}" Y2="{Binding Y2}" Stroke="Black" StrokeThickness="3"></Line>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Button x:Name="btnevaluate" Content="Evaluate" cal:Message.Attach="[Event Click] = [Action Evaluate($eventArgs)]"/>
     </StackPanel>
 </UserControl>

@@ -1,0 +1,6 @@
+﻿(define (line x y x2 y2)
+  (if ( = x x2)
+       '()
+       (cons (+ x 1) (cons  (+ y (/ (- y2 y) (- x2 x)))
+              (line (+ x 1) (+ y (/ (- y2 y) (- x2 x))) x2 y2 ))
+        )))
