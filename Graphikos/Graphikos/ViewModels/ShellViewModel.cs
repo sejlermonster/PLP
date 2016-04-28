@@ -16,47 +16,49 @@ namespace Graphikos.ViewModels
         private string _input = "";
         private string _someMessage = "";
         public ObservableCollection<Line> Lines { get; set; }
-
-
-        public ShellViewModel(ISchemeHandler schemeHandler)
-        {
-            _schemeHandler = schemeHandler;
-            Lines = new ObservableCollection<Line>();
-            var line1 = new Line {X1 = 0, X2 = 10, Y1 = 0, Y2 = 10 };
-            var line2 = new Line {X1 = 10, X2 = 20, Y1 = 10, Y2 = 20};
-            Lines.Add(line1);
-            Lines.Add(line2);
-        }
-
         public string Input
         {
             get { return _input; }
-            set
-            {
-                _input = value;
-                NotifyOfPropertyChange(() => Input);
-            }
+            set { _input = value; NotifyOfPropertyChange(() => Input); }
         }
-
         public string SomeMessage
         {
             get { return _someMessage; }
-            set
-            {
-                _someMessage = value;
-                NotifyOfPropertyChange(() => SomeMessage);
-            }
+            set { _someMessage = value; NotifyOfPropertyChange(() => SomeMessage); }
+        }
+
+        public ShellViewModel(ISchemeHandler schemeHandler)
+        {
+            if (schemeHandler == null)
+                throw new ArgumentNullException(nameof(schemeHandler));
+
+            _schemeHandler = schemeHandler;
+            Lines = new ObservableCollection<Line>();
         }
 
         public void Evaluate(KeyEventArgs keyArgs)
         {
+            var listOfCoordinates = new List<double>();
             foreach (var expressionToEvaluate in Regex.Split(_input, "\r\n").Where(x => !string.IsNullOrWhiteSpace(x)))
             {
-                SomeMessage = _schemeHandler.CallSchemeFunc(expressionToEvaluate).ToString();
+                var result = _schemeHandler.CallSchemeFunc(expressionToEvaluate);
+                if (result == null)
+                    return;
+                listOfCoordinates = result.Select(x => Convert.ToDouble(x)).ToList();
             }
 
-
-           
+            for (int i = 0; i*2 < listOfCoordinates.Count; i++)
+            {
+                var line = new Line
+                {
+                    X1 = listOfCoordinates.ElementAt(i),
+                    Y1 = listOfCoordinates.ElementAt(i+1),
+                    X2 = listOfCoordinates.ElementAt(i+2),
+                    Y2 = listOfCoordinates.ElementAt(i+3)
+                };
+                i++;
+                Lines.Add(line);
+            }
         }
     }
 }
