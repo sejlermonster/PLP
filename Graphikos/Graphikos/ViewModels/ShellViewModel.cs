@@ -38,27 +38,28 @@ namespace Graphikos.ViewModels
 
         public void Evaluate(KeyEventArgs keyArgs)
         {
-            var listOfCoordinates = new List<double>();
             foreach (var expressionToEvaluate in Regex.Split(_input, "\r\n").Where(x => !string.IsNullOrWhiteSpace(x)))
             {
                 var result = _schemeHandler.CallSchemeFunc(expressionToEvaluate);
                 if (result == null)
                     return;
-                listOfCoordinates = result.Select(x => Convert.ToDouble(x)).ToList();
-            }
+                var enumerable = result.Select(Convert.ToDouble);
+                var listOfCoordinates = enumerable.ToList();
 
-            for (int i = 0; i*2 < listOfCoordinates.Count; i++)
-            {
-                var line = new Line
+                for (int i = 0; i * 2 < listOfCoordinates.Count; i++)
                 {
-                    X1 = listOfCoordinates.ElementAt(i),
-                    Y1 = listOfCoordinates.ElementAt(i+1),
-                    X2 = listOfCoordinates.ElementAt(i+2),
-                    Y2 = listOfCoordinates.ElementAt(i+3)
-                };
-                i++;
-                Lines.Add(line);
+                    var line = new Line
+                    {
+                        X1 = listOfCoordinates.ElementAt(i),
+                        Y1 = listOfCoordinates.ElementAt(i + 1),
+                        X2 = listOfCoordinates.ElementAt(i + 2),
+                        Y2 = listOfCoordinates.ElementAt(i + 3)
+                    };
+                    i++;
+                    Lines.Add(line);
+                }
             }
+            
         }
     }
 }
