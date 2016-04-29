@@ -38,6 +38,7 @@ namespace Graphikos.ViewModels
 
         public void Evaluate(KeyEventArgs keyArgs)
         {
+            Lines.Clear();
             foreach (var expressionToEvaluate in Regex.Split(_input, "\r\n").Where(x => !string.IsNullOrWhiteSpace(x)))
             {
                 var result = _schemeHandler.CallSchemeFunc(expressionToEvaluate);
@@ -46,7 +47,7 @@ namespace Graphikos.ViewModels
                 var enumerable = result.Select(Convert.ToDouble);
                 var listOfCoordinates = enumerable.ToList();
 
-                for (int i = 0; i * 2 < listOfCoordinates.Count; i++)
+                for (var i = 0; i+3 < listOfCoordinates.Count; i++)
                 {
                     var line = new Line
                     {
@@ -57,6 +58,7 @@ namespace Graphikos.ViewModels
                     };
                     i++;
                     Lines.Add(line);
+                    Console.WriteLine(i);
                 }
             }
             
