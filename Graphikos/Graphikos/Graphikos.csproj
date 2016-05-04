@@ -79,7 +79,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Models\Line.cs" />
+    <Compile Include="Models\Point.cs" />
     <Compile Include="Scheme\ISchemeHandler.cs" />
     <Compile Include="Scheme\SchemeHandler.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />

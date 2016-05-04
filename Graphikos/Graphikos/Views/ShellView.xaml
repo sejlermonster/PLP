@@ -7,7 +7,7 @@
     <StackPanel Orientation="Horizontal">
         <StackPanel Orientation="Vertical" Width="400">
             <Border BorderThickness="2" BorderBrush="Black">
-                <ItemsControl ItemsSource="{Binding Path=Lines}">
+                <ItemsControl ItemsSource="{Binding Path=Points}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <Canvas Background="White" Height="400" Width="400">
@@ -17,9 +17,15 @@
                             </Canvas>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style>
+                            <Setter Property="Canvas.Left" Value="{Binding X1}"/>
+                            <Setter Property="Canvas.Top" Value="{Binding Y1}"/>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Line X1="{Binding X1}" Y1="{Binding Y1}" X2="{Binding X2}" Y2="{Binding Y2}" Stroke="Black" StrokeThickness="3"></Line>
+                            <Border BorderBrush="Red" BorderThickness="1" Width="1" Height="1"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

@@ -15,7 +15,7 @@ namespace Graphikos.ViewModels
         private readonly ISchemeHandler _schemeHandler;
         private string _input = "";
         private string _someMessage = "";
-        public ObservableCollection<Line> Lines { get; set; }
+        public ObservableCollection<Point> Points { get; set; }
         public string Input
         {
             get { return _input; }
@@ -33,12 +33,12 @@ namespace Graphikos.ViewModels
                 throw new ArgumentNullException(nameof(schemeHandler));
 
             _schemeHandler = schemeHandler;
-            Lines = new ObservableCollection<Line>();
+            Points = new ObservableCollection<Point>();
         }
 
         public void Evaluate(KeyEventArgs keyArgs)
         {
-            Lines.Clear();
+            Points.Clear();
             foreach (var expressionToEvaluate in Regex.Split(_input, "\r\n").Where(x => !string.IsNullOrWhiteSpace(x)))
             {
                 var result = _schemeHandler.CallSchemeFunc(expressionToEvaluate);
@@ -49,15 +49,13 @@ namespace Graphikos.ViewModels
 
                 for (var i = 0; i+3 < listOfCoordinates.Count; i++)
                 {
-                    var line = new Line
+                    var point = new Point
                     {
                         X1 = listOfCoordinates.ElementAt(i),
                         Y1 = listOfCoordinates.ElementAt(i + 1),
-                        X2 = listOfCoordinates.ElementAt(i + 2),
-                        Y2 = listOfCoordinates.ElementAt(i + 3)
                     };
                     i++;
-                    Lines.Add(line);
+                    Points.Add(point);
                     Console.WriteLine(i);
                 }
             }
