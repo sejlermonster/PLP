@@ -52,8 +52,8 @@ namespace Graphikos.ViewModels
                 {
                     var point = new Point
                     {
-                        X1 = listOfCoordinates.ElementAt(i),
-                        Y1 = listOfCoordinates.ElementAt(i + 1),
+                        X = listOfCoordinates.ElementAt(i),
+                        Y = listOfCoordinates.ElementAt(i + 1),
                         Color = new SolidColorBrush(Colors.Black)
                     };
                     i++;

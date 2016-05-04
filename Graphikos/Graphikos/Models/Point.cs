@@ -4,8 +4,8 @@ namespace Graphikos.Models
 {
     public class Point
     {
-        public double X1 { get; set; }
-        public double Y1 { get; set; }
+        public double X { get; set; }
+        public double Y { get; set; }
         public Brush Color { get; set; }
     }
 }
