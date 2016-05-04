@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
+using System.Windows.Media;
 using Caliburn.Micro;
 using Graphikos.Models;
 using Graphikos.Scheme;
@@ -53,6 +54,7 @@ namespace Graphikos.ViewModels
                     {
                         X1 = listOfCoordinates.ElementAt(i),
                         Y1 = listOfCoordinates.ElementAt(i + 1),
+                        Color = new SolidColorBrush(Colors.Black)
                     };
                     i++;
                     Points.Add(point);
