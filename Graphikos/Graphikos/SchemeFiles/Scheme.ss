@@ -5,10 +5,15 @@
           (if ( > y y2)
               (cons x (cons (- y 1) (line x (- y 1) x2 y2)))))
   (if ( = x x2)
-       '()
+      '()
+      
+      (if (> x x2)
+          (cons (+ x2 1) (cons  (+ y2 (/ (- y y2) (- x x2)))
+              (line (+ x2 1) (+ y2 (/ (- y y2) (- x x2))) x y )))
+
+          
        (cons (+ x 1) (cons  (+ y (/ (- y2 y) (- x2 x)))
-              (line (+ x 1) (+ y (/ (- y2 y) (- x2 x))) x2 y2 ))
-        ))))
+              (line (+ x 1) (+ y (/ (- y2 y) (- x2 x))) x2 y2 )))))))
 
 
 (define (flatten x)
