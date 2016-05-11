@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -41,7 +42,7 @@ namespace Graphikos.ViewModels
         public void Evaluate()
         {
             Points.Clear();
-            foreach (var expressionToEvaluate in Regex.Split(_input, "\r\n").Where(x => !string.IsNullOrWhiteSpace(x)))
+            foreach (var expressionToEvaluate in GetExpressionsToEvaluate(_input))
             {
                 var result = _schemeHandler.CallSchemeFunc(expressionToEvaluate);
                 if (result == null)
@@ -63,6 +64,11 @@ namespace Graphikos.ViewModels
                 }
             }
             
+        }
+
+        public IEnumerable<string> GetExpressionsToEvaluate(string input)
+        {
+            return Regex.Split(input, "\r\n").Where(x => !string.IsNullOrWhiteSpace(x));
         }
     }
 }
