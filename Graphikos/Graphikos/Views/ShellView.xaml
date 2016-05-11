@@ -25,7 +25,7 @@
                     </ItemsControl.ItemContainerStyle>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border BorderBrush="{Binding Color}" BorderThickness="1" Width="1" Height="1"/>
+                            <Border BorderBrush="{Binding Color}" BorderThickness="1" Width="1.3" Height="1.3"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

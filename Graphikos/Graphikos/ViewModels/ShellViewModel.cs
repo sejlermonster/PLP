@@ -41,6 +41,7 @@ namespace Graphikos.ViewModels
 
         public void Evaluate()
         {
+            Points.Clear();
             foreach (var expressionToEvaluate in GetExpressionsToEvaluate(_input))
             {
                 var result = _schemeHandler.CallSchemeFunc(expressionToEvaluate);
@@ -57,7 +58,7 @@ namespace Graphikos.ViewModels
 
         public void AddCoordinatesToCanvas(IReadOnlyCollection<double> listOfCoordinates)
         {
-            Points.Clear();
+
             for (var i = 0; i + 3 < listOfCoordinates.Count; i++)
             {
                 var point = new Point
