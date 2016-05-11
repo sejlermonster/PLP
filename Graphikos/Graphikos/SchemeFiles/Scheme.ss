@@ -1,16 +1,19 @@
 ﻿(define (line x y x2 y2)
-  (if (and (not(= y y2)) (= x x2))
+  (let ((xOrg x) (yOrg y))
+  (letrec ((lineCoor (lambda(x y x2 y2 a)
+     (if (and (not(= y y2)) (= x x2))
        (if ( < y y2)
-          (cons x (cons (+ y 1) (line x (+ y 1) x2 y2)))
+          (lineCoor x (+ y 1) x2 y2 (cons x (cons (+ y 1) a )))
           (if ( > y y2)
-              (cons x (cons (- y 1) (line x (- y 1) x2 y2)))))
+              (lineCoor x (- y 1) x2 y2 (cons x (cons (- y 1) a)))))
   (if ( = x x2)
-      '()
-      (if (> x x2)
-          (cons (+ x2 1) (cons  (+ y2 (/ (- y y2) (- x x2)))
-              (line (+ x2 1) (+ y2 (/ (- y y2) (- x x2))) x y )))
-       (cons (+ x 1) (cons  (+ y (/ (- y2 y) (- x2 x)))
-              (line (+ x 1) (+ y (/ (- y2 y) (- x2 x))) x2 y2 )))))))
+      (append (append a (cons xOrg '())) (cons yOrg '()))
+     (if (> x x2)
+             (lineCoor (+ x2 1) (+ y2 (/ (- y y2) (- x x2))) x y
+                       (cons (+ x2 1) (cons  (+ y2 (/ (- y y2) (- x x2))) a)))
+              (lineCoor (+ x 1) (+ y (/ (- y2 y) (- x2 x))) x2 y2 
+                        (cons (+ x 1) (cons  (+ y (/ (- y2 y) (- x2 x))) a)))))))))
+    (lineCoor x y x2 y2 '() ))))
 
 
 (define (flatten x)
