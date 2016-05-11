@@ -41,7 +41,6 @@ namespace Graphikos.ViewModels
 
         public void Evaluate()
         {
-            Points.Clear();
             foreach (var expressionToEvaluate in GetExpressionsToEvaluate(_input))
             {
                 var result = _schemeHandler.CallSchemeFunc(expressionToEvaluate);
@@ -50,20 +49,26 @@ namespace Graphikos.ViewModels
                 var enumerable = result.Select(Convert.ToDouble);
                 var listOfCoordinates = enumerable.ToList();
 
-                for (var i = 0; i+3 < listOfCoordinates.Count; i++)
-                {
-                    var point = new Point
-                    {
-                        X = listOfCoordinates.ElementAt(i),
-                        Y = listOfCoordinates.ElementAt(i + 1),
-                        Color = new SolidColorBrush(Colors.Black)
-                    };
-                    i++;
-                    Points.Add(point);
-                    Console.WriteLine(i);
-                }
+                AddCoordinatesToCanvas(listOfCoordinates);
             }
             
+        }
+
+        public void AddCoordinatesToCanvas(IReadOnlyCollection<double> listOfCoordinates)
+        {
+            Points.Clear();
+            for (var i = 0; i + 3 < listOfCoordinates.Count; i++)
+            {
+                var point = new Point
+                {
+                    X = listOfCoordinates.ElementAt(i),
+                    Y = listOfCoordinates.ElementAt(i + 1),
+                    Color = new SolidColorBrush(Colors.Black)
+                };
+                i++;
+                Points.Add(point);
+                Console.WriteLine(i);
+            }
         }
 
         public IEnumerable<string> GetExpressionsToEvaluate(string input)
