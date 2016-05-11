@@ -44,11 +44,12 @@ namespace Graphikos.ViewModels
             foreach (var expressionToEvaluate in GetExpressionsToEvaluate(_input))
             {
                 var result = _schemeHandler.CallSchemeFunc(expressionToEvaluate);
+                Console.WriteLine("result returned");
                 if (result == null)
                     return;
                 var enumerable = result.Select(Convert.ToDouble);
                 var listOfCoordinates = enumerable.ToList();
-
+                Console.WriteLine("Algorithm started");
                 AddCoordinatesToCanvas(listOfCoordinates);
             }
             
@@ -67,10 +68,9 @@ namespace Graphikos.ViewModels
                 };
                 i++;
                 Points.Add(point);
-                Console.WriteLine(i);
             }
+                Console.WriteLine("Algorithm ended");
         }
-
         public IEnumerable<string> GetExpressionsToEvaluate(string input)
         {
             return Regex.Split(input, "\r\n").Where(x => !string.IsNullOrWhiteSpace(x));
