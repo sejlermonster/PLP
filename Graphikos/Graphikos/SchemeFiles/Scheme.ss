@@ -6,12 +6,9 @@
               (cons x (cons (- y 1) (line x (- y 1) x2 y2)))))
   (if ( = x x2)
       '()
-      
       (if (> x x2)
           (cons (+ x2 1) (cons  (+ y2 (/ (- y y2) (- x x2)))
               (line (+ x2 1) (+ y2 (/ (- y y2) (- x x2))) x y )))
-
-          
        (cons (+ x 1) (cons  (+ y (/ (- y2 y) (- x2 x)))
               (line (+ x 1) (+ y (/ (- y2 y) (- x2 x))) x2 y2 )))))))
 
@@ -20,7 +17,6 @@
   (cond ((null? x) '())
         ((pair? x) (append (flatten (car x)) (flatten (cdr x))))
         (else (list x))))
-
 
 (define (rectangle x1 y1 x2 y2)
   (if (= x1 x2)
@@ -31,8 +27,8 @@
     (cons
      (line x1 y1 x1 y2)
      (line x1 y2 x2 y2))
-    (line x2 y2 x2 y1 ))
-   (line x1 y1 x2 y1)))
+    (line x1 y1 x2 y1))
+	(line x2 y2 x2 y1 )))
   ))
 
 
@@ -62,3 +58,15 @@
                                (GetCircleCoor (+ x 1) (- y 1) r (+ d (+ (* 2 (- x y)) 1))))))))))))))))))))
                '() ))))
     (GetCircleCoor x y r d))))
+
+(define (fill c g)
+    (letrec ((fillCoor (lambda(g x)
+      (if (null? g)
+          (flatten x)
+          (fillCoor (cdr (cdr (cdr (cdr g))))
+          (cons (line (car g)
+                               (cadr g)
+                               (car (cdr (cdr g)))
+                               (car (cdr (cdr (cdr g))))) x))
+          ))))
+      (fillCoor g '())))
