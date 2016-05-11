@@ -7,12 +7,11 @@ namespace Graphikos.Scheme
     public class SchemeHandler : ISchemeHandler
     {
         //private string _schemefilePath = @"../../SchemeFiles/HelloWorld.ss";
-        private string _schemefilePath = @"../../SchemeFiles/Scheme.ss";
+        private readonly string _schemefilePath;
 
-
-        public object Evaluate(string input)
+        public SchemeHandler(string schemeFilePath)
         {
-            return input.Eval<Cons>();
+            _schemefilePath = string.IsNullOrEmpty(schemeFilePath) ? @"../../SchemeFiles/Scheme.ss" : schemeFilePath;
         }
 
         public Cons CallSchemeFunc(string funcName)

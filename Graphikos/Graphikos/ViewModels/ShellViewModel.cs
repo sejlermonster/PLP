@@ -8,6 +8,7 @@ using System.Windows.Media;
 using Caliburn.Micro;
 using Graphikos.Models;
 using Graphikos.Scheme;
+using IronScheme.Runtime;
 
 namespace Graphikos.ViewModels
 {
@@ -17,6 +18,16 @@ namespace Graphikos.ViewModels
         private string _input = "";
         private string _someMessage = "";
         public ObservableCollection<Point> Points { get; set; }
+
+        public ShellViewModel(ISchemeHandler schemeHandler)
+        {
+            if (schemeHandler == null)
+                throw new ArgumentNullException(nameof(schemeHandler));
+
+            _schemeHandler = schemeHandler;
+            Points = new ObservableCollection<Point>();
+        }
+
         public string Input
         {
             get { return _input; }
@@ -28,19 +39,9 @@ namespace Graphikos.ViewModels
             set { _someMessage = value; NotifyOfPropertyChange(() => SomeMessage); }
         }
 
-        public ShellViewModel(ISchemeHandler schemeHandler)
+        public void Evaluate()
         {
-            if (schemeHandler == null)
-                throw new ArgumentNullException(nameof(schemeHandler));
-
-            _schemeHandler = schemeHandler;
-            Points = new ObservableCollection<Point>();
-        }
-
-        public void Evaluate(KeyEventArgs keyArgs)
-        {
-            Points.Clear();
-            foreach (var expressionToEvaluate in Regex.Split(_input, "\r\n").Where(x => !string.IsNullOrWhiteSpace(x)))
+            foreach (var expressionToEvaluate in GetExpressionsToEvaluate(_input))
             {
                 var result = _schemeHandler.CallSchemeFunc(expressionToEvaluate);
                 Console.WriteLine("result returned");
@@ -49,19 +50,30 @@ namespace Graphikos.ViewModels
                 var enumerable = result.Select(Convert.ToDouble);
                 var listOfCoordinates = enumerable.ToList();
                 Console.WriteLine("Algorithm started");
-                for (var i = 0; i+3 < listOfCoordinates.Count; i++)
-                {
-                    var point = new Point
-                    {
-                        X = listOfCoordinates.ElementAt(i),
-                        Y = listOfCoordinates.ElementAt(i + 1),
-                        Color = new SolidColorBrush(Colors.Black)
-                    };
-                    i++;
-                    Points.Add(point);
-                }
-                Console.WriteLine("Algorithm ended");
+                AddCoordinatesToCanvas(listOfCoordinates);
             }
+            
+        }
+
+        public void AddCoordinatesToCanvas(IReadOnlyCollection<double> listOfCoordinates)
+        {
+            Points.Clear();
+            for (var i = 0; i + 3 < listOfCoordinates.Count; i++)
+            {
+                var point = new Point
+                {
+                    X = listOfCoordinates.ElementAt(i),
+                    Y = listOfCoordinates.ElementAt(i + 1),
+                    Color = new SolidColorBrush(Colors.Black)
+                };
+                i++;
+                Points.Add(point);
+            }
+                Console.WriteLine("Algorithm ended");
+        }
+        public IEnumerable<string> GetExpressionsToEvaluate(string input)
+        {
+            return Regex.Split(input, "\r\n").Where(x => !string.IsNullOrWhiteSpace(x));
         }
     }
 }
