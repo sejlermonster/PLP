@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -8,6 +7,7 @@ using System.Windows.Media;
 using Caliburn.Micro;
 using Graphikos.Models;
 using Graphikos.Scheme;
+using IronScheme.Runtime;
 
 namespace Graphikos.ViewModels
 {
@@ -17,6 +17,16 @@ namespace Graphikos.ViewModels
         private string _input = "";
         private string _someMessage = "";
         public ObservableCollection<Point> Points { get; set; }
+
+        public ShellViewModel(ISchemeHandler schemeHandler)
+        {
+            if (schemeHandler == null)
+                throw new ArgumentNullException(nameof(schemeHandler));
+
+            _schemeHandler = schemeHandler;
+            Points = new ObservableCollection<Point>();
+        }
+
         public string Input
         {
             get { return _input; }
@@ -28,16 +38,7 @@ namespace Graphikos.ViewModels
             set { _someMessage = value; NotifyOfPropertyChange(() => SomeMessage); }
         }
 
-        public ShellViewModel(ISchemeHandler schemeHandler)
-        {
-            if (schemeHandler == null)
-                throw new ArgumentNullException(nameof(schemeHandler));
-
-            _schemeHandler = schemeHandler;
-            Points = new ObservableCollection<Point>();
-        }
-
-        public void Evaluate(KeyEventArgs keyArgs)
+        public void Evaluate()
         {
             Points.Clear();
             foreach (var expressionToEvaluate in Regex.Split(_input, "\r\n").Where(x => !string.IsNullOrWhiteSpace(x)))

@@ -35,7 +35,7 @@
 
         <StackPanel Orientation="Vertical" Width="200">
             <TextBox AcceptsReturn="True" TextWrapping="Wrap" x:Name="Input" Height="400"></TextBox>
-            <Button  Height="100" x:Name="btnevaluate" Content="Evaluate" cal:Message.Attach="[Event Click] = [Action Evaluate($eventArgs)]"/>
+            <Button  Height="100" x:Name="btnevaluate" Content="Evaluate" cal:Message.Attach="[Event Click] = [Action Evaluate()]"/>
         </StackPanel>
     </StackPanel>
 </UserControl>

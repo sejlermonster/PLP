@@ -9,11 +9,13 @@ namespace Graphikos.Scheme
         //private string _schemefilePath = @"../../SchemeFiles/HelloWorld.ss";
         private string _schemefilePath = @"../../SchemeFiles/Scheme.ss";
 
-
-        public object Evaluate(string input)
+        public SchemeHandler(string schemeFilePath)
         {
-            return input.Eval<Cons>();
+            _schemefilePath = schemeFilePath;
         }
+
+        public SchemeHandler()
+        {}
 
         public Cons CallSchemeFunc(string funcName)
         {
@@ -25,7 +27,7 @@ namespace Graphikos.Scheme
                 System.IO.File.ReadAllText(_schemefilePath).Eval();
                 return funcName.Eval<Cons>();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine("Error in Evaluation");
                 return null;
