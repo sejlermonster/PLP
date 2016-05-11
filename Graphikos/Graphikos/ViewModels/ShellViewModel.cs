@@ -43,11 +43,12 @@ namespace Graphikos.ViewModels
             foreach (var expressionToEvaluate in Regex.Split(_input, "\r\n").Where(x => !string.IsNullOrWhiteSpace(x)))
             {
                 var result = _schemeHandler.CallSchemeFunc(expressionToEvaluate);
+                Console.WriteLine("result returned");
                 if (result == null)
                     return;
                 var enumerable = result.Select(Convert.ToDouble);
                 var listOfCoordinates = enumerable.ToList();
-
+                Console.WriteLine("Algorithm started");
                 for (var i = 0; i+3 < listOfCoordinates.Count; i++)
                 {
                     var point = new Point
@@ -58,10 +59,9 @@ namespace Graphikos.ViewModels
                     };
                     i++;
                     Points.Add(point);
-                    Console.WriteLine(i);
                 }
+                Console.WriteLine("Algorithm ended");
             }
-            
         }
     }
 }
