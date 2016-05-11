@@ -3,11 +3,12 @@ using Graphikos.Scheme;
 using Graphikos.ViewModels;
 using IronScheme.Runtime;
 using Moq;
+using Shouldly;
 using Xunit;
 
 namespace GraphikosTests.ViewModels
 {
-    class ShellViewModelTests
+    public class ShellViewModelTests
     {
         private ShellViewModel shellViewModel;
 
@@ -21,9 +22,9 @@ namespace GraphikosTests.ViewModels
         [Fact]
         public void CanGetExpressionToEvaluate()
         {
-            var testData = new List<string>() {"foo", "boo"};
-            var foo = testData.ToString();
-            shellViewModel.GetExpressionsToEvaluate("line(11, 11, 2, 213)\r\nline(23, 23, 23, 23)");
+            var testData = new List<string>() { "line(11, 11, 2, 213)", "line(23, 23, 23, 23)" };
+            var result = shellViewModel.GetExpressionsToEvaluate("line(11, 11, 2, 213)\r\nline(23, 23, 23, 23)");
+            result.ShouldBe(testData);
         }
 
         [Fact]

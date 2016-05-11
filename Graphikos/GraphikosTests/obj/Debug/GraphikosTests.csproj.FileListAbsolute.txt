@@ -27,3 +27,5 @@ C:\Workspace\PLP\Graphikos\GraphikosTests\bin\Debug\Caliburn.Micro.Platform.Core
 C:\Workspace\PLP\Graphikos\GraphikosTests\obj\Debug\GraphikosTests.csprojResolveAssemblyReference.cache
 C:\Workspace\PLP\Graphikos\GraphikosTests\obj\Debug\GraphikosTests.dll
 C:\Workspace\PLP\Graphikos\GraphikosTests\obj\Debug\GraphikosTests.pdb
+C:\Workspace\PLP\Graphikos\GraphikosTests\bin\Debug\Shouldly.dll
+C:\Workspace\PLP\Graphikos\GraphikosTests\bin\Debug\Shouldly.pdb

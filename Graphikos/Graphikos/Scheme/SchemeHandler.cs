@@ -7,15 +7,12 @@ namespace Graphikos.Scheme
     public class SchemeHandler : ISchemeHandler
     {
         //private string _schemefilePath = @"../../SchemeFiles/HelloWorld.ss";
-        private string _schemefilePath = @"../../SchemeFiles/Scheme.ss";
+        private readonly string _schemefilePath;
 
         public SchemeHandler(string schemeFilePath)
         {
-            _schemefilePath = schemeFilePath;
+            _schemefilePath = string.IsNullOrEmpty(schemeFilePath) ? @"../../SchemeFiles/Scheme.ss" : schemeFilePath;
         }
-
-        public SchemeHandler()
-        {}
 
         public Cons CallSchemeFunc(string funcName)
         {
@@ -27,7 +24,7 @@ namespace Graphikos.Scheme
                 System.IO.File.ReadAllText(_schemefilePath).Eval();
                 return funcName.Eval<Cons>();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 Console.WriteLine("Error in Evaluation");
                 return null;
