@@ -7,28 +7,16 @@
     <StackPanel Orientation="Horizontal">
         <StackPanel Orientation="Vertical" Width="400">
             <Border BorderThickness="2" BorderBrush="Black">
-                <ItemsControl ItemsSource="{Binding Path=Points}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <Canvas Background="White" Height="400" Width="400">
-                                <Canvas.LayoutTransform>
-                                    <ScaleTransform ScaleY="-1"/>
-                                </Canvas.LayoutTransform>
-                            </Canvas>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemContainerStyle>
-                        <Style>
-                            <Setter Property="Canvas.Left" Value="{Binding X}"/>
-                            <Setter Property="Canvas.Top" Value="{Binding Y}"/>
-                        </Style>
-                    </ItemsControl.ItemContainerStyle>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border BorderBrush="{Binding Color}" BorderThickness="1" Width="1.3" Height="1.3"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                <Image Source="{Binding ImageSource}" Height="400" Width="400" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1" ScaleX="1"/>
+                            <SkewTransform AngleY="0" AngleX="0"/>
+                            <RotateTransform Angle="0"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
             </Border>
             <TextBlock FontSize="20" x:Name="SomeMessage" Background="White" Margin="0,0,0,0" Height="100"/>
         </StackPanel>
