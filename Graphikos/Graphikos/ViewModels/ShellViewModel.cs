@@ -17,7 +17,7 @@ namespace Graphikos.ViewModels
         private string _input = "";
         private string _someMessage = "";
         private BitmapSource _imageSource;
-        private Bitmap operableBitMap;
+        private Bitmap _operableBitMap;
 
 
         public ShellViewModel(ISchemeHandler schemeHandler)
@@ -46,7 +46,7 @@ namespace Graphikos.ViewModels
 
         public void Evaluate()
         {
-            operableBitMap = new Bitmap(400, 400);
+            _operableBitMap = new Bitmap(400, 400);
             foreach (var expressionToEvaluate in GetExpressionsToEvaluate(_input))
             {
                 var result = _schemeHandler.CallSchemeFunc(expressionToEvaluate);
@@ -70,10 +70,11 @@ namespace Graphikos.ViewModels
         {          
             for (var i = 0; i + 3 < listOfCoordinates.Count; i++)
             {
-                operableBitMap.SetPixel((int)listOfCoordinates.ElementAt(i), (int)listOfCoordinates.ElementAt(i + 1), ColorTranslator.FromHtml(EnumDescriptions.GetEnumDescription(GraphikosColors.Red)));
+                _operableBitMap.SetPixel((int)listOfCoordinates.ElementAt(i), (int)listOfCoordinates.ElementAt(i + 1), ColorTranslator.FromHtml(EnumDescriptions.GetEnumDescription(GraphikosColors.Red)));
+                i++;
             }
 
-            ImageSource = BitmapToBitmapSource(operableBitMap);
+            ImageSource = BitmapToBitmapSource(_operableBitMap);
         }
 
         public static BitmapSource BitmapToBitmapSource(Bitmap source)
