@@ -21,7 +21,7 @@
         ((pair? x) (append (flatten (car x)) (flatten (cdr x))))
         (else (list x))))
 
-(define (rectangle x1 y1 x2 y2)
+(define (rectangleOld x1 y1 x2 y2)
   (if (= x1 x2)
   '()
   (flatten
@@ -34,6 +34,23 @@
 	(line x2 y2 x2 y1 )))
   ))
 
+(define (merge l1 l2)
+      (if (null? l1) l2
+          (if (null? l2) l1
+              (cons (cons (car l1) (cadr l1)) (cons (cons (car l2) (cadr l2)) (merge (cdr (cdr l1)) (cdr (cdr l2))))))))
+
+(define (rectangle x1 y1 x2 y2)
+  (if (= x1 x2)
+  '()
+  (flatten
+   (cons
+    (merge
+     (line x1 y1 x1 y2)
+     (line x2 y1 x2 y2))
+    (merge
+     (line x1 y1 x2 y1 )
+   (line x1 y2 x2 y2)))
+  )))
 
 
 (define (circle centerX centerY r)
@@ -73,3 +90,27 @@
                                (car (cdr (cdr (cdr g))))) x))
           ))))
       (fillCoor g '())))
+
+(define (fill2 c g)
+    (letrec ((fillCoor (lambda(g x)
+      (if (null? g)
+          (flatten x)
+          (fillCoor (cdr (cdr (reverse (cdr (cdr (reverse g))))))
+                   (cons (line (car g)
+                               (cadr g)
+                               (cadr (reverse g))
+                               (car (reverse g))) x))
+          ))))
+      (fillCoor g '())))
+
+(define (fill3 c g)
+  (let ((pointX (car g)) (pointY (cadr g)))
+     (letrec ((fillCoor (lambda(g x)
+      (if (null? g) 
+          (flatten x)
+          (fillCoor (cdr (cdr g))
+          (cons (line pointX pointY
+                         (car g)
+                         (cadr g)) x))
+          ))))
+      (fillCoor g '()))))
