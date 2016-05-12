@@ -83,7 +83,7 @@
 (define (fill c g)
     (letrec ((fillCoor (lambda(g x)
         (if (or (or (null? g) (null? (cdr g)) (null? (cdr (cdr g)))) (null? (cdr (cdr (cdr g)))))
-          (flatten (append x g))
+          (flatten (append (append x g) c))
           (fillCoor (cdr (cdr (cdr (cdr g))))
           (cons (line (car g)
                                (cadr g)
@@ -91,6 +91,7 @@
                                (car (cdr (cdr (cdr g))))) x))
           ))))
       (fillCoor g '())))
+
 
 (define (fill2 c g)
     (letrec ((fillCoor (lambda(g x)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -47,18 +48,22 @@ namespace Graphikos.ViewModels
         public void Evaluate()
         {
             _operableBitMap = new Bitmap(400, 400);
-            foreach (var expressionToEvaluate in GetExpressionsToEvaluate(_input))
-            {
-                var result = _schemeHandler.CallSchemeFunc(expressionToEvaluate);
-                Console.WriteLine("result returned");
+            foreach (var result in GetExpressionsToEvaluate(_input).Select(expressionToEvaluate => _schemeHandler.CallSchemeFunc(expressionToEvaluate))) {
                 if (result == null)
                     return;
-                var enumerable = result.Select(Convert.ToDouble);
+
+                var enumerable = result.Select(x => x);
                 var listOfCoordinates = enumerable.ToList();
-                Console.WriteLine("Algorithm started");
-                SetPixels(listOfCoordinates);
+
+                GraphikosColors color = GraphikosColors.Black;
+                if (Enum.IsDefined(typeof(GraphikosColors), listOfCoordinates.Last()))
+                {
+                    Enum.TryParse<GraphikosColors>(listOfCoordinates.Last().ToString(), out color);
+                    listOfCoordinates.Remove(listOfCoordinates.Last());
+                }
+
+                SetPixels(listOfCoordinates, color);
             }
-            
         }
 
         public IEnumerable<string> GetExpressionsToEvaluate(string input)
@@ -66,11 +71,11 @@ namespace Graphikos.ViewModels
             return Regex.Split(input, "\r\n").Where(x => !string.IsNullOrWhiteSpace(x));
         }
 
-        public void SetPixels(IReadOnlyCollection<double> listOfCoordinates)
-        {          
-            for (var i = 0; i + 3 < listOfCoordinates.Count; i++)
+        public void SetPixels(IReadOnlyCollection<object> listOfCoordinates, GraphikosColors color)
+        {
+           for (var i = 0; i + 3 < listOfCoordinates.Count; i++)
             {
-                _operableBitMap.SetPixel((int)listOfCoordinates.ElementAt(i), (int)listOfCoordinates.ElementAt(i + 1), ColorTranslator.FromHtml(EnumDescriptions.GetEnumDescription(GraphikosColors.Red)));
+                _operableBitMap.SetPixel((int)listOfCoordinates.ElementAt(i), (int)listOfCoordinates.ElementAt(i + 1), ColorTranslator.FromHtml(EnumDescriptions.GetEnumDescription(color)));
                 i++;
             }
 
