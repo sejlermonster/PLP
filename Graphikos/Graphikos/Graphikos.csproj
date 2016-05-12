@@ -79,6 +79,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\GraphikosColors.cs" />
     <Compile Include="Models\Point.cs" />
     <Compile Include="Scheme\ISchemeHandler.cs" />
     <Compile Include="Scheme\SchemeHandler.cs" />

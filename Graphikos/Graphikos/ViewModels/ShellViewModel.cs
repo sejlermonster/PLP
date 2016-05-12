@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Windows.Input;
 using System.Windows.Media;
 using Caliburn.Micro;
 using Graphikos.Models;
 using Graphikos.Scheme;
-using IronScheme.Runtime;
 
 namespace Graphikos.ViewModels
 {
@@ -65,7 +63,7 @@ namespace Graphikos.ViewModels
                 {
                     X = listOfCoordinates.ElementAt(i),
                     Y = listOfCoordinates.ElementAt(i + 1),
-                    Color = new SolidColorBrush(Colors.Black)
+                    Color = new SolidColorBrush((Color)ColorConverter.ConvertFromString(EnumDescriptions.GetEnumDescription(GraphikosColors.Red)))
                 };
                 i++;
                 Points.Add(point);
