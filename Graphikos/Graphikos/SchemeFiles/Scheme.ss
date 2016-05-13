@@ -98,9 +98,19 @@
   ))))
 
 
-(define (filter x1 y1 x2 y2 l)
+
+(define (filter2 x1 y1 x2 y2 l)
   (if (null? l)
       '()
       (if (and (and (and (>= (car l) x1) (<= (car l) x2) (>= (cadr l) y1))) (<= (cadr l) y2))
           (flatten (cons (cons (car l) (cadr l)) (filter x1 y1 x2 y2 (cdr (cdr l)))))
           (filter x1 y1 x2 y2 (cdr (cdr l))))))
+
+(define (filter x1 y1 x2 y2 l)
+  (letrec ((filterCoor (lambda (x1 y1 x2 y2 l a)
+  (if (or (null? l) (not (real? (car l)))) 
+      (flatten (append a l)) 
+      (if (and (and (and (>= (car l) x1) (<= (car l) x2) (>= (cadr l) y1))) (<= (cadr l) y2))
+           (filterCoor x1 y1 x2 y2 (cdr (cdr l)) (cons (cons (car l) (cadr l)) a))
+           (filterCoor x1 y1 x2 y2 (cdr (cdr l)) a )))))) 
+    (filterCoor x1 y1 x2 y2 l '())))
