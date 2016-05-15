@@ -156,13 +156,21 @@ namespace Graphikos.ViewModels
 
         private void SetPixels(IReadOnlyCollection<object> listOfCoordinates, GraphikosColors color)
         {
-            for (var i = 0; i + 3 < listOfCoordinates.Count; i++)
+            try
             {
-                _operableBitMap.SetPixel((int)listOfCoordinates.ElementAt(i),
-                                         _operableBitMap.Height - (int)listOfCoordinates.ElementAt(i + 1),
-                                         ColorTranslator.FromHtml(EnumDescriptions.GetEnumDescription(color)));
-                i++;
+                for (var i = 0; i + 3 < listOfCoordinates.Count; i++)
+                {
+                    _operableBitMap.SetPixel((int)listOfCoordinates.ElementAt(i),
+                                             _operableBitMap.Height - (int)listOfCoordinates.ElementAt(i + 1),
+                                             ColorTranslator.FromHtml(EnumDescriptions.GetEnumDescription(color)));
+                    i++;
+                }
             }
+            catch (Exception)
+            {
+                Error = "Please use pixel in the range 1-400";
+            }
+          
 
             ImageSource = BitmapToBitmapSource(_operableBitMap);
         }

@@ -109,3 +109,6 @@
 
 (define (text-at x1 y1 t)
   (cons  x1 (cons y1 (cons t '()))))
+
+(define (draw . g)
+  (flatten g))

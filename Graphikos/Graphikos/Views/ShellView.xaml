@@ -5,24 +5,15 @@
              Width="700" Height="500">
 
     <StackPanel Orientation="Horizontal">
-        <StackPanel Orientation="Vertical" Width="400">
+        <StackPanel Orientation="Vertical">
             <Border BorderThickness="2" BorderBrush="Black">
-                <Image Source="{Binding ImageSource}" Height="400" Width="400" RenderTransformOrigin="0.5,0.5">
-                    <!--<Image.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform ScaleY="-1" ScaleX="1"/>
-                            <SkewTransform AngleY="0" AngleX="0"/>
-                            <RotateTransform Angle="0"/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Image.RenderTransform>-->
-                </Image>
+                <Image Source="{Binding ImageSource}" Height="400" Width="400" RenderTransformOrigin="0.5,0.5"></Image>
             </Border>
             <TextBlock FontSize="20" x:Name="Error" Background="White" Margin="0,0,0,0" Height="100"/>
         </StackPanel>
 
-        <StackPanel Orientation="Vertical" Width="300">
-            <TextBox AcceptsReturn="True" TextWrapping="Wrap" x:Name="Input" Height="400"></TextBox>
+        <StackPanel Orientation="Vertical" Width="298">
+            <TextBox AcceptsReturn="True" TextWrapping="Wrap" x:Name="Input" Height="403"></TextBox>
             <Button  Height="100" x:Name="btnevaluate" Content="Evaluate" cal:Message.Attach="[Event Click] = [Action Evaluate()]"/>
         </StackPanel>
     </StackPanel>
