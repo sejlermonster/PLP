@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -16,8 +18,8 @@ namespace Graphikos.ViewModels
     {
         private readonly ISchemeHandler _schemeHandler;
         private string _error;
-        private string _input;
         private BitmapSource _imageSource;
+        private string _input;
         private Bitmap _operableBitMap;
 
         public string Error
@@ -81,8 +83,33 @@ namespace Graphikos.ViewModels
                     Enum.TryParse(listOfCoordinates.Last().ToString(), out color);
                     listOfCoordinates.Remove(listOfCoordinates.Last());
                 }
+                if (!(listOfCoordinates.Last() is int))
+                    DrawText(listOfCoordinates);
+
                 SetPixels(listOfCoordinates, color);
             }
+        }
+
+        private void DrawText(List<object> listOfCoordinates)
+        {
+            if (listOfCoordinates.Count < 3)
+                return;
+
+            using (Graphics g = Graphics.FromImage(_operableBitMap))
+            {
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+                StringFormat format = new StringFormat()
+                                      {
+                                          Alignment = StringAlignment.Center,
+                                          LineAlignment = StringAlignment.Center,
+                                      };
+                PointF drawPoint = new PointF(Convert.ToInt32(listOfCoordinates[0]), _operableBitMap.Height - Convert.ToInt32(listOfCoordinates[1]));
+                g.DrawString(listOfCoordinates.Last().ToString(), new Font("Tahoma", 12), Brushes.Black, drawPoint, format);
+            }
+            ImageSource = BitmapToBitmapSource(_operableBitMap);
         }
 
         private string GenerateEvaluationString(string input)
@@ -131,7 +158,9 @@ namespace Graphikos.ViewModels
         {
             for (var i = 0; i + 3 < listOfCoordinates.Count; i++)
             {
-                _operableBitMap.SetPixel((int)listOfCoordinates.ElementAt(i), (int)listOfCoordinates.ElementAt(i + 1), ColorTranslator.FromHtml(EnumDescriptions.GetEnumDescription(color)));
+                _operableBitMap.SetPixel((int)listOfCoordinates.ElementAt(i),
+                                         _operableBitMap.Height - (int)listOfCoordinates.ElementAt(i + 1),
+                                         ColorTranslator.FromHtml(EnumDescriptions.GetEnumDescription(color)));
                 i++;
             }
 

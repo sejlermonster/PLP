@@ -106,3 +106,6 @@
            (filterCoor x1 y1 x2 y2 (cddr l) (cons (cons (car l) (cadr l)) a))
            (filterCoor x1 y1 x2 y2 (cddr l) a )))))) 
     (filterCoor x1 y1 x2 y2 l '())))
+
+(define (text-at x1 y1 t)
+  (cons  x1 (cons y1 (cons t '()))))

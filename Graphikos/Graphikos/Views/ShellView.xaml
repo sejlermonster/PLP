@@ -8,14 +8,14 @@
         <StackPanel Orientation="Vertical" Width="400">
             <Border BorderThickness="2" BorderBrush="Black">
                 <Image Source="{Binding ImageSource}" Height="400" Width="400" RenderTransformOrigin="0.5,0.5">
-                    <Image.RenderTransform>
+                    <!--<Image.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform ScaleY="-1" ScaleX="1"/>
                             <SkewTransform AngleY="0" AngleX="0"/>
                             <RotateTransform Angle="0"/>
                             <TranslateTransform/>
                         </TransformGroup>
-                    </Image.RenderTransform>
+                    </Image.RenderTransform>-->
                 </Image>
             </Border>
             <TextBlock FontSize="20" x:Name="Error" Background="White" Margin="0,0,0,0" Height="100"/>
