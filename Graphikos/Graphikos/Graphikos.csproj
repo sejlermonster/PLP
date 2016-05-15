@@ -80,6 +80,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\BoundingBox.cs" />
     <Compile Include="Models\GraphikosColors.cs" />
     <Compile Include="Scheme\ISchemeHandler.cs" />
     <Compile Include="Scheme\SchemeHandler.cs" />
