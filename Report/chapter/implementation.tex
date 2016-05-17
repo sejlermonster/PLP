@@ -1,35 +1,28 @@
 \chapter{Implementation} 
 \label{chp:impl}
 
-This chapter explain the implementation of the application.
+This chapter explains the design and implementation of the application and the choices made during the development.
 
 \section{Multi paradigm}
 The application uses the functional programming language Scheme together with the imperative language C\#. This is done by using \emph{IronScheme} which is an implementation of Scheme that targets .NET. This allows to call Scheme functions directly from C\# code and hence combine the use of the two languages.
 
-This allowed... made it possible... something
-
 \section{User interface in C\# WPF}
-For developing the graphical user interface C\# and WPF was used. This made it possible to create the required interface that allowed the user to call scheme functions and have the objects drawn. 
+For developing the graphical user interface C\# and WPF was used. This made it possible to create the required interface that allowed the user to draw on a bitmap.
 
-Model-View-ViewModel(MVVM) was used to separate the graphical user interface from the business logic.  This ensured that the busines logic was very loosely coupled with the view through data-binding and therefore easier to test. The is illustrated in figure \ref{fig:mvvm}
+This was done using Model-View-ViewModel(MVVM) architecture to separate the graphical user interface from the business logic. This ensured that the business logic was very loosely coupled with the view through data-binding and therefore easier to test. The is illustrated in figure \ref{fig:mvvm}
 
 \myFigure{mvvm.png}{Mode-View-ViewModel}{fig:mvvm}{1} 
 
-Furthermore a bootstrapper was used for constructor injection. All classes that needs to be constructor injected was given a appropriate interface to ensure testability.
+A class diagram shown on figure \ref{fig:class} illustrates the essential design and classes used. The ShellView presents the content for the user and is updated through data-binding by the ShellViewModel. ShellViewModel depends on the two interfaces IShemeHandler and IBitmapDrawing. By only depending on interfaces testability is ensured as mocks can be used instead. 
 
-A bitmap was used to draw on. This made it possible to draw single pixels that was returned from the scheme functions.
+The SchemeHandler is a class that handles the evaluation of the scheme code by using IronScheme. BitmapDrawing is used for drawing on the bitmap. It allows for both drawing single pixels and text.
 
-
-Holder vores states
-WPF til GUI
-Tegner på Bitmap
-Interfaces, bootstrapper, MVVM for at sikre testability
+\myFigure{class.png}{UML class diagram}{fig:class}{0.6} 
 
 \section{Drawing Engine in Scheme}
 Scheme was used for developing the drawing engine. This allowed for fast and stateless computation of the graphics being shown in the user interface. 
 
-stateless
+For solving the different drawing aspects both classic and tail recursion was used. Tail recursion proved to have better performance and by using tail recursion instead of classic recursion stack overflow could be avoided. This is a because the scheme compiler is able to very effectively optimize tail recursion.
 
-funktioner
+High order programming was used by passing functions to other functions. This was for example used whit the \emph{draw} function. The function was designed as a variadic function that takes a variable amount of other functions an combining their result. This was also used for the \emph{fill} 
 
-high order programming ( Passing functions) bla bla
