@@ -19,16 +19,8 @@ namespace Graphikos.Scheme
             if (funcName == null)
                 throw new ArgumentNullException(nameof(funcName));
 
-            try
-            {
-                System.IO.File.ReadAllText(_schemefilePath).Eval();
-                return funcName.Eval<Cons>();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error in Evaluation");
-                return null;
-            }
+            System.IO.File.ReadAllText(_schemefilePath).Eval();
+            return funcName.Eval<Cons>();
         }
     }
 }

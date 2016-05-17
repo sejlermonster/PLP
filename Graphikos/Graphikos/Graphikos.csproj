@@ -84,6 +84,8 @@
     <Compile Include="Models\GraphikosColors.cs" />
     <Compile Include="Scheme\ISchemeHandler.cs" />
     <Compile Include="Scheme\SchemeHandler.cs" />
+    <Compile Include="Utility\BitmapDrawing.cs" />
+    <Compile Include="Utility\IBitmapDrawing.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>

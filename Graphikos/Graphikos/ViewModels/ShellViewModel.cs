@@ -1,26 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Text;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Windows;
-using System.Windows.Interop;
+using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using Graphikos.Models;
 using Graphikos.Scheme;
+using Graphikos.Utility;
+using IronScheme.Runtime;
 
 namespace Graphikos.ViewModels
 {
     public class ShellViewModel : PropertyChangedBase
     {
+        private readonly IBitmapDrawing _bitmapDrawing;
         private readonly ISchemeHandler _schemeHandler;
         private string _error;
         private BitmapSource _imageSource;
         private string _input;
-        private Bitmap _operableBitMap;
 
         public string Error
         {
@@ -52,66 +51,75 @@ namespace Graphikos.ViewModels
             }
         }
 
-        public ShellViewModel(ISchemeHandler schemeHandler)
+        public ShellViewModel(ISchemeHandler schemeHandler, IBitmapDrawing bitmapDrawing)
         {
             if (schemeHandler == null)
                 throw new ArgumentNullException(nameof(schemeHandler));
+            if (bitmapDrawing == null)
+                throw new ArgumentNullException(nameof(bitmapDrawing));
+
             _schemeHandler = schemeHandler;
+            _bitmapDrawing = bitmapDrawing;
             _input = "";
         }
 
-        public void Evaluate()
+        //Is called for Evaluation
+        public async Task Evaluate()
         {
-            _operableBitMap = new Bitmap(400, 400);
+            Error = "";
+            var bitmap = new Bitmap(400, 400);
             var evaluationString = GenerateEvaluationString(_input);
-
-            foreach (var result in GetExpressionsToEvaluate(evaluationString).Select(expressionToEvaluate => _schemeHandler.CallSchemeFunc(expressionToEvaluate)))
+            var expressions = GetExpressionsToEvaluate(evaluationString);
+            foreach (var expression in expressions)
             {
-                Error = "";
-                if (result == null)
+                Cons result;
+                try
+                {
+                    result = _schemeHandler.CallSchemeFunc(expression);
+                }
+                catch (Exception)
                 {
                     Error = "Error in evaluation";
                     return;
                 }
 
-                var enumerable = result.Select(x => x).ToList();
-                var listOfCoordinates = enumerable.ToList();
+                var listOfCoordinates = result.Select(x => x).ToList();
+                var color = ColorSelector(listOfCoordinates);
 
-                var color = GraphikosColors.Black;
-                if (Enum.IsDefined(typeof(GraphikosColors), listOfCoordinates.Last()))
-                {
-                    Enum.TryParse(listOfCoordinates.Last().ToString(), out color);
-                    listOfCoordinates.Remove(listOfCoordinates.Last());
-                }
-                if (!(listOfCoordinates.Last() is int))
-                    DrawText(listOfCoordinates);
-
-                SetPixels(listOfCoordinates, color);
+                var shouldHighlight = expression == expressions.Last();
+                await DrawObjectOnBitmap(listOfCoordinates, color, shouldHighlight, bitmap);
             }
         }
 
-        private void DrawText(List<object> listOfCoordinates)
+
+        private async Task DrawObjectOnBitmap(IReadOnlyCollection<object> listOfCoordinates, GraphikosColors color, bool shouldHighlight, Bitmap bitmap)
         {
-            if (listOfCoordinates.Count < 3)
-                return;
-
-            using (Graphics g = Graphics.FromImage(_operableBitMap))
+            var drawColor = ColorTranslator.FromHtml(EnumDescriptions.GetEnumDescription(color));
+            try
             {
-                g.SmoothingMode = SmoothingMode.AntiAlias;
-                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
-                StringFormat format = new StringFormat()
-                                      {
-                                          Alignment = StringAlignment.Center,
-                                          LineAlignment = StringAlignment.Center,
-                                      };
-                PointF drawPoint = new PointF(Convert.ToInt32(listOfCoordinates[0]), _operableBitMap.Height - Convert.ToInt32(listOfCoordinates[1]));
-                g.DrawString(listOfCoordinates.Last().ToString(), new Font("Tahoma", 12), Brushes.Black, drawPoint, format);
+                //Then we draw it as text
+                if (!(listOfCoordinates.Last() is int))
+                {
+                    if (shouldHighlight)
+                        await HighlightObject(300, drawColor, listOfCoordinates, bitmap, _bitmapDrawing.DrawText);
+                    else
+                        ImageSource = _bitmapDrawing.DrawText(listOfCoordinates, drawColor, bitmap);
+                    return;
+                }
+
+                //Else we draw the object
+                if (shouldHighlight)
+                    await HighlightObject(300, drawColor, listOfCoordinates, bitmap, _bitmapDrawing.DrawPixels);
+                else
+                    ImageSource = _bitmapDrawing.DrawPixels(listOfCoordinates, drawColor, bitmap);
             }
-            ImageSource = BitmapToBitmapSource(_operableBitMap);
+            catch (Exception)
+            {
+                Error = "Please use pixel in the range 1-400";
+            }
         }
 
+        //Generates a string for scheme evaluation. THis adds a filter function to the evaluation if a bounding-box is the first element.
         private string GenerateEvaluationString(string input)
         {
             var expressions = GetExpressionsToEvaluate(input);
@@ -143,39 +151,34 @@ namespace Graphikos.ViewModels
             return string.IsNullOrEmpty(evaluationString) ? input : evaluationString;
         }
 
+        //Splits the inputs
         private IEnumerable<string> GetExpressionsToEvaluate(string input)
         {
             return Regex.Split(input, "\r\n").Where(x => !string.IsNullOrWhiteSpace(x));
         }
 
-        private void SetPixels(IReadOnlyCollection<object> listOfCoordinates, GraphikosColors color)
+        //Is used to highlight the newest object.
+        private async Task HighlightObject(int ms, Color color, IReadOnlyCollection<object> listOfCoordinates, Bitmap bitmap, Func<IReadOnlyCollection<object>, Color, Bitmap, BitmapSource> draw)
         {
-            try
+            for (var j = 0; j < 5; j++)
             {
-                for (var i = 0; i + 3 < listOfCoordinates.Count; i++)
-                {
-                    _operableBitMap.SetPixel((int)listOfCoordinates.ElementAt(i),
-                                             _operableBitMap.Height - (int)listOfCoordinates.ElementAt(i + 1),
-                                             ColorTranslator.FromHtml(EnumDescriptions.GetEnumDescription(color)));
-                    i++;
-                }
+                var drawColor = j % 2 == 0 ? color : Color.White;
+                ImageSource = draw(listOfCoordinates, drawColor, bitmap);
+                await Task.Delay(ms);
             }
-            catch (Exception)
-            {
-                Error = "Please use pixel in the range 1-400";
-            }
-          
-
-            ImageSource = BitmapToBitmapSource(_operableBitMap);
         }
 
-        private static BitmapSource BitmapToBitmapSource(Bitmap source)
+        //Selects a color if it is the last element in the list
+        //Else it uses the default color black
+        private GraphikosColors ColorSelector(List<object> listOfCoordinates)
         {
-            return Imaging.CreateBitmapSourceFromHBitmap(
-                                                         source.GetHbitmap(),
-                                                         IntPtr.Zero,
-                                                         Int32Rect.Empty,
-                                                         BitmapSizeOptions.FromEmptyOptions());
+            var color = GraphikosColors.Black;
+            if (Enum.IsDefined(typeof(GraphikosColors), listOfCoordinates.Last()))
+            {
+                Enum.TryParse(listOfCoordinates.Last().ToString(), out color);
+                listOfCoordinates.Remove(listOfCoordinates.Last());
+            }
+            return color;
         }
     }
 }
