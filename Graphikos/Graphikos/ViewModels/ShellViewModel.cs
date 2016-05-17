@@ -128,13 +128,7 @@ namespace Graphikos.ViewModels
                 foreach (var exp in expressions)
                 {
                     if (exp.Contains("bounding-box"))
-                    {
-                        evaluationString = "(bounding-box " +
-                                           boundingBoxCoordinates.X1 + " " +
-                                           boundingBoxCoordinates.Y1 + " " +
-                                           boundingBoxCoordinates.X2 + " " +
-                                           boundingBoxCoordinates.Y2 + ")\r\n";
-                    }
+                        evaluationString = exp + "\r\n";
                     else
                     {
                         evaluationString = evaluationString +
