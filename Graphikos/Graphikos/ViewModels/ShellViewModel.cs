@@ -93,7 +93,7 @@ namespace Graphikos.ViewModels
 
         //Selects a color if it is the last element in the list
         //Else it uses the default color black
-        private GraphikosColors ColorSelector(List<object> listOfCoordinates)
+        public GraphikosColors ColorSelector(List<object> listOfCoordinates)
         {
             var color = GraphikosColors.Black;
             if (Enum.IsDefined(typeof(GraphikosColors), listOfCoordinates.Last()))
@@ -104,8 +104,7 @@ namespace Graphikos.ViewModels
             return color;
         }
 
-
-        private async Task DrawObjectOnBitmap(IReadOnlyCollection<object> listOfCoordinates, GraphikosColors color, bool shouldHighlight, Bitmap bitmap)
+        public async Task DrawObjectOnBitmap(IReadOnlyCollection<object> listOfCoordinates, GraphikosColors color, bool shouldHighlight, Bitmap bitmap)
         {
             var drawColor = ColorTranslator.FromHtml(EnumDescriptions.GetEnumDescription(color));
             try
@@ -133,7 +132,7 @@ namespace Graphikos.ViewModels
         }
 
         //Generates a string for scheme evaluation. THis adds a filter function to the evaluation if a bounding-box is the first element.
-        private string GenerateEvaluationString(string input)
+        public string GenerateEvaluationString(string input)
         {
             var expressions = GetExpressionsToEvaluate(input);
             var evaluationString = "";
@@ -165,13 +164,13 @@ namespace Graphikos.ViewModels
         }
 
         //Splits the inputs
-        private IEnumerable<string> GetExpressionsToEvaluate(string input)
+        public IEnumerable<string> GetExpressionsToEvaluate(string input)
         {
             return Regex.Split(input, "\r\n").Where(x => !string.IsNullOrWhiteSpace(x));
         }
 
         //Is used to highlight the newest object.
-        private async Task HighlightObject(int ms, Color color, IReadOnlyCollection<object> listOfCoordinates, Bitmap bitmap, Func<IReadOnlyCollection<object>, Color, Bitmap, BitmapSource> draw)
+        public async Task HighlightObject(int ms, Color color, IReadOnlyCollection<object> listOfCoordinates, Bitmap bitmap, Func<IReadOnlyCollection<object>, Color, Bitmap, BitmapSource> draw)
         {
             for (var j = 0; j < 5; j++)
             {

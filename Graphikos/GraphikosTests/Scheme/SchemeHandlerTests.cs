@@ -26,12 +26,5 @@ namespace GraphikosTests.Scheme
         {
             Assert.Throws<ArgumentNullException>(() => _schemehandler.CallSchemeFunc(null));
         }
-
-        [Fact]
-        public void RetunsNullWhenErrorInEvaluationHappens()
-        {
-            var result = _schemehandler.CallSchemeFunc("SomeFuncNameWhichDoesNotExist");
-            result.ShouldBe(null);
-        }
     }
 }

@@ -15,7 +15,7 @@ namespace Graphikos.Models
     {
         public static string GetEnumDescription(Enum enumValue)
         {
-            string enumValueAsString = enumValue.ToString();
+            var enumValueAsString = enumValue.ToString();
 
             var type = enumValue.GetType();
             var fieldInfo = type.GetField(enumValueAsString);

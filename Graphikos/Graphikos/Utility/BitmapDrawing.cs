@@ -46,7 +46,7 @@ namespace Graphikos.Utility
             return BitmapToBitmapSource(bitmap);
         }
 
-        private static BitmapSource BitmapToBitmapSource(Bitmap source)
+        public BitmapSource BitmapToBitmapSource(Bitmap source)
         {
             return Imaging.CreateBitmapSourceFromHBitmap(
                                                          source.GetHbitmap(),

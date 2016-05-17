@@ -6,12 +6,12 @@ namespace Graphikos.Scheme
 {
     public class SchemeHandler : ISchemeHandler
     {
-        //private string _schemefilePath = @"../../SchemeFiles/HelloWorld.ss";
         private readonly string _schemefilePath;
 
         public SchemeHandler(string schemeFilePath)
         {
             _schemefilePath = string.IsNullOrEmpty(schemeFilePath) ? @"../../SchemeFiles/Scheme.ss" : schemeFilePath;
+            System.IO.File.ReadAllText(_schemefilePath).Eval();
         }
 
         public Cons CallSchemeFunc(string funcName)
@@ -19,7 +19,6 @@ namespace Graphikos.Scheme
             if (funcName == null)
                 throw new ArgumentNullException(nameof(funcName));
 
-            System.IO.File.ReadAllText(_schemefilePath).Eval();
             return funcName.Eval<Cons>();
         }
     }
