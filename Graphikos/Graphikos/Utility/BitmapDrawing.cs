@@ -4,13 +4,9 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Color = System.Drawing.Color;
 
 namespace Graphikos.Utility
 {
@@ -21,8 +17,8 @@ namespace Graphikos.Utility
             for (var i = 0; i + 3 < listOfCoordinates.Count; i++)
             {
                 bitmap.SetPixel((int)listOfCoordinates.ElementAt(i),
-                                         bitmap.Height - (int)listOfCoordinates.ElementAt(i + 1),
-                                         drawColor);
+                                bitmap.Height - (int)listOfCoordinates.ElementAt(i + 1),
+                                drawColor);
                 i++;
             }
             return BitmapToBitmapSource(bitmap);
@@ -39,10 +35,10 @@ namespace Graphikos.Utility
                 g.InterpolationMode = InterpolationMode.HighQualityBicubic;
                 g.PixelOffsetMode = PixelOffsetMode.HighQuality;
                 g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
-                var format = new StringFormat()
+                var format = new StringFormat
                 {
                     Alignment = StringAlignment.Center,
-                    LineAlignment = StringAlignment.Center,
+                    LineAlignment = StringAlignment.Center
                 };
                 var drawPoint = new PointF(Convert.ToInt32(listOfCoordinates.ElementAt(0)), bitmap.Height - Convert.ToInt32(listOfCoordinates.ElementAt(1)));
                 g.DrawString(listOfCoordinates.Last().ToString(), new Font("Tahoma", 12), new SolidBrush(color), drawPoint, format);
@@ -58,6 +54,5 @@ namespace Graphikos.Utility
                                                          Int32Rect.Empty,
                                                          BitmapSizeOptions.FromEmptyOptions());
         }
-
     }
 }

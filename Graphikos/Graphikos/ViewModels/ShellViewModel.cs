@@ -91,6 +91,19 @@ namespace Graphikos.ViewModels
             }
         }
 
+        //Selects a color if it is the last element in the list
+        //Else it uses the default color black
+        private GraphikosColors ColorSelector(List<object> listOfCoordinates)
+        {
+            var color = GraphikosColors.Black;
+            if (Enum.IsDefined(typeof(GraphikosColors), listOfCoordinates.Last()))
+            {
+                Enum.TryParse(listOfCoordinates.Last().ToString(), out color);
+                listOfCoordinates.Remove(listOfCoordinates.Last());
+            }
+            return color;
+        }
+
 
         private async Task DrawObjectOnBitmap(IReadOnlyCollection<object> listOfCoordinates, GraphikosColors color, bool shouldHighlight, Bitmap bitmap)
         {
@@ -166,19 +179,6 @@ namespace Graphikos.ViewModels
                 ImageSource = draw(listOfCoordinates, drawColor, bitmap);
                 await Task.Delay(ms);
             }
-        }
-
-        //Selects a color if it is the last element in the list
-        //Else it uses the default color black
-        private GraphikosColors ColorSelector(List<object> listOfCoordinates)
-        {
-            var color = GraphikosColors.Black;
-            if (Enum.IsDefined(typeof(GraphikosColors), listOfCoordinates.Last()))
-            {
-                Enum.TryParse(listOfCoordinates.Last().ToString(), out color);
-                listOfCoordinates.Remove(listOfCoordinates.Last());
-            }
-            return color;
         }
     }
 }

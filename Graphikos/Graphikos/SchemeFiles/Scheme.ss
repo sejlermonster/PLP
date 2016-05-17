@@ -1,15 +1,15 @@
-﻿(define (flatten x)
-  (cond ((null? x) '())
-        ((pair? x) (append (flatten (car x)) (flatten (cdr x))))
-        (else (list x))))
+﻿(define (flatten l)
+  (cond ((null? l) '())
+        ((pair? l) (append (flatten (car l)) (flatten (cdr l))))
+        (else (list l))))
 
 (define (interleave l1 l2)
       (if (null? l1) l2
           (if (null? l2) l1
-              (cons (cons (car l1) (cadr l1)) (cons (cons (car l2) (cadr l2)) (interleave (cddr l1) (cddr l2)))))))
+              (append (cons (car l1) (cons (cadr l1) '())) (append (cons (car l2) (cons (cadr l2) '())) (interleave (cddr l1) (cddr l2)))))))
 
 (define (line x y x2 y2)
-  (let ((xOrg x) (yOrg y))
+  (let ((xOrg x) (yOrg y) (x2Org x2) (y2Org y2))
   (letrec ((lineCoor (lambda(x y x2 y2 a)
      (if (and (not(= y y2)) (= x x2))
        (if ( < y y2)
@@ -17,7 +17,9 @@
           (if ( > y y2)
               (lineCoor x (- y 1) x2 y2 (cons x (cons (- y 1) a)))))
   (if ( = x x2)
-      (append (append (cons xOrg '()) (cons yOrg '())) a)
+      (if (< xOrg x2Org)
+       (append (append (cons xOrg '()) (cons yOrg '())) a)
+       (cons x2Org (cons y2Org a)))
      (if (> x x2)
              (lineCoor (+ x2 1) (+ y2 (/ (- y y2) (- x x2))) x y
                        (append a (cons (+ x2 1) (cons (round (+ y2 (/ (- y y2) (- x x2)))) '()) )))
@@ -28,15 +30,14 @@
 (define (rectangle x1 y1 x2 y2)
   (if (= x1 x2)
   '()
-  (flatten
-   (cons
+  (append
     (interleave
      (line x1 y1 x1 y2)
      (line x2 y1 x2 y2))
     (interleave
      (line x1 y1 x2 y1 )
    (line x1 y2 x2 y2)))
-  )))
+  ))
 
 
 (define (circle centerX centerY r)
@@ -65,45 +66,17 @@
                '() ))))
     (GetCircleCoor x y r d))))
 
-(define (fill c g)
-    (letrec ((fillCoor (lambda(g x)
-        (if (or (or (null? g) (null? (cdr g)) (null? (cddr g))) (null? (cdddr g)))
-          (flatten (append (append x g) c))
-          (fillCoor (cddddr g)
-          (cons (line (car g)
-                               (cadr g)
-                               (car (cddr g))
-                               (car (cdddr g))) x))
-          ))))
-      (fillCoor g '())))
-
-
 (define (removeEverySecondCoordinate l )
       (if (or (null? l) (null? (cdr l)) (null? (cddr l)) (null? (cdddr l)))
           l 
-              (flatten (cons (cons (car l) (cadr l)) (removeEverySecondCoordinate (cddddr l))))))
-
-
-(define (bounding-box x1 y1 x2 y2)
-  (if (= x1 x2)
-  '()
-  (flatten
-   (cons
-    (interleave
-     (removeEverySecondCoordinate (line x1 y1 x1 y2))
-     (removeEverySecondCoordinate (line x2 y1 x2 y2)))
-    (interleave
-     (removeEverySecondCoordinate (line x1 y1 x2 y1 ))
-     (removeEverySecondCoordinate (line x1 y2 x2 y2)))
-  ))))
-
+             (cons (car l) (cons (cadr l) (removeEverySecondCoordinate (cddddr l))))))
 
 (define (filter x1 y1 x2 y2 l)
   (letrec ((filterCoor (lambda (x1 y1 x2 y2 l a)
   (if (or (null? l) (not (real? (car l)))) 
-      (flatten (append a l)) 
-      (if (and (and (and (>= (car l) x1) (<= (car l) x2) (>= (cadr l) y1))) (<= (cadr l) y2))
-           (filterCoor x1 y1 x2 y2 (cddr l) (cons (cons (car l) (cadr l)) a))
+      (append a l)
+      (if (and (and (and (>= (car l) x1) (<= (car l) x2)) (>= (cadr l) y1)) (<= (cadr l) y2))
+           (filterCoor x1 y1 x2 y2 (cddr l) (append (cons (car l) (cons (cadr l) '())) a))
            (filterCoor x1 y1 x2 y2 (cddr l) a )))))) 
     (filterCoor x1 y1 x2 y2 l '())))
 
@@ -111,4 +84,32 @@
   (cons  x1 (cons y1 (cons t '()))))
 
 (define (draw . g)
-  (flatten g))
+  (letrec ((flatten (lambda (l)
+  (cond ((null? l) '())
+        ((pair? l) (append (flatten (car l)) (flatten (cdr l))))
+        (else (list l))))))
+  (flatten g)))
+
+(define (fill c g)
+    (letrec ((fillCoor (lambda(g x)
+        (if (or (or (null? g) (null? (cdr g)) (null? (cddr g))) (null? (cdddr g)))
+          (append x (cons c '()))
+          (fillCoor (cddddr g)
+          (append (line (car g)
+                               (cadr g)
+                               (car (cddr g))
+                               (car (cdddr g))) x))
+          ))))
+      (fillCoor g '())))
+
+(define (bounding-box x1 y1 x2 y2)
+  (if (= x1 x2)
+  '() 
+   (append
+    (interleave
+     (removeEverySecondCoordinate (line x1 y1 x1 y2))
+     (removeEverySecondCoordinate (line x2 y1 x2 y2)))
+    (interleave
+     (removeEverySecondCoordinate (line x1 y1 x2 y1 ))
+     (removeEverySecondCoordinate (line x1 y2 x2 y2)))
+  )))
