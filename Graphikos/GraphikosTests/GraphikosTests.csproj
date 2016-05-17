@@ -337,6 +337,7 @@
     <None Include="lib\wak\trc-testing\restart.sls" />
     <None Include="packages.config" />
     <None Include="TestFiles\TestFile.ss" />
+    <None Include="TestFiles\TestFunctions.rkt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Graphikos\Graphikos.csproj">
