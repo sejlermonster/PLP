@@ -71,5 +71,26 @@ namespace GraphikosTests.ViewModels
             _shellViewModel.SetPixels(listOfCoordinates, GraphikosColors.Black);
             _shellViewModel.Error.ShouldNotBeNullOrEmpty();
         }
+
+        [Fact]
+        public void CanGenerateEvaluationStringWithFilter()
+        {
+            var result = _shellViewModel.GenerateEvaluationString("(bounding-box 0 0 5 5)\r\n(line 0 0 5 5)");
+            result.ShouldBe("(bounding-box 0 0 5 5)\r\n(filter 0 0 5 5 (line 0 0 5 5))\r\n");
+        }
+
+        [Fact]
+        public void CanGenerateEvaluationStringWithOutFilter()
+        {
+            var result = _shellViewModel.GenerateEvaluationString("(bounding-box 0 0 5 5)\r\n");
+            result.ShouldBe("(bounding-box 0 0 5 5)\r\n");
+        }
+
+        [Fact]
+        public void CanGenerateEvaluationStringWithOutFBounding_Box()
+        {
+            var result = _shellViewModel.GenerateEvaluationString("(line 0 0 5 5)\r\n");
+            result.ShouldBe("(line 0 0 5 5)\r\n");
+        }
     }
 }

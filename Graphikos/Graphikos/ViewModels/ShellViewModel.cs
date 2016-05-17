@@ -112,7 +112,7 @@ namespace Graphikos.ViewModels
             ImageSource = BitmapToBitmapSource(_operableBitMap);
         }
 
-        private string GenerateEvaluationString(string input)
+        public string GenerateEvaluationString(string input)
         {
             var expressions = GetExpressionsToEvaluate(input);
             var evaluationString = "";
