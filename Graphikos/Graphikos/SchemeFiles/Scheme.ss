@@ -20,9 +20,9 @@
       (append (append (cons xOrg '()) (cons yOrg '())) a)
      (if (> x x2)
              (lineCoor (+ x2 1) (+ y2 (/ (- y y2) (- x x2))) x y
-                       (append a (cons (+ x2 1) (cons (+ y2 (/ (- y y2) (- x x2))) '()) )))
+                       (append a (cons (+ x2 1) (cons (round (+ y2 (/ (- y y2) (- x x2)))) '()) )))
               (lineCoor (+ x 1) (+ y (/ (- y2 y) (- x2 x))) x2 y2 
-                        (append a (cons (+ x 1)  (cons (+ y (/ (- y2 y) (- x2 x))) '()))))))))))
+                        (append a (cons (+ x 1)  (cons (round (+ y (/ (- y2 y) (- x2 x)))) '()))))))))))
     (lineCoor x y x2 y2 '() ))))
  
 (define (rectangle x1 y1 x2 y2)
