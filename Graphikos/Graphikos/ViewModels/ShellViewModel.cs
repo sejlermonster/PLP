@@ -149,12 +149,12 @@ namespace Graphikos.ViewModels
             return string.IsNullOrEmpty(evaluationString) ? input : evaluationString;
         }
 
-        private IEnumerable<string> GetExpressionsToEvaluate(string input)
+        public IEnumerable<string> GetExpressionsToEvaluate(string input)
         {
             return Regex.Split(input, "\r\n").Where(x => !string.IsNullOrWhiteSpace(x));
         }
 
-        private void SetPixels(IReadOnlyCollection<object> listOfCoordinates, GraphikosColors color)
+        public void SetPixels(IReadOnlyCollection<object> listOfCoordinates, GraphikosColors color)
         {
             try
             {
@@ -169,13 +169,13 @@ namespace Graphikos.ViewModels
             catch (Exception)
             {
                 Error = "Please use pixel in the range 1-400";
+                return;
             }
           
-
             ImageSource = BitmapToBitmapSource(_operableBitMap);
         }
 
-        private static BitmapSource BitmapToBitmapSource(Bitmap source)
+        public BitmapSource BitmapToBitmapSource(Bitmap source)
         {
             return Imaging.CreateBitmapSourceFromHBitmap(
                                                          source.GetHbitmap(),
