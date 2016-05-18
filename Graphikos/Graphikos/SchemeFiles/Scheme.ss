@@ -17,13 +17,13 @@
      (if (and (not(= y y2)) (= x x2))
        (if ( < y y2)
           (lineCoor x (+ y 1) x2 y2 (cons x (cons (+ y 1) a )))
-          (if ( > y y2); kan den komme ind i denne if statement?
+          (if ( > y y2)
               (lineCoor x (- y 1) x2 y2 (cons x (cons (- y 1) a)))))
   (if ( = x x2)
       (if (< xOrg x2Org)
        (append (append (cons xOrg '()) (cons yOrg '())) a)
        (cons x2Org (cons y2Org a)))
-     (if (> x x2); kan den komme ind i denne if statement?
+     (if (> x x2)
              (lineCoor (+ x2 1) (+ y2 (/ (- y y2) (- x x2))) x y
                        (append a (cons (+ x2 1) (cons (round (+ y2 (/ (- y y2) (- x x2)))) '()) )))
               (lineCoor (+ x 1) (+ y (/ (- y2 y) (- x2 x))) x2 y2 
