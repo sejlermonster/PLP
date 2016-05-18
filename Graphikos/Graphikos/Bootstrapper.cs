@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
 using Graphikos.Scheme;
+using Graphikos.Utility;
 using Graphikos.ViewModels;
 
 namespace Graphikos
@@ -30,6 +31,7 @@ namespace Graphikos
             _container.Singleton<IEventAggregator, EventAggregator>();
             _container.PerRequest<ShellViewModel>();
             _container.PerRequest<ISchemeHandler, SchemeHandler>();
+            _container.PerRequest<IBitmapDrawing, BitmapDrawing>();
         }
 
         protected override object GetInstance(Type service, string key)

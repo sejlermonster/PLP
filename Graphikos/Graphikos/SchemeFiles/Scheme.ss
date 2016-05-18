@@ -8,20 +8,22 @@
 (define (interleave l1 l2)
       (if (null? l1) l2
           (if (null? l2) l1
-              (cons (cons (car l1) (cadr l1)) (cons (cons (car l2) (cadr l2)) (interleave (cddr l1) (cddr l2)))))))
+              (append (cons (car l1) (cons (cadr l1) '())) (append (cons (car l2) (cons (cadr l2) '())) (interleave (cddr l1) (cddr l2)))))))
 
 ;*******************************Line*******************************
 (define (line x y x2 y2)
-  (let ((xOrg x) (yOrg y))
+  (let ((xOrg x) (yOrg y) (x2Org x2) (y2Org y2))
   (letrec ((lineCoor (lambda(x y x2 y2 a)
      (if (and (not(= y y2)) (= x x2))
        (if ( < y y2)
           (lineCoor x (+ y 1) x2 y2 (cons x (cons (+ y 1) a )))
-          (if ( > y y2)
+          (if ( > y y2); kan den komme ind i denne if statement?
               (lineCoor x (- y 1) x2 y2 (cons x (cons (- y 1) a)))))
   (if ( = x x2)
-      (append (append (cons xOrg '()) (cons yOrg '())) a)
-     (if (> x x2)
+      (if (< xOrg x2Org)
+       (append (append (cons xOrg '()) (cons yOrg '())) a)
+       (cons x2Org (cons y2Org a)))
+     (if (> x x2); kan den komme ind i denne if statement?
              (lineCoor (+ x2 1) (+ y2 (/ (- y y2) (- x x2))) x y
                        (append a (cons (+ x2 1) (cons (round (+ y2 (/ (- y y2) (- x x2)))) '()) )))
               (lineCoor (+ x 1) (+ y (/ (- y2 y) (- x2 x))) x2 y2 
@@ -34,40 +36,45 @@
     (and (equal? (candidate 0 0 8 8) '(0 0 1 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8))
          (equal? (candidate 8 8 0 0) '(0 0 1 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8))
          (equal? (candidate 0 8 8 0) '(0 8 1 7 2 6 3 5 4 4 5 3 6 2 7 1 8 0))
-         (equal? (candidate 8 0 0 8) '(8 0 1 7 2 6 3 5 4 4 5 3 6 2 7 1 0 8))
+         (equal? (candidate 8 0 0 8) '(0 8 1 7 2 6 3 5 4 4 5 3 6 2 7 1 8 0))
          (equal? (candidate 1 1 8 1) '(1 1 2 1 3 1 4 1 5 1 6 1 7 1 8 1))
+         (equal? (candidate 8 1 1 1) '(1 1 2 1 3 1 4 1 5 1 6 1 7 1 8 1))
+         (equal? (candidate 1 8 1 1) '(1 1 1 2 1 3 1 4 1 5 1 6 1 7 1 8)); denne virker ikke
+         (equal? (candidate 1 1 1 8) '(1 8 1 7 1 6 1 5 1 4 1 3 1 2 1 1)); denne virker ikke
          )))
 
 ;Testrun
 (define TestRunLine (test-line line))
-
+(for-each display '(Linetest))
+TestRunLine
 ;*******************************Rectangle*******************************
 (define (rectangle x1 y1 x2 y2)
   (if (= x1 x2)
   '()
-  (flatten
-   (cons
+  (append
     (interleave
      (line x1 y1 x1 y2)
      (line x2 y1 x2 y2))
     (interleave
      (line x1 y1 x2 y1 )
    (line x1 y2 x2 y2)))
-  )))
+  ))
 
 ;Rectangle testfuntion
 (define test-rectangle
   (lambda (candidate)
-    (and (equal? (candidate 0 0 3 3) '(0 0 3 0 0 3 3 3 0 2 3 2 0 1 3 1 0 0 0 3 1 0 1 3 2 0 2 3 3 0 3 3))
-         (equal? (candidate 0 3 3 0) '(0 3 3 3 0 0 3 0 0 1 3 1 0 2 3 2 0 3 0 0 1 3 1 0 2 3 2 0 3 3 3 0))
-         (equal? (candidate 3 0 0 3) '(3 0 0 0 3 3 0 3 3 2 0 2 3 1 0 1 3 0 3 3 1 0 1 3 2 0 2 3 3 0 3 3))
-         (equal? (candidate 3 3 0 0) '(3 3 0 3 3 0 0 0 3 1 0 1 3 2 0 2 3 3 3 0 1 3 1 0 2 3 2 0 3 3 3 0)))))
+    (and (equal? (candidate 0 0 3 3) '(0 3 3 3 0 3 3 3 0 2 3 2 0 1 3 1 0 0 0 3 1 0 1 3 2 0 2 3 3 0 3 3))
+         (equal? (candidate 0 3 3 0) '(0 0 3 0 0 0 3 0 0 1 3 1 0 2 3 2 0 3 0 0 1 3 1 0 2 3 2 0 3 3 3 0))
+         (equal? (candidate 3 0 0 3) '(3 3 0 3 3 3 0 3 3 2 0 2 3 1 0 1 0 0 0 3 1 0 1 3 2 0 2 3 3 0 3 3))
+         (equal? (candidate 3 3 0 0) '(3 0 0 0 3 0 0 0 3 1 0 1 3 2 0 2 0 3 0 0 1 3 1 0 2 3 2 0 3 3 3 0))
+         )))
 
 
 
 ;TestRun
 (define TestRunRectangle (test-rectangle rectangle))
-
+(for-each display '(Rectangletest))
+TestRunRectangle
 ;*******************************Circle*******************************
 (define (circle centerX centerY r)
   (let((x 0) (y r) (d (/ (- 5 (* r 4)) 4)))
@@ -106,15 +113,15 @@
 
 ;TestRun
 (define TestRunCircle (test-circle circle))
-
-
+(for-each display '(Circletest))
+TestRunCircle
 ;*******************************Fill*******************************
 (define (fill c g)
     (letrec ((fillCoor (lambda(g x)
         (if (or (or (null? g) (null? (cdr g)) (null? (cddr g))) (null? (cdddr g)))
-          (flatten (append (append x g) c))
+          (append x (cons c '()))
           (fillCoor (cddddr g)
-          (cons (line (car g)
+          (append (line (car g)
                                (cadr g)
                                (car (cddr g))
                                (car (cdddr g))) x))
@@ -124,14 +131,17 @@
 ;Fill testfunction
 (define test-fill
   (lambda (candidate)
-    (and (equal? (candidate "Red" (circle 5 5 3)) '(8 3 3 3 4 3 5 3 6 3 7 3 8 3 8 7 3 7 4 7 5 7 6 7 7 7 8 7 7 2 4 2 5 2 6 2 7 2 7 8 4 8 5 8 6 8 7 8 8 4 3 4 4 4 5 4 6 4 7 4 8 4 8 6 3 6
-                                     4 6 5 6 6 6 7 6 8 6 6 2 5 2 6 2 6 8 5 8 6 8 8 5 3 5 4 5 5 5 6 5 7 5 8 5 8 5 3 5 4 5 5 5 6 5 7 5 8 5 5 2 5 8 "Red"))
+    (and (equal? (candidate "Red" (rectangle 1 1 4 4)) '(4 4 4 4 4 3 4 2 3 4 3 4 3 3 3 2 2 4 2 4 2 3 2 2 1 4 1 4 1 3 1 2 1 2 2 2 3 2 4 2 1 3 2 3 3 3 4 3 1 4 2 4 3 4 4 4 1 4 2 4 3 4 4 4 "Red"))
+         (equal? (candidate "Red" (rectangle 4 1 1 4)) '(4 4 4 4 4 3 4 2 3 4 3 4 3 3 3 2 2 4 2 4 2 3 2 2 1 4 1 4 1 3 1 2 1 2 2 2 3 2 4 2 1 3 2 3 3 3 4 3 1 4 2 4 3 4 4 4 1 4 2 4 3 4 4 4 "Red"))
+         (equal? (candidate "Red" (rectangle 1 4 4 1)) '(4 1 4 1 4 2 4 3 3 1 3 1 3 2 3 3 2 1 2 1 2 2 2 3 1 1 1 1 1 2 1 3 1 3 2 3 3 3 4 3 1 2 2 2 3 2 4 2 1 1 2 1 3 1 4 1 1 1 2 1 3 1 4 1 "Red"))
+         (equal? (candidate "Red" (rectangle 4 4 1 1)) '(4 1 4 1 4 2 4 3 3 1 3 1 3 2 3 3 2 1 2 1 2 2 2 3 1 1 1 1 1 2 1 3 1 3 2 3 3 3 4 3 1 2 2 2 3 2 4 2 1 1 2 1 3 1 4 1 1 1 2 1 3 1 4 1 "Red"))
+         (equal? (candidate "Red" (circle 5 5 2)) '(3 4 4 4 5 4 6 4 7 4 3 6 4 6 5 6 6 6 7 6 4 3 5 3 6 3 4 7 5 7 6 7 3 5 4 5 5 5 6 5 7 5 3 5 4 5 5 5 6 5 7 5 5 3 5 7 "Red"))
          )))
 
 ;TestRun
 (define TestRunFill (test-fill fill))
-
-
+(for-each display '(Filltest))
+TestRunFill
 ;*******************************Bounding-Box*******************************
 (define (removeEverySecondCoordinate l )
       (if (or (null? l) (null? (cdr l)) (null? (cddr l)) (null? (cdddr l)))
@@ -141,16 +151,15 @@
 
 (define (bounding-box x1 y1 x2 y2)
   (if (= x1 x2)
-  '()
-  (flatten
-   (cons
+  '() 
+   (append
     (interleave
      (removeEverySecondCoordinate (line x1 y1 x1 y2))
      (removeEverySecondCoordinate (line x2 y1 x2 y2)))
     (interleave
      (removeEverySecondCoordinate (line x1 y1 x2 y1 ))
      (removeEverySecondCoordinate (line x1 y2 x2 y2)))
-  ))))
+  )))
 
 ;filter
 (define (filter x1 y1 x2 y2 l)
@@ -165,16 +174,16 @@
 ;Testfunction
 (define test-boundingbox
   (lambda (candidate)
-    (and (equal? (candidate 1 1 8 8) '(1 1 8 1 1 7 8 7 1 5 8 5 1 3 8 3 1 1 1 8 3 1 3 8 5 1 5 8 7 1 7 8))
-         (equal? (candidate 1 8 8 1) '(1 8 8 8 1 2 8 2 1 4 8 4 1 6 8 6 1 8 1 1 3 8 3 1 5 8 5 1 7 8 7 1))
-         (equal? (candidate 8 1 1 8) '(8 1 1 1 8 7 1 7 8 5 1 5 8 3 1 3 8 1 8 8 3 1 3 8 5 1 5 8 7 1 7 8))
-         (equal? (candidate 8 8 1 1) '(8 8 1 8 8 2 1 2 8 4 1 4 8 6 1 6 8 8 8 1 3 8 3 1 5 8 5 1 7 8 7 1))
+    (and (equal? (candidate 1 1 8 8) '(1 8 8 8 1 7 8 7 1 5 8 5 1 3 8 3 1 1 1 8 3 1 3 8 5 1 5 8 7 1 7 8))
+         (equal? (candidate 1 8 8 1) '(1 1 8 1 1 2 8 2 1 4 8 4 1 6 8 6 1 8 1 1 3 8 3 1 5 8 5 1 7 8 7 1))
+         (equal? (candidate 8 1 1 8) '(8 8 1 8 8 7 1 7 8 5 1 5 8 3 1 3 1 1 1 8 3 1 3 8 5 1 5 8 7 1 7 8))
+         (equal? (candidate 8 8 1 1) '(8 1 1 1 8 2 1 2 8 4 1 4 8 6 1 6 1 8 1 1 3 8 3 1 5 8 5 1 7 8 7 1))
          )))
 
 ;TestRun
 (define TestRunBB (test-boundingbox bounding-box))
-
-
+(for-each display '(Boundingboxtest))
+TestRunBB
 ;*******************************Text*******************************
 (define (text-at x1 y1 t)
   (cons  x1 (cons y1 (cons t '()))))
@@ -186,7 +195,8 @@
 
 ;TestRun
 (define TestRunText (test-text text-at))
-
+(for-each display '(Texttest))
+TestRunText
 ;*******************************Draw*******************************
 (define (draw . g)
   (flatten g))
@@ -194,7 +204,9 @@
 ;testfunction
 (define test-draw
   (lambda (candidate)
-   (and (equal? (candidate "Red" (line 1 1 4 4) (rectangle 1 5 5 1)) '("Red" 1 1 2 2 3 3 4 4 1 5 5 5 1 1 5 1 1 2 5 2 1 3 5 3 1 4 5 4 1 5 1 1 2 5 2 1 3 5 3 1 4 5 4 1 5 5 5 1)))))
+   (and (equal? (candidate "Red" (line 1 1 4 4) (rectangle 1 5 5 1)) '("Red" 1 1 2 2 3 3 4 4 1 1 5 1 1 1 5 1 1 2 5 2 1 3 5 3 1 4 5 4 1 5 1 1 2 5 2 1 3 5 3 1 4 5 4 1 5 5 5 1)))))
 
 ;TestRun
 (define TestRunDraw (test-draw draw))
+(for-each display '(Drawtest))
+TestRunDraw
