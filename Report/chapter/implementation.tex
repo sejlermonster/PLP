@@ -20,9 +20,11 @@ The SchemeHandler is a class that handles the evaluation of the scheme code by u
 \myFigure{class.png}{UML class diagram}{fig:class}{0.6} 
 
 \section{Drawing Engine in Scheme}
-Scheme was used for developing the drawing engine. This allowed for fast and stateless computation of the graphics being shown in the user interface. 
+Scheme was used for developing the drawing engine. This allowed for fast and stateless computation of the graphics being shown in the user interface.
 
-For solving the different drawing aspects both classic and tail recursion was used. Tail recursion proved to have better performance and by using tail recursion instead of classic recursion stack overflow could be avoided. This is a because the scheme compiler is able to very effectively optimize tail recursion.
+For solving the different drawing aspects both classic and tail recursion was used. Tail recursion proved to have better performance and by using tail recursion instead of classic recursion stack overflow could be avoided. This is because the scheme compiler is able to very effectively optimize tail recursion compared to the classic one where the function needs to keep track of the calculation.
 
-High order programming was used by passing functions to other functions. This was for example used whit the \emph{draw} function. The function was designed as a variadic function that takes a variable amount of other functions an combining their result. This was also used for the \emph{fill} 
+For drawing lines in the application the Bresenham’s line algorithm was used. This algorithm can draw a line between two points and it is very effective. The circles the Midpoint algorithm are used for drawing circles.
+
+High order programming was used by passing functions to other functions. This was for example used whit the \emph{draw} function. The function was designed as a variadic function that takes a variable amount of other functions a combining their result. This was also used for the \emph{fill} which is a function who can fill a shape with a color in the application.
 

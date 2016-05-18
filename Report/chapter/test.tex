@@ -3,7 +3,6 @@
 
 Testing is an important part of a project. It is used to check the behavior of the source code, and to make sure the functionality is correct. The initially creation time is high. In the end it saves time and cost in the development process because errors are easier and earlier discovered.
 
-\section{Test Strategy}
 In this project testing is divided into two parts. One part is the test of the drawing engine in Scheme. The other part is test of the WPF application in C\#.
 
 \section{Scheme test}
@@ -22,7 +21,7 @@ This example is taken from the \emph{test-line} function. The line function take
 \emph{test-line} is the test function and \emph{line} is the function that needs to be tested. When \emph{TestRunLine} is executed it will return a \#t for true or a \#f for false.
 
 \section{C\# Unit Testing}
-The C\# WPF application has been tested by using xUnit.net and resharper xunit test runner. The tests are structured by "Arrange", "Act" and "Assert". The tests are placed in a separate test project called GraphikosTests. Every method is tested for all the successful scenarios and all the unsuccessful scenarios.
+The C\# WPF application has been tested by using xUnit.net and resharper xunit test runner. The tests are structured by \emph{Arrange, Act} and \emph{Assert}. The tests are placed in a separate test project called GraphikosTests. Every method is tested for all the successful scenarios and all the unsuccessful scenarios.
 
 In some tests a mock is needed which the framework Moq is used to do. The mocks are used to separate the different classes. The mocks are effective to separate the individual classes which results in unit tests and not integration tests.
 

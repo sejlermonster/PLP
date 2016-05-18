@@ -1,2 +1,8 @@
 \chapter{Discussion}
 \label{chp:disc}
+
+In the applicaton, the Bresenham’s line algorithm was used for drawing a line. This algorithm is not able of drawing vertical lines only “slopes”. This was solved by adding functionality to the algorithm so it could draw this. Furthermore it could't handle the line if the x value of the second point was greater than the x value in the first point. This was solve by checking the two values, and switch them, if the x value of the second point was greatest.
+
+Some of the function is written with tail recursion so stack overflow could be avoid. But it is not all function that are written with tail recursion. Some functions \todo{indsæt eksempel} are written with classic recursion. This is done because it is not worthwhile to write them as tail recursive, because they are so simple.
+
+For the function bounding-box there was needed a sort of state or an indication so it could be detected. The indication was done with a Boolean in WPF. If the function bounding-box was called it was set to true and the program would be handled different than normal.
