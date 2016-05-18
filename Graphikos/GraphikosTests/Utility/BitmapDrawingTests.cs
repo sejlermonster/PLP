@@ -17,6 +17,7 @@ namespace GraphikosTests.Utility
         {
             _bitmapDrawing = new BitmapDrawing();
         }
+
         [Fact]
         public void CanConvertBitmapToBitmapSource()
         {
