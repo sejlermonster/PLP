@@ -39,8 +39,8 @@
          (equal? (candidate 8 0 0 8) '(0 8 1 7 2 6 3 5 4 4 5 3 6 2 7 1 8 0))
          (equal? (candidate 1 1 8 1) '(1 1 2 1 3 1 4 1 5 1 6 1 7 1 8 1))
          (equal? (candidate 8 1 1 1) '(1 1 2 1 3 1 4 1 5 1 6 1 7 1 8 1))
-         (equal? (candidate 1 8 1 1) '(1 1 1 2 1 3 1 4 1 5 1 6 1 7 1 8)); denne virker ikke
-         (equal? (candidate 1 1 1 8) '(1 8 1 7 1 6 1 5 1 4 1 3 1 2 1 1)); denne virker ikke
+         (equal? (candidate 1 8 1 1) '(1 1 1 2 1 3 1 4 1 5 1 6 1 7 1 8))
+         (equal? (candidate 1 1 1 8) '(1 8 1 7 1 6 1 5 1 4 1 3 1 2 1 1))
          )))
 
 ;Testrun
