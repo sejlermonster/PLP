@@ -252,3 +252,14 @@ paket-files/
 *.sln.iml
 **/bin
 **/obj
+Report/chapter/Frontpage.aux
+Report/chapter/conclusion.aux
+Report/chapter/discussion.aux
+Report/chapter/implementation.aux
+Report/chapter/introduction.aux
+Report/chapter/test.aux
+Report/report.aux
+Report/report.out
+Report/report.pdf
+Report/report.synctex.gz
+Report/report.toc
