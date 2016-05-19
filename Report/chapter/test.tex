@@ -1,18 +1,18 @@
 \chapter{Test}
 \label{chp:test}
 
-Testing is an important part of a project. It is used to check the behavior of the source code, and to make sure the functionality is correct. The initially creation time is high. In the end it saves time and cost in the development process because errors are easier and earlier discovered.
+Testing is an important part of a project. It is used to check the behavior of the source code, and to make sure that the functionality is correct. The initially creation time is high, but in the end it saves time and cost in the development process because errors are easier and earlier discovered.
 
 In this project testing is divided into two parts. One part is the test of the drawing engine in Scheme. The other part is test of the WPF application in C\#.
 
 \section{Scheme test}
-The test of the drawing engine in scheme  is implemented i the Scheme.ss file. For each function, \emph{line, rectangle, circle, fill, bounding-box text-at} and \emph{draw} a test is made. To test a function in scheme, the output of a function is compared to the expected value of the output. To do this, \emph{equal?} is used. This is shown i listing \ref{equal}.
+The test of the drawing engine in scheme  is implemented i the Scheme.ss file. For each function, \emph{line, rectangle, circle, fill, bounding-box, text-at} and \emph{draw} a test is made. To test a function in scheme, the output of a function is compared to the expected value of the output. To do this, \emph{equal?} is used. This is shown in listing \ref{equal}.
 
 \begin{lstlisting}[caption={Comparison of actual output with the expected output with equal?}, label=equal]
 (and (equal? (candidate 0 0 8 8) '(0 0 1 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8)))
 \end{lstlisting}
 
-This example is taken from the \emph{test-line} function. The line function takes 4 parameters, \emph{x, y, x2} and \emph{y2}. The test feeds the parameter 0, 0, 8 and 8, and compares to see if it is equal to what is expected. The expected value is in this example '0 0 1 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8'. When the test function is written af TestRun function to run the test is made. Listing \ref{testrun} shows the run af a function along with it's test function. 
+This example is taken from the \emph{test-line} function. The line function takes 4 parameters, \emph{x, y, x2} and \emph{y2}. The test feeds the parameters 0, 0, 8 and 8, and compares the result to see if it is equal to what is expected. The expected value is in this example '0 0 1 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8' which is a line from the point (0,0) to (8,8). When the test function is written a TestRun function to run the test is made. Listing \ref{testrun} shows the run af a function along with it's test function. 
 
 \begin{lstlisting}[caption={TestRunLine}, label=testrun]
 (define TestRunLine (test-line line))
@@ -21,7 +21,7 @@ This example is taken from the \emph{test-line} function. The line function take
 \emph{test-line} is the test function and \emph{line} is the function that needs to be tested. When \emph{TestRunLine} is executed it will return a \#t for true or a \#f for false.
 
 \section{C\# Unit Testing}
-The C\# WPF application has been tested by using xUnit.net and resharper xunit test runner. The tests are structured by \emph{Arrange, Act} and \emph{Assert}. The tests are placed in a separate test project called GraphikosTests. Every method is tested for all the successful scenarios and all the unsuccessful scenarios.
+The C\# WPF application has been tested by using xUnit.net and ReSharper xunit test runner. The tests are structured by \emph{Arrange, Act} and \emph{Assert}. The tests are placed in a separate test project called GraphikosTests. Every method is tested for all the successful and unsuccessful scenarios.
 
 In some tests a mock is needed which the framework Moq is used to do. The mocks are used to separate the different classes. The mocks are effective to separate the individual classes which results in unit tests and not integration tests.
 
