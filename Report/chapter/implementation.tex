@@ -19,7 +19,7 @@ The SchemeHandler is a class that handles the evaluation of the scheme code by u
 
 \myFigure{class.png}{UML class diagram}{fig:class}{0.6} 
 
-Furthermore the C\# WPF code also held the state of the bounding-box in the ShellViewModel. This was chosen to keep the scheme code stateless. If a bounding-box was set by the user in the input field then the ViewModel added a filter call to the scheme function being called. By doing this the scheme code filtered away all coordinates outside the bounding-box.
+Furthermore the C\# WPF code also holds the state of the bounding-box in the ShellViewModel. This was chosen to keep the scheme code stateless. If a bounding-box was set by the user in the input field then the view model added a filter call to the scheme function being called. By doing this the scheme code filtered away all coordinates outside the bounding-box.
 
 \section{Drawing Engine in Scheme}
 Scheme was used for developing the drawing engine. This allowed for fast and stateless computation of the graphics being shown in the user interface. 
