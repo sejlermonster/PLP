@@ -55,7 +55,13 @@ The circle function is implemented with classic recursion. Tail recursion could 
 (GetCircleCoor x y r d))))   
 \end{lstlisting}
 
-A function where tail recursion was required is the implemented function \emph{fill}. Which is a function that can fill an object with a color in the application. Furthermore it uses high order programming as functions are passed as parameters to the \emph{fill} function. The function is shown in listing \ref{lst:fill}
+A function where tail recursion was required is the implemented function \emph{fill}. Which is a function that can fill an object with a color in the application. The difference between classic and tail recursion is
+\begin{itemize}
+	\item[--] \textbf{Classic recursion} makes the recursive calls before the actual processing
+	\item[--] \textbf{Tail recursion} does the processing before the recursive call.  
+\end{itemize}
+
+fill was first created with classic recursion but this gave a stack overflow as two many function calls were made. Instead tail recursion was used so that the compiler could optimize this function and avoid stack overflow.  This is because the scheme compiler is able to very effectively optimize tail recursion compared to classic recursion.
 
 \begin{lstlisting}[caption={Scheme function fill}, label=lst:fill]
 (define (fill c g)
@@ -71,10 +77,10 @@ A function where tail recursion was required is the implemented function \emph{f
 (fillCoor g '())))
 \end{lstlisting}
 
-The function fill takes the parameters \emph{c} and \emph{g} where \emph{c} is the color and \emph{g} is a function that draws an object. It runs through the list that the function returns and uses the line algorithm to draw lines between two opposite coordinates. This implementation was chosen as it was simple approach to create a fill function even though some redundant pixels might be included. 
+Furthermore the \emph{fill} function uses high order programming as functions are passed as parameters. 
 
-fill was first created with classic recursion but this gave a stack overflow as two many function calls were made. Instead tail recursion was used so that the compiler could optimize this function and avoid stack overflow.  This is because the scheme compiler is able to very effectively optimize tail recursion compared to the classic one where the function needs to keep track of the calculation.
-
-
+The function is shown in listing \ref{lst:fill} and takes the parameters \emph{c} and \emph{g} where \emph{c} is the color and \emph{g} is a function that draws an object. It runs through the list that the function returns and uses the line algorithm to draw lines between two opposite coordinates. This implementation was chosen as it was simple approach to create a fill function even though some redundant coordinates might be included. 
 
 The function was designed as a variadic function that takes a variable amount of other functions a combining their result.
+
+(define (draw . g))
