@@ -9,7 +9,7 @@ The application uses the functional programming language Scheme together with th
 \section{User interface in C\# WPF}
 C\# and WPF was used for developing the graphical user interface. This made it possible to create the required interface that allowed the user to draw on a bitmap.
 
-This was done using Model-View-ViewModel(MVVM) architecture to separate the graphical user interface from the business logic. This was done using the MVVM CaliburnMicro framework. Using MVVM ensured that the business logic was very loosely coupled with the view through data-binding and therefore easier to test. The is illustrated in figure \ref{fig:mvvm}
+This was done using Model-View-ViewModel(MVVM) architecture to separate the graphical user interface from the business logic. This was implemented using the MVVM framework CaliburnMicro. Using MVVM ensured that the business logic was very loosely coupled with the view through data-binding and therefore easier to test. The is illustrated in figure \ref{fig:mvvm}
 
 \myFigure{mvvm.png}{Mode-View-ViewModel}{fig:mvvm}{1} 
 
@@ -18,6 +18,8 @@ A class diagram shown on figure \ref{fig:class} illustrates the essential design
 The SchemeHandler is a class that handles the evaluation of the scheme code by using IronScheme. BitmapDrawing is used for drawing single pixels and text on the bitmap.
 
 \myFigure{class.png}{UML class diagram}{fig:class}{0.6} 
+
+Furthermore the C\# WPF code also held the state of the bounding-box in the ShellViewModel. This was chosen to keep the scheme code stateless. If a bounding-box was set by the user in the input field then the ViewModel added a filter call to the scheme function being called. By doing this the scheme code filtered away all coordinates outside the bounding-box.
 
 \section{Drawing Engine in Scheme}
 Scheme was used for developing the drawing engine. This allowed for fast and stateless computation of the graphics being shown in the user interface. 
