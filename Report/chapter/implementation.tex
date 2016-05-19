@@ -7,15 +7,15 @@ This chapter explains the design and implementation of the application and the c
 The application uses the functional programming language Scheme together with the imperative language C\#. This is done by using \emph{IronScheme} which is an implementation of Scheme that targets .NET. This allows to call Scheme functions directly from C\# code and hence combine the use of the two languages.
 
 \section{User interface in C\# WPF}
-For developing the graphical user interface C\# and WPF was used. This made it possible to create the required interface that allowed the user to draw on a bitmap.
+C\# and WPF was used for developing the graphical user interface. This made it possible to create the required interface that allowed the user to draw on a bitmap.
 
-This was done using Model-View-ViewModel(MVVM) architecture to separate the graphical user interface from the business logic. This ensured that the business logic was very loosely coupled with the view through data-binding and therefore easier to test. The is illustrated in figure \ref{fig:mvvm}
+This was done using Model-View-ViewModel(MVVM) architecture to separate the graphical user interface from the business logic. This was done using the MVVM CaliburnMicro framework. Using MVVM ensured that the business logic was very loosely coupled with the view through data-binding and therefore easier to test. The is illustrated in figure \ref{fig:mvvm}
 
 \myFigure{mvvm.png}{Mode-View-ViewModel}{fig:mvvm}{1} 
 
-A class diagram shown on figure \ref{fig:class} illustrates the essential design and classes used. The ShellView presents the content for the user and is updated through data-binding by the ShellViewModel. ShellViewModel depends on the two interfaces IShemeHandler and IBitmapDrawing. By only depending on interfaces testability is ensured as mocks can be used instead. 
+A class diagram shown on figure \ref{fig:class} illustrates the essential design and classes used. The ShellView presents the content for the user and is updated through data-binding by the ShellViewModel. ShellViewModel depends on the two interfaces IShemeHandler and IBitmapDrawing. By only depending on interfaces testability is ensured as mocks can be used instead concrete implementations. 
 
-The SchemeHandler is a class that handles the evaluation of the scheme code by using IronScheme. BitmapDrawing is used for drawing on the bitmap. It allows for both drawing single pixels and text.
+The SchemeHandler is a class that handles the evaluation of the scheme code by using IronScheme. BitmapDrawing is used for drawing single pixels and text on the bitmap.
 
 \myFigure{class.png}{UML class diagram}{fig:class}{0.6} 
 
@@ -81,6 +81,10 @@ Furthermore the \emph{fill} function uses high order programming as functions ar
 
 The function is shown in listing \ref{lst:fill} and takes the parameters \emph{c} and \emph{g} where \emph{c} is the color and \emph{g} is a function that draws an object. It runs through the list that the function returns and uses the line algorithm to draw lines between two opposite coordinates. This implementation was chosen as it was simple approach to create a fill function even though some redundant coordinates might be included. 
 
-The function was designed as a variadic function that takes a variable amount of other functions a combining their result.
-
-(define (draw . g))
+Another function that uses high order programming is the draw function. The function was designed as a variadic function that takes a variable amount of other functions and combines them. The function can be called with a color but this is optional. The part where you can see the varidic parameter is shown 
+in listing \ref{lst:draw}
+ 
+\begin{lstlisting}[caption={Part of scheme function draw }, label=lst:draw]
+(define (draw . g)
+...
+\end{lstlisting}
