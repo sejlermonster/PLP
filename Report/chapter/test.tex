@@ -6,7 +6,7 @@ Testing is an important part of a project. It is used to check the behavior of t
 In this project testing is divided into two parts. One part is the test of the drawing engine in Scheme. The other part is test of the WPF application in C\#.
 
 \section{Scheme test}
-The test of the drawing engine in scheme  is implemented i the Scheme.ss file. For each function, \emph{line, rectangle, circle, fill, bounding-box, text-at} and \emph{draw} a test is made. To test a function in scheme, the output of a function is compared to the expected value of the output. To do this, \emph{equal?} is used. This is shown in listing \ref{equal}.
+The test of the drawing engine in scheme  is implemented i the test.ss file. For each function i Scheme.ss, \emph{line, rectangle, circle, fill, bounding-box, text-at} and \emph{draw} a test is made. To test functions in scheme.ss from test.ss the scheme.ss file is loaded into the test file. A function in scheme is tested by comparing the output of a function to the expected value of the output. To do this, \emph{equal?} is used. This is shown in listing \ref{equal}.
 
 \begin{lstlisting}[caption={Comparison of actual output with the expected output with equal?}, label=equal]
 (and (equal? (candidate 0 0 8 8) '(0 0 1 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8)))
