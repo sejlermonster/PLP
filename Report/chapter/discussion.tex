@@ -3,9 +3,10 @@
 
 In this chapter will the implementation and test decisions be discussed. 
 
-In the applicaton, the Bresenham’s line algorithm was used for drawing a line. This algorithm is not able of drawing vertical lines only slopes. This was solved by adding functionality to the algorithm so it could draw this. In the first implementation of the algorithm it could not handle lines where the x value of the second point was greater than the x value in the first point. This was solve by checking the two values, and switch them, if the x value of the second point was greatest.
-
+In the application, the Bresenham’s line algorithm was used for drawing a line. This algorithm is not able of drawing vertical lines only slopes. This was solved by adding functionality to the algorithm so it could draw this. In the first implementation of the algorithm it could not handle lines where the x value of the second point was greater than the x value in the first point. This was solve by checking the two values, and switch them, if the x value of the second point was greatest.
 
 At the start all functions was implemented with classic recursion. This led to some functions causing stack overflow. to resolve tail recursion was used. This turn out in an effective way. The reason for this, is that tail recursion allows the compiler to optimize and avoid to allocate a new stack frame for each recursive call. 
 
 It was choosing not to keep the bounding-box state in Scheme, because it would violate the basic principles in functional programming. By not saving the state of the bounding-box in scheme we insure no side effects. Instead the state of the bounding box was saved in C\# 
+
+Implementing the unit tests it was important to ensure all boundary cases were tested. When unit testing the line function in scheme eight unit tests were implemented to test different boundary cases. These cases included a vertical line up and down, horizontal line up and down and lines in the range 1-89, 91-179, 181-269 and 271-359 degrees. When testing it was checked that the function returned the expected result. Errors in the implementation was found in the line function when testing all boundaries. The unit tests could generally be considered a success as they helped identifying bugs and made sure the source code did what was as expected.
