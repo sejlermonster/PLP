@@ -17,18 +17,18 @@ The class diagram shown in figure \ref{fig:class} illustrates the essential desi
 
 SchemeHandler handles the evaluation of the Scheme code by using IronScheme. BitmapDrawing is used for drawing single pixels and text on the bitmap.
 
-\myFigure{class.png}{UML class diagram}{fig:class}{0.6} 
+\myFigure{class.png}{UML class diagram for C\# WPF}{fig:class}{0.6} 
 
 Furthermore the C\# WPF also holds the state of the bounding-box in the ShellViewModel. This was chosen to keep the Scheme code stateless. If a bounding-box was set by the user in the input field then the view model parsed the called Scheme function to the filter function as a parameter. By doing this  all the coordinates outside the bounding-box are filtered away.
 
 \section{Drawing Engine in Scheme}
-Scheme was used for developing the drawing engine. This allowed for fast and stateless computation of the graphics being shown in the user interface. 
+Scheme was used for developing the drawing engine. This allowed for a fast and stateless computation of the coordinates being drawn in the user interface. 
 
-For drawing lines in the application the Bresenham’s line algorithm was used. This algorithm can draw a line between two points. The circle Midpoint algorithm was used for drawing circles. The implementation of the circle function is shown in listing \ref{lst:circle}. The function takes three parameters, the center coordinates and the radius. First x, y and d is created. \emph{x} is defined as 0, and are used as a counter \emph{y} is a copy of r, and is used in the algorithm calculations. Final \emph{d} is  a decision parameter and decides the calucation of paramters of the recursive call. The stop condition is when \emph{x} is bigger than \emph{y}, then the the last element \emph{'()} is returned at the list composed and returned.
-
+For drawing lines in the application the Bresenham’s line algorithm was used. This algorithm can draw a line between two points. The circle Midpoint algorithm was used for drawing circles. The implementation of the circle function is shown in listing \ref{lst:circle}. The function takes three parameters, \emph{centerX	} and \emph{centerY} for center coordinate and the radius. First the variables \emph{x}, \emph{y} and \emph{d} are binded. \emph{x} is binded to the value 0, and is used as a counter. \emph{y} is binded to the value of \emph{r}, and is used in the algorithm calculations. Finally \emph{d} is  a decision parameter that decides the calculation of parameters passed to the recursive call. The stop condition is when \emph{x} is bigger than \emph{y}, then the the last element \emph{'()} is returned.
+	
 The circle function is implemented with classic recursion. Tail recursion could also have been used but in this case classic recursion was sufficient. If the circles instead had to be drawn on a bigger bitmap the classic recursive calls could lead to stack overflow.
 
-
+\newpage
 \begin{lstlisting}[caption={Scheme function circle}, label=lst:circle]
 (define (circle centerX centerY r)
 (let((x 0) (y r) (d (/ (- 5 (* r 4)) 4)))
@@ -52,19 +52,20 @@ The circle function is implemented with classic recursion. Tail recursion could 
 (cons (- centerX y) (cons (+ centerY x)
 (cons (+ centerX y) (cons (- centerY x)
 (cons (- centerX y) (cons (- centerY x)  
-(GetCircleCoor (+ x 1) (- y 1) r (+ d (+ (* 2 (- x y)) 1))))))))))))))))))))
-'() ))))
+(GetCircleCoor (+ x 1) (- y 1) r (+ d (+ (* 2 (- x y)) 1)))))))))))))))))
+))) '() ))))
 (GetCircleCoor x y r d))))   
 \end{lstlisting}
 
-A function where tail recursion was required is the implemented function \emph{fill}. Which is a function that can fill an object with a color in the application. The difference between classic and tail recursion is
+A function where tail recursion was required is the implemented function \emph{fill}. Which is a function that can \emph{fill} an object with a color in the application. The difference between classic and tail recursion is:
 \begin{itemize}
-	\item[--] \textbf{Classic recursion} makes the recursive calls before the actual processing
+	\item[--] \textbf{Classic recursion} makes the recursive calls before the actual processing.
 	\item[--] \textbf{Tail recursion} does the processing before the recursive call.  
 \end{itemize}
 
-fill was first created with classic recursion but this gave a stack overflow as two many function calls were made. Instead tail recursion was used so that the compiler could optimize this function and avoid stack overflow.  This is because the Scheme compiler is able to very effectively optimize tail recursion compared to classic recursion.
+\emph{fill} was first created with classic recursion but this gave a stack overflow as two many stack frames were created. Instead tail recursion was used so that the compiler could optimize this function and avoid stack overflow.  This is because the Scheme compiler is able to effectively optimize tail recursion compared to classic recursion.
 
+\vspace{-1.4em}
 \begin{lstlisting}[caption={Scheme function fill}, label=lst:fill]
 (define (fill c g)
 (letrec ((fillCoor (lambda(g x)
@@ -79,14 +80,14 @@ fill was first created with classic recursion but this gave a stack overflow as 
 (fillCoor g '())))
 \end{lstlisting}
 
-Furthermore the \emph{fill} function uses high order programming as functions are passed as parameters. 
+Furthermore the \emph{fill} function uses higher-order programming as functions are passed as parameters. 
 
-The function is shown in listing \ref{lst:fill} and takes the parameters \emph{c} and \emph{g} where \emph{c} is the color and \emph{g} is a function that draws an object. It runs through the list that the function returns and uses the line algorithm to draw lines between two opposite coordinates. This implementation was chosen as it was simple approach to create a fill function even though some redundant coordinates might be included. 
+The function is shown in listing \ref{lst:fill} and takes the parameters \emph{c} and \emph{g}. \emph{c} is a color and \emph{g} is a function which draws an object. It runs through the list that the function returns and uses the line algorithm to draw lines between two opposite coordinates. This implementation was chosen as a simple approach to create a fill function even though some redundant coordinates might be included. 
 
-Another function that uses high order programming is the draw function. The function was designed as a variadic function that takes a variable amount of other functions and combines them. The function can be called with a color but this is optional. The part where you can see the varidic parameter is shown 
-in listing \ref{lst:draw}
+Another function that uses higher-order programming is the \emph{draw} function. The function was designed as a variadic function that takes a variable amount of other functions and combines them. The function can be called with a color but this is optional. The part where you can see the variadic parameter is shown 
+in listing \ref{lst:draw}.
  
-\begin{lstlisting}[caption={Part of Scheme function draw }, label=lst:draw]
+\begin{lstlisting}[caption={Example of a variadic function}, label=lst:draw]
 (define (draw . g)
 ...
 \end{lstlisting}
