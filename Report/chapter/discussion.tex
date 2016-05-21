@@ -10,15 +10,14 @@ In the beginning all functions were implemented with classic recursion. This led
 
 It was chosen not to keep the bounding-box state in Scheme, because it would violate the basic principles of functional programming. By not saving the state of the bounding-box in Scheme it was ensured that the Scheme code had no side effects. Instead the state of the bounding box was saved in C\#. An alternative option was to compromise and use the \emph{set!} operator to save the state of the bounding-box in Scheme.
 
+\section{C\# WPF}
+For rendering the coordinates which the scheme code yielded a canvas was used at first. The canvas worked well together with the MVVM structure of the WPF application. When the fill functionality was added the speed of the rendering onto the canvas was not satisfactory. A decision was made to use a bitmap instead and examine the speed of it. The result revealed that bitmap was fastest at drawing pixels. Therefore the bitmap replaced the canvas. 
+
 \section{Test}
 
-When implementing the unit tests it was important to ensure all boundary cases were tested. When unit testing the line function in Scheme eight unit tests were implemented to test different boundary cases. These cases included a vertical line up and down, horizontal line to the right and to the left and lines in the range 1-89, 91-179, 181-269 and 271-359 degrees. When testing it was checked that the function returned the expected result. Errors in the implementation was found in the line function when testing all boundaries. The unit tests could generally be considered a success as they helped identifying bugs and made sure the source code had the correct behaviour.
+When implementing the unit tests it was important to ensure all boundary cases were tested. When unit testing the line function in Scheme eight unit tests were implemented to test different boundary cases. An example of the chosen boundary cases are shown on figure \ref{fig:direction}. Errors in the implementation was found in the line function when testing all boundaries. The unit tests could be considered a success as they helped identify bugs and made sure the source code had the expected behavior.
+
+\myFigure{direction.png}{Testing line in multiple directions}{fig:direction}{0.27} 
+\FloatBarrier
 
 It was likewise a possibility to do an integration test of the complete system but it was chosen not to do this as the complete system was quite small. Integrations tests could have been created in C\# by using the concrete implementation instead of mocks.
-
-For the rendering of the coordinates which the scheme code yielded a canvas was used. The canvas worked well together with the MVVM structure of the WPF application. When the fill functionality was added the speed of the rendering onto the canvas was not satisfactory. A decision was made to use a bitmap instead and examine the speed of it. The result revealed the bitmap as the fastest to render the coordinates. Thereby the bitmap replaced the canvas. 
-
-%Måske mere konklusion ( det neden under..)
-In general scheme as a programming language and the functional paradigm has shown how it can facilitate very fast calculation and impressive optimization using tail recursion. Furthermore creating stateless function can be seen as a huge advantage in numerous projects especially concurrent systems were state variables can be very complex. Combining a functional language with a imperative language made it easier to keep state for the user interface and the two languages together has proven as a strong combination.
-
-In the testing of the drawing engine it was important to test the functions in every way possible. A first test of all functions was easily written, but it did not test all of the statements in the scheme function. In the line function
