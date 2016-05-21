@@ -15,11 +15,11 @@ This was done using Model-View-ViewModel(MVVM) architecture to separate the grap
 
 The class diagram shown in figure \ref{fig:class} illustrates the essential design and classes used. The ShellView presents the content for the user and is updated through data-binding by the ShellViewModel. ShellViewModel depends on the two interfaces IShemeHandler and IBitmapDrawing. By only depending on interfaces, testability is ensured as mocks can be used instead of concrete implementations. 
 
-SchemeHandler handles the evaluation of the scheme code by using IronScheme. BitmapDrawing is used for drawing single pixels and text on the bitmap.
+SchemeHandler handles the evaluation of the Scheme code by using IronScheme. BitmapDrawing is used for drawing single pixels and text on the bitmap.
 
 \myFigure{class.png}{UML class diagram}{fig:class}{0.6} 
 
-Furthermore the C\# WPF also holds the state of the bounding-box in the ShellViewModel. This was chosen to keep the scheme code stateless. If a bounding-box was set by the user in the input field then the view model added a filter call to the called scheme function. By doing this the scheme code filtered away all the coordinates outside the bounding-box.
+Furthermore the C\# WPF also holds the state of the bounding-box in the ShellViewModel. This was chosen to keep the Scheme code stateless. If a bounding-box was set by the user in the input field then the view model parsed the called Scheme function to the filter function as a parameter. By doing this  all the coordinates outside the bounding-box are filtered away.
 
 \section{Drawing Engine in Scheme}
 Scheme was used for developing the drawing engine. This allowed for fast and stateless computation of the graphics being shown in the user interface. 
@@ -63,7 +63,7 @@ A function where tail recursion was required is the implemented function \emph{f
 	\item[--] \textbf{Tail recursion} does the processing before the recursive call.  
 \end{itemize}
 
-fill was first created with classic recursion but this gave a stack overflow as two many function calls were made. Instead tail recursion was used so that the compiler could optimize this function and avoid stack overflow.  This is because the scheme compiler is able to very effectively optimize tail recursion compared to classic recursion.
+fill was first created with classic recursion but this gave a stack overflow as two many function calls were made. Instead tail recursion was used so that the compiler could optimize this function and avoid stack overflow.  This is because the Scheme compiler is able to very effectively optimize tail recursion compared to classic recursion.
 
 \begin{lstlisting}[caption={Scheme function fill}, label=lst:fill]
 (define (fill c g)
@@ -86,7 +86,7 @@ The function is shown in listing \ref{lst:fill} and takes the parameters \emph{c
 Another function that uses high order programming is the draw function. The function was designed as a variadic function that takes a variable amount of other functions and combines them. The function can be called with a color but this is optional. The part where you can see the varidic parameter is shown 
 in listing \ref{lst:draw}
  
-\begin{lstlisting}[caption={Part of scheme function draw }, label=lst:draw]
+\begin{lstlisting}[caption={Part of Scheme function draw }, label=lst:draw]
 (define (draw . g)
 ...
 \end{lstlisting}
