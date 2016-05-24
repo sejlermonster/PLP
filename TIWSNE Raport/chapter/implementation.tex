@@ -3,6 +3,13 @@
 
 This chapter explains the design and implementation of the application and the choices made during the development.
 
+\section{Architecture}
+The objective of the project is to sent a compressed image from one mote to another. To do this two pcs and two TelosB motes are used, one sender mote and one receiver mote. The architecture of the project is shown in figure \ref{fig:SystemOverview}. \emph{PC1} contains two classes to handle the image and send it.Before the image is ready to be send, it has to be converted from bitmap to binary array, and then it is ready sent via the serial communication. When it is transfered to \emph{Mote1} the serial communication class on \emph{Mote1} is used. the image is stored in the flash storage, because it is to big to be stored in the ram or cache. From the flash it is compressed and sent to \emph{Mote2}, via the radio communication class.
+
+\myFigure{SystemOverview}{The architecture of the system.}{fig:SystemOverview}{0.8}
+
+As seen in the figure all the classes are again used in \emph{Mote2} and \emph{pc2}. Here they are executed in the reverse order.
+
 \section{Serial communication}
 The serial communication is used to pass the image from pc to TelosB mote. when the image has been passed, it will be stored in the flash memory of the TelosB.
 
