@@ -4,20 +4,20 @@
 This chapter explains the design and implementation of the application and the choices made during the development.
 
 \section{Architecture}
-The objective of the project is to sent a compressed image from one mote to another. To do this two pcs and two TelosB motes are used, one sender mote and one receiver mote. The architecture of the project is shown in figure \ref{fig:SystemOverview}. \emph{PC1} contains two classes to handle the image and send it.Before the image is ready to be send, it has to be converted from bitmap to binary array, and then it is ready sent via the serial communication. When it is transfered to \emph{Mote1} the serial communication class on \emph{Mote1} is used. The image is stored in the flash storage, because it is to big to be stored in the ram or cache. From the flash it is compressed and sent to \emph{Mote2}, via the radio communication class.
+The objective of the project is to send an image, compressed and not compressed, from one mote to another. To do this two PCs and two TelosB motes has been used, one sender mote and one receiver mote. The architecture of the system is shown in figure \ref{fig:SystemOverview}. \emph{PC1} contains two classes to handle the image and send it. Before the image is ready to be send, it has to be converted from bitmap to binary array, and then it is ready sent via the serial communication. When it is transfered to \emph{Mote1} the serial communication class on \emph{Mote1} is used. The image is stored in the flash storage, because it is to big to be stored in the ram or cache. From the flash it is compressed and sent to \emph{Mote2}, via the radio communication class.
 
-\myFigure{SystemOverview}{The architecture of the system.}{fig:SystemOverview}{0.8}
+\myFigure{SystemOverview}{The architecture of the system.}{fig:SystemOverview}{0.7}
 
-As seen in the figure all the classes are again used in \emph{Mote2} and \emph{pc2}. The compressed data is received in \emph{Mote2}, decompressed and stored in the flash. From the flash it is sent to the \emph{PC2 via the serial communication}. 
+As seen in the figure all the classes are again used in \emph{Mote2} and \emph{PC2}. The compressed data is received in \emph{Mote2}, decompressed and stored in the flash. From the flash it is sent to the \emph{PC2} via the serial communication. 
 
 \section{Serial communication}
-The serial communication is used to pass the image from pc to TelosB mote. when the image has been passed, it will be stored in the flash memory of the TelosB.
+The serial communication is used to pass the image from the PC to the TelosB mote. when the image has been passed, it will be stored in the flash memory of the TelosB. Both the PC and the mote has a class called serial communication, which handles the passing of the image.
 
 \section{Flash storage}
-When tranferring the image from the pc to TelosB, the slash storage is required. The file size of the image is too big to be stored elsewhere.
+When passing the image from the pc to TelosB, the flash storage is required, because the file size is too big to be stored elsewhere.
 
 \section{Image Compression}
-A lossy compression was chosen because it is normal when working with images, and it is fairly simple. The first compression that was implemented was a lossy compression which removed every eight bit. This was done by:
+A lossy compression is chosen because it is normal when working with images, and it is fairly simple. The first compression that was implemented was a lossy compression which removed every eight bit. This was done by:
 
 \section{Radio communication}
 The radio communication is splitted up in two different parts. The sender and the receiver.

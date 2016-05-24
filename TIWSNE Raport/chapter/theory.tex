@@ -1,16 +1,16 @@
 \chapter{Theory}
 \label{chp:theory}
 
-In this chapter the theory of the project will be described. This includes the serial communication, image compression, the radio communication and the conversion between bitmap and binary.
+In this chapter the theory of the project will be described. This includes the compression, energy consumption and radio communication.
 
-\section{Image compression}
-In general image compression is about to remove some of the data in order to minimize the file size. This can be done lossless or lossy. When using a lossless image compression, the image will not lose any data when compressing it, and et will be just like the original when decompressing it. Opposite in the lossy compression, some data will be removed from the image, and it will not be reconstructed as the original again.
+\section{Compression}
+In general image compression is about the removal of data in order to minimize a file size. This can be done lossless or lossy, depending on the use and importance of the data.
 
-Lossy compression reduces the size of the image by permanently remove information from the image. This means that when the image is decompressed only a part of the original image is still there. Mostly the user will not notice the missing information. This compression is widely used in video and sound. An example in the video domain is the image file \emph{JPEG} file format.
+When using a lossless image compression, every bit information in the file remains when compressed, and it will be just like the original when decompressed. This technique is preferred when compressing spreadsheet or text files, as it can be useless, if some of the text i missing.
 
-In lossless compression every bit of information in the file remains after the decompression. This is a technique that are preferred when compression spreadsheet or text files.  
+Opposite in the lossy compression, some data is permanently removed which reduces the size of the image file. This means that when the image is decompressed only a part of the original image is still there. Mostly the user will not notice the missing information. This compression is widely used in video and sound. An example in the video domain is the image file \emph{JPEG} file format.
 
 \section{Energy consumption}
-When transferring data there is a consumption of energy, this is an important issue when looking at wireless sensor networks. By doing this between two TelosBs, the level of energy consumptions is important because the TelosB has a limited amount of battery capacity. The challenge is to know when and how to use the radio communication.
+When looking at wireless sensor networks, energy consumption is an important issue. When transferring data there is a consumption of energy, this can be affected by the size of the data being transferred. When transferring data between two TelosBs, the level of energy consumptions needs to be at your attention because the TelosB has a limited amount of battery capacity. The challenge is to know when and how to use the radio communication.
 
 \section{Radio communication}
