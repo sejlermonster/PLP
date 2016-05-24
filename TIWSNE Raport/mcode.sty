@@ -183,15 +183,16 @@
 % matlat languate definition
 \lstdefinelanguage{matlabfloz}{%
   alsoletter={...},%
-  morekeywords={%                             % keywords
+  morekeywords={                             % keywords
 		break,case,catch,classdef,continue,else,
 		elseif,end,for,function,global,if,
 		otherwise,parfor,persistent,
-		return,spmd,switch,try,while,...},        % Use the matlab "iskeyword" command to get those
-  comment=[l]\%,                              % comments
+		return,spmd,switch,try,while,event,call,void,
+		message_t,error_t,sizeof,uint8_t,...},        % Use the matlab "iskeyword" command to get those
+  comment=[l]\//,                              % comments
   morecomment=[l]...,                         % comments
   morecomment=[s]{\%\{}{\%\}},                % block comments
-  morestring=[m]'                             % strings 
+  morestring=[m]"                             % strings 
 }[keywords,comments,strings]%
 
 % ---------------------------------------------------------------------------------
@@ -218,12 +219,11 @@
 \else% notbw => use colors : )
 	\def\mcommentfont{\color[rgb]{.133,.545,.133}} %comments in green
   \lstset{language=matlabfloz,                % use our version of highlighting
-    keywordstyle=\color[rgb]{0,0,1},          % keywords in blue
+    keywordstyle=\color[rgb]{.627,.126,.941}\bfseries,          % keywords in purple and bold
     commentstyle=\mcommentfont,               % comments
-    stringstyle=\color[rgb]{.627,.126,.941}   % strings in purple
+    stringstyle=\color[rgb]{0,0,1}   % strings in blue
   } 
 \fi%bw
-
 % ---------------------------------------------------------------------------------
 % automatic line breaking --- warning, this is buggy and
 % doesn't break comments correctly!

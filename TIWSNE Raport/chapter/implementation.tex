@@ -2,3 +2,156 @@
 \label{chp:impl}
 
 This chapter explains the design and implementation of the application and the choices made during the development.
+
+\section{Serial communication}
+The serial communication is used to pass the image from pc to TelosB mote. when the image has been passed, it will be stored in the flash memory of the TelosB.
+
+\section{Flash storage}
+When tranferring the image from the pc to TelosB, the slash storage is required. The file size of the image is too big to be stored elsewhere.
+
+\section{Image Compression}
+A lossy compression was chosen because it is normal when working with images, and it is fairly simple. The first compression that was implemented was a lossy compression which removed every eight bit. This was done by:
+
+\section{Radio communication}
+The radio communication is splitted up in two different parts. The sender and the receiver.
+
+\subsection{Sender}
+The radio communication was established with the use of a button on the TelosB. This is done so that the 
+user can start the transfer manual. When the button is clicked, the function \emph{Flash.read()} is executed. This functions takes three parameters ?!?
+
+\begin{lstlisting}[caption={The function Flash.read}, label=lst:fread]
+call Flash.read(readArray,0, SIZE+(bytesToRemove*8));
+\end{lstlisting}
+
+All the data is packed from \emph{readArray} into a data package. Now the package is ready to be sent, this is done by calling \emph{AMSend.send()}. This runs the function \emph{AMSend.sendDone()}. Here it is checked, if there is more data to be sent, if there is, the \emph{Flash.read()} is called again, until all data is sent. 
+
+\begin{lstlisting}[caption={the function Flash.ReadDone}, label=lst:freaddone]
+event void Flash.readDone(error_t result)
+{	
+	int i = 0;
+	uint8_t status = 0;		
+	readPacketCounter++;	
+	if (result != SUCCESS)
+	{
+		call Leds.led0On();
+	}		
+	
+	printf("Value: %u\n",
+	Round(((packetCounter*SIZE)/(SIZE+(bytesToRemove*8)))));
+	printfflush();
+	if(readPacketCounter >=
+	Round(((packetCounter*SIZE)/(SIZE+(bytesToRemove*8)))))
+	{
+		status = 1;
+		call Leds.led1On();
+		call Leds.led2On();
+		printf("Sending last package\n");
+		printf("ReadPacketCounter %u\n", readPacketCounter);
+		printfflush();
+	}
+	
+	if (!busy) 
+	{
+		test_serial_msg_t* btrpkt = (test_serial_msg_t*)
+			(call Packet.getPayload(&pkt, sizeof (test_serial_msg_t)));
+		btrpkt->status = status;
+		btrpkt->bytesRemoved = bytesToRemove;
+		btrpkt->diff = packageDiff;
+		if(bytesToRemove == 1)
+		{
+			uint8_t* compressedImage;
+			printf("Compressing data\n");
+			printfflush();
+			call Compression.compress(readArray, compressedImage);
+			printf("Done Compressing data\n");
+			printfflush();
+			
+			for(i=0; i < SIZE; i++)
+			{
+			btrpkt->image[i] = compressedImage[i];
+			}
+		
+		}
+		else
+		{
+			printf("Packaging data\n");
+			printfflush();
+			for(i=0; i < SIZE; i++)
+			{
+			
+			btrpkt->image[i] = readArray[i];   	
+			}	
+		}
+		
+		if (call AMSend.send(AM_BROADCAST_ADDR, &pkt,
+		sizeof(test_serial_msg_t)) == SUCCESS) 
+		{
+			busy = TRUE;
+		}
+		else
+		{
+			//call Leds.led0On();
+		}
+	}
+	//call Leds.led2Toggle();
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption={the function AMSend.sendDone}, label=lst:]
+event void AMSend.sendDone(message_t *msg, error_t error)
+{
+	if(receiving == TRUE)
+		return;
+	
+	busy = FALSE;
+	
+	if(readPacketCounter < 
+		Round(((packetCounter*SIZE)/(SIZE+(bytesToRemove*8)))))
+	{	
+		call Flash.read(readArray, 
+		readPacketCounter*SIZE+(bytesToRemove*8),
+		SIZE+(bytesToRemove*8));
+	}
+}
+\end{lstlisting}
+
+\subsection{Receiver}
+To receive an image on a TelosB the \emph{receive()} function is developed in TestSerial.nc. Receive i shown in listing \ref{lst:receive}. It takes three parameters, a message, a payload, and lenght. At first it tests if the size of the message is the same as the lenght. As it receives the data, it checks if all data is sent. if status is '1' the data is received. When each package is received, it is checked if it has been compressed, by eksamining if any bytes have been removed. If it is so, then it will be decompressed. if not, it will be loaded into the flash memory.
+
+\begin{lstlisting}[label=lst:receive, caption=Receive function in TestSerialC.nc]
+event message_t * Receive.receive(message_t *msg, void *payload,
+uint8_t len){
+	uint8_t* imageForFlashWrite;
+	call Leds.led0Toggle();
+	if (len != sizeof(test_serial_msg_t)) 
+	{
+		return msg;
+	}
+	else 
+	{ 	     
+		test_serial_msg_t* rcm = (test_serial_msg_t*)payload;
+		receiving = TRUE;
+		if(rcm->status == 1)
+		{
+			call Leds.led2On();			
+			receiving = FALSE;
+			packageDiff = rcm->diff;
+		}
+		
+		if(rcm->bytesRemoved > 0)
+		{
+			imageForFlashWrite = call Compression.decompress(rcm->image,
+				(SIZE+(rcm->bytesRemoved*SIZE)));
+		}
+		else
+		{
+			imageForFlashWrite = rcm->image;
+		}
+		
+		call Flash.write(imageForFlashWrite, addr);
+		addr = addr + SIZE;
+		packetCounter++;
+	}
+	return msg;
+}
+\end{lstlisting}
