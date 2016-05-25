@@ -48,6 +48,17 @@ Another way of controlling the energy consumption intead of states, is to scale 
  The most relevant kinds of memory when looking from an energy perspective is the FLASH memory and in generally on-chip memory. The off-chip RAM is not interesting, because they are rarely used, and is usually powered of the energy that runs the controller.
  The FLASH memory can have heavily influence on the lifetime of a controller. Writing and reading to the FLASH memory is tasks that consume energy, specially writing to it consumes a lot. The reason why is that is a more complicated process that the read process and it is furthermore time consuming.
  If it can be avoided it would be the best solution.  
+ 
+ \subsection{Radio transceivers}
+  
+  There is two tasks for a a radio transceiver: transmitting and receiving data between nodes. Just like controllers radio transceiver works in different modes. The most common is \emph{turned on} or \emph{turned off}. To ensure a low energy consumption the transceivers has to be turned off most of the time, and only turned on when it is required. this meaning that they work at a low duty cycle.
+  This increase the level of complexity, power overhead and time. 
+  
+  \subsubsection{Energy consumption during transmission}
+  When transmitting the energy consumed is due to two sources. the first soruce is the RF signal that is generated which mostly depends on target distance, the chosen modulation and the transmission power which is one of the most crucially decisions when transmitting a packet.. The second source is due to electronic components. These costs are mostly constant.
+  
+  \subsection{Sensors and actuators}
+  It is difficult to state guidelines for the energy consumptions for sensors and actuators due to the wide diversity of these devices.
   
  
 \section{Radio communication}
