@@ -21,4 +21,25 @@ The image with the compression will loose some details and will generally be in 
 \section{Energy consumption}
 When looking at wireless sensor networks, energy consumption is an important issue. When transferring data there is a consumption of energy, this can be affected by the size of the data being transferred. When transferring data between two TelosBs, the level of energy consumptions needs to be at your attention because the TelosB has a limited amount of battery capacity. The challenge is to know when and how to use the radio communication.
 
+\section{New Energy consumption}
+When talking about sensor nodes the energy supply is a crucial factor. Batteries that runs the sensor nodes has small capacity and recharging them can be difficult and complicated. Hence the energy consumption must be controlled in the best way, to keep a low energy consumption.
+The main consumers of energy are
+\begin{itemize}
+	\item[--] The controller
+	\item[--] Radio front ends
+	\item[--] To some degree the memory
+	\item[--] The sensors, depending on the type
+\end{itemize}
+	 
+To reduce the energy consumptions a low-power chip is preferred, but it is only one half of the picture. If the chip is used improperly it will consume as much energy as an non low-power chip.
+
+To avoid this, one have to observe that the wireless sensor node must of the time nothing has to do. This can be handled by use the controller different states. The typical states a controller can be in is
+\begin{itemize}
+	\item[--] \textbf{\emph{active}:} Working 
+	\item[--] \textbf{\emph{idle}}: Ready to communicate 
+	\item[--] \textbf{\emph{sleep}}: Waiting.
+\end{itemize}
+Using the state is  a core technique to reduce the energy consumption in wireless sensor nodes. Some sensors can also go into \emph{deeper sleep} to save even more energy. When working with deeper sleep, it has to be taken into account that it takes more time and energy to make the controller wake up and be fully operational again. 
+
+ 
 \section{Radio communication}
