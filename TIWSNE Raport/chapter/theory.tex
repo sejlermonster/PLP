@@ -39,9 +39,14 @@ Avoiding this can be accomplished by observation of the wireless sensor node, an
 	\item[--] \textbf{\emph{idle}}: Ready to communicate 
 	\item[--] \textbf{\emph{sleep}}: Waiting.
 \end{itemize}
+
 Using states is a core technique to reduce the energy consumption in wireless sensor nodes. Some sensors also uses \emph{deeper sleep} to save even more energy. When working with deeper sleep, it has to be taken into account that it takes more time and energy to make the controller wake up and be fully operational again.
 
 Another way of controlling the energy consumption intead of states, is to scale the voltage as required. This can be done by using the full power of the microcontroller and get the task done as fast as possible, and go back to low energy consumption again. By doing this the task is done as fast as possible, and the high energy consumption is active in a limited time only. This may not be the most energy effecient approach, as the task may be computed at a low energy level. By using Dynamic Voltage Scaling(DVS) a task will be computed only at the speed needed of the task, to get it done before a given deadline.
 
+\subsection{Memory}
+ The most relevant kinds of memory when looking from an energy perspective is the FLASH memory and in generally on-chip memory. The off-chip RAM is not interesting, because they are rarely used, and is usually powered of the energy that runs the controller.
+ The FLASH memory can have heavily influence on the lifetime of a controller. Writing and reading to the FLASH memory is tasks that consume energy, specially writing to it consumes a lot. The reason why is that is a more complicated process that the read process and it is furthermore time consuming.
+ If it can be avoided somehow it would be the best solution.   
  
 \section{Radio communication}
