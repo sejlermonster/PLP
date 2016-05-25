@@ -21,7 +21,7 @@ The Block storage is a write-once model of storage. Rewriting requires an erase.
 
 To be able to use the Block storage the flash chip needs to be divided into one or more fixed-sized volumes. The volume is specified at compile-time. The volume size used in this project is 65536 which is the maximum size we could reach in one volume.
 
-An interface named \emph{Flash} \ref{lst:flash} was created to accommodate the \emph{Sender} and the \emph{Receiver} which both needs to be able to write and read from the flash. 
+An interface named \emph{Flash} which is seen in Listing \ref{lst:flash}. Flash was created to accommodate the \emph{Sender} and the \emph{Receiver} which both needs to be able to write and read from the flash. 
 
 \begin{lstlisting}[caption={The interface flash}, label=lst:flash]
 interface Flash
