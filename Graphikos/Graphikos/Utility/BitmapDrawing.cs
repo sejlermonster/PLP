@@ -41,7 +41,7 @@ namespace Graphikos.Utility
                     LineAlignment = StringAlignment.Center
                 };
                 var drawPoint = new PointF(Convert.ToInt32(listOfCoordinates.ElementAt(0)), bitmap.Height - Convert.ToInt32(listOfCoordinates.ElementAt(1)));
-                g.DrawString(listOfCoordinates.Last().ToString(), new Font("Tahoma", 12), new SolidBrush(color), drawPoint, format);
+                g.DrawString(listOfCoordinates.Last().ToString(), new Font("Tahoma", 5), new SolidBrush(color), drawPoint, format);
             }
             return BitmapToBitmapSource(bitmap);
         }

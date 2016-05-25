@@ -8,7 +8,11 @@ namespace Graphikos.Models
         [Description("#000000")]
         Black,
         [Description("#ff0000")]
-        Red
+        Red,
+        [Description("#ffc0cb")]
+        Pink,
+        [Description("#0000FF")]
+        Blue
     }
 
     public static class EnumDescriptions
