@@ -17,7 +17,9 @@ The class diagram shown in figure \ref{fig:class} illustrates the essential desi
 
 SchemeHandler handles the evaluation of the Scheme code by using IronScheme. BitmapDrawing is used for drawing single pixels and text on the bitmap.
 
+\FloatBarrier
 \myFigure{class.png}{UML class diagram for C\# WPF}{fig:class}{0.6} 
+\FloatBarrier
 
 Furthermore the C\# WPF also holds the state of the bounding-box in the ShellViewModel. This was chosen to keep the Scheme code stateless. If a bounding-box was set by the user in the input field then the view model parsed the called Scheme function to the filter function as a parameter. By doing this  all the coordinates outside the bounding-box are filtered away.
 
