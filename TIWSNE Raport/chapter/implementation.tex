@@ -14,7 +14,15 @@ As seen in the figure all the classes are again used in \emph{Mote2} and \emph{P
 The serial communication is used to pass the image from the PC to the TelosB mote. when the image has been passed, it will be stored in the flash memory of the TelosB. Both the PC and the mote has a class called serial communication, which handles the passing of the image.
 
 \section{Flash storage}
-When passing an image from the pc to the TelosB, the external flash storage is required. The reason for this requirement is the size of the image. 
+When transferring an image from the pc to the TelosB, the external flash storage is required. The reason for this requirement is the size of the image. To fulfill this requirement the Block storage is used. The Block storage is ideal for storing large objects that cannot fit into the RAM like the image.
+
+The Block storage is a write-once model of storage. Rewriting requires an erase. Rewriting is required in this project as the image needs to be transfered with different compressions/decompression and therefor new data needs to be written to the flash.
+
+An interface named \emph{Flash} was created to accommodate the \emph{Sender} and the \emph{Receiver} which both needs to be able to write and read from the flash. 
+
+The implementation of write requires three parameters. The first parameter is the data which should be written to the flash. The second parameter is the address which it should start the write at. The third parameter is the length of the data. 
+
+The implementation of read is like the implementation of write. The difference between them is the first parameter is an array where the ridden data is placed in. 
 
 \section{Image Compression}
 A lossy compression is chosen because it is normal when working with images, and it is fairly simple. The first compression that was implemented was a lossy compression which removed every eight bit. This was done by:
@@ -24,7 +32,7 @@ The radio communication is splitted up in two different parts. The sender and th
 
 \subsection{Sender}
 The radio communication was established with the use of a button on the TelosB. This is done so that the 
-user can start the transfer manual. When the button is clicked, the function \emph{Flash.read()} is executed. This functions takes three parameters ?!?
+user can start the transfer manual. When the button is clicked, the function \emph{Flash.read()} is executed. This functions takes three parameters
 
 \begin{lstlisting}[caption={The function Flash.read}, label=lst:fread]
 call Flash.read(readArray,0, SIZE+(bytesToRemove*8));
