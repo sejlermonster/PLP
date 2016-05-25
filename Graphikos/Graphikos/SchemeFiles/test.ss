@@ -20,10 +20,10 @@ TestRunLine
 ;Rectangle testfuntion
 (define test-rectangle
   (lambda (candidate)
-    (and (equal? (candidate 0 0 3 3) '(0 3 3 3 0 3 3 3 0 2 3 2 0 1 3 1 0 0 0 3 1 0 1 3 2 0 2 3 3 0 3 3))
-         (equal? (candidate 0 3 3 0) '(0 0 3 0 0 0 3 0 0 1 3 1 0 2 3 2 0 3 0 0 1 3 1 0 2 3 2 0 3 3 3 0))
-         (equal? (candidate 3 0 0 3) '(3 3 0 3 3 3 0 3 3 2 0 2 3 1 0 1 0 0 0 3 1 0 1 3 2 0 2 3 3 0 3 3))
-         (equal? (candidate 3 3 0 0) '(3 0 0 0 3 0 0 0 3 1 0 1 3 2 0 2 0 3 0 0 1 3 1 0 2 3 2 0 3 3 3 0))
+    (and (equal? (candidate 0 0 3 3) '(0 3 3 3 0 2 3 2 0 1 3 1 0 0 3 0 0 0 0 3 1 0 1 3 2 0 2 3 3 0 3 3))
+         (equal? (candidate 0 3 3 0) '(0 0 3 0 0 1 3 1 0 2 3 2 0 3 3 3 0 3 0 0 1 3 1 0 2 3 2 0 3 3 3 0))
+         (equal? (candidate 3 0 0 3) '(3 3 0 3 3 2 0 2 3 1 0 1 3 0 0 0 0 0 0 3 1 0 1 3 2 0 2 3 3 0 3 3))
+         (equal? (candidate 3 3 0 0) '(3 0 0 0 3 1 0 1 3 2 0 2 3 3 0 3 0 3 0 0 1 3 1 0 2 3 2 0 3 3 3 0))
          )))
 
 (define TestRunRectangle (test-rectangle rectangle))
@@ -46,10 +46,10 @@ TestRunCircle
 ;Fill testfunction
 (define test-fill
   (lambda (candidate)
-    (and (equal? (candidate "Red" (rectangle 1 1 4 4)) '(4 4 4 4 4 3 4 2 3 4 3 4 3 3 3 2 2 4 2 4 2 3 2 2 1 4 1 4 1 3 1 2 1 2 2 2 3 2 4 2 1 3 2 3 3 3 4 3 1 4 2 4 3 4 4 4 1 4 2 4 3 4 4 4 "Red"))
-         (equal? (candidate "Red" (rectangle 4 1 1 4)) '(4 4 4 4 4 3 4 2 3 4 3 4 3 3 3 2 2 4 2 4 2 3 2 2 1 4 1 4 1 3 1 2 1 2 2 2 3 2 4 2 1 3 2 3 3 3 4 3 1 4 2 4 3 4 4 4 1 4 2 4 3 4 4 4 "Red"))
-         (equal? (candidate "Red" (rectangle 1 4 4 1)) '(4 1 4 1 4 2 4 3 3 1 3 1 3 2 3 3 2 1 2 1 2 2 2 3 1 1 1 1 1 2 1 3 1 3 2 3 3 3 4 3 1 2 2 2 3 2 4 2 1 1 2 1 3 1 4 1 1 1 2 1 3 1 4 1 "Red"))
-         (equal? (candidate "Red" (rectangle 4 4 1 1)) '(4 1 4 1 4 2 4 3 3 1 3 1 3 2 3 3 2 1 2 1 2 2 2 3 1 1 1 1 1 2 1 3 1 3 2 3 3 3 4 3 1 2 2 2 3 2 4 2 1 1 2 1 3 1 4 1 1 1 2 1 3 1 4 1 "Red"))
+    (and (equal? (candidate "Red" (rectangle 1 1 4 4)) '(4 4 4 3 4 2 4 1 3 4 3 3 3 2 3 1 2 4 2 3 2 2 2 1 1 4 1 3 1 2 1 1 1 1 2 1 3 1 4 1 1 2 2 2 3 2 4 2 1 3 2 3 3 3 4 3 1 4 2 4 3 4 4 4 "Red"))
+         (equal? (candidate "Red" (rectangle 4 1 1 4)) '(4 4 4 3 4 2 4 1 3 4 3 3 3 2 3 1 2 4 2 3 2 2 2 1 1 4 1 3 1 2 1 1 1 1 2 1 3 1 4 1 1 2 2 2 3 2 4 2 1 3 2 3 3 3 4 3 1 4 2 4 3 4 4 4 "Red"))
+         (equal? (candidate "Red" (rectangle 1 4 4 1)) '(4 1 4 2 4 3 4 4 3 1 3 2 3 3 3 4 2 1 2 2 2 3 2 4 1 1 1 2 1 3 1 4 1 4 2 4 3 4 4 4 1 3 2 3 3 3 4 3 1 2 2 2 3 2 4 2 1 1 2 1 3 1 4 1 "Red"))
+         (equal? (candidate "Red" (rectangle 4 4 1 1)) '(4 1 4 2 4 3 4 4 3 1 3 2 3 3 3 4 2 1 2 2 2 3 2 4 1 1 1 2 1 3 1 4 1 4 2 4 3 4 4 4 1 3 2 3 3 3 4 3 1 2 2 2 3 2 4 2 1 1 2 1 3 1 4 1 "Red"))
          (equal? (candidate "Red" (circle 5 5 2)) '(3 4 4 4 5 4 6 4 7 4 3 6 4 6 5 6 6 6 7 6 4 3 5 3 6 3 4 7 5 7 6 7 3 5 4 5 5 5 6 5 7 5 3 5 4 5 5 5 6 5 7 5 5 3 5 7 "Red"))
          )))
 
@@ -60,10 +60,10 @@ TestRunFill
 ;Testfunction
 (define test-boundingbox
   (lambda (candidate)
-    (and (equal? (candidate 1 1 8 8) '(1 8 8 8 1 7 8 7 1 5 8 5 1 3 8 3 1 1 1 8 3 1 3 8 5 1 5 8 7 1 7 8))
-         (equal? (candidate 1 8 8 1) '(1 1 8 1 1 2 8 2 1 4 8 4 1 6 8 6 1 8 1 1 3 8 3 1 5 8 5 1 7 8 7 1))
-         (equal? (candidate 8 1 1 8) '(8 8 1 8 8 7 1 7 8 5 1 5 8 3 1 3 1 1 1 8 3 1 3 8 5 1 5 8 7 1 7 8))
-         (equal? (candidate 8 8 1 1) '(8 1 1 1 8 2 1 2 8 4 1 4 8 6 1 6 1 8 1 1 3 8 3 1 5 8 5 1 7 8 7 1))
+    (and (equal? (candidate 1 1 8 8) '(1 8 8 8 1 6 8 6 1 4 8 4 1 2 8 2 1 1 1 8 3 1 3 8 5 1 5 8 7 1 7 8))
+         (equal? (candidate 1 8 8 1) '(1 1 8 1 1 3 8 3 1 5 8 5 1 7 8 7 1 8 1 1 3 8 3 1 5 8 5 1 7 8 7 1))
+         (equal? (candidate 8 1 1 8) '(8 8 1 8 8 6 1 6 8 4 1 4 8 2 1 2 1 1 1 8 3 1 3 8 5 1 5 8 7 1 7 8))
+         (equal? (candidate 8 8 1 1) '(8 1 1 1 8 3 1 3 8 5 1 5 8 7 1 7 1 8 1 1 3 8 3 1 5 8 5 1 7 8 7 1))
          )))
 
 (define TestRunBB (test-boundingbox bounding-box))
@@ -82,7 +82,7 @@ TestRunText
 ;testfunction
 (define test-draw
   (lambda (candidate)
-   (and (equal? (candidate "Red" (line 1 1 4 4) (rectangle 1 5 5 1)) '("Red" 1 1 2 2 3 3 4 4 1 1 5 1 1 1 5 1 1 2 5 2 1 3 5 3 1 4 5 4 1 5 1 1 2 5 2 1 3 5 3 1 4 5 4 1 5 5 5 1)))))
+   (and (equal? (candidate "Red" (line 1 1 4 4) (rectangle 1 5 5 1)) '("Red" 1 1 2 2 3 3 4 4 1 1 5 1 1 2 5 2 1 3 5 3 1 4 5 4 1 5 5 5 1 5 1 1 2 5 2 1 3 5 3 1 4 5 4 1 5 5 5 1)))))
 
 (define TestRunDraw (test-draw draw))
 (for-each display '(Drawtest))

@@ -14,15 +14,36 @@ As seen in the figure all the classes are again used in \emph{Mote2} and \emph{P
 The serial communication is used to pass the image from the PC to the TelosB mote. when the image has been passed, it will be stored in the flash memory of the TelosB. Both the PC and the mote has a class called serial communication, which handles the passing of the image.
 
 \section{Flash storage}
+
 When transferring an image from the pc to the TelosB, the external flash storage is required. The reason for this requirement is the size of the image. To fulfill this requirement the Block storage is used. The Block storage is ideal for storing large objects that cannot fit into the RAM like the image.
 
-The Block storage is a write-once model of storage. Rewriting requires an erase. Rewriting is required in this project as the image needs to be transfered with different compressions/decompression and therefor new data needs to be written to the flash.
+The Block storage is a write-once model of storage. Rewriting requires an erase. Rewriting is required in this project as the image needs to be transfered with different compression/decompressions and therefor new data needs to be written to the flash.
 
-An interface named \emph{Flash} was created to accommodate the \emph{Sender} and the \emph{Receiver} which both needs to be able to write and read from the flash. 
+To be able to use the Block storage the flash chip needs to be divided into one or more fixed-sized volumes. The volume is specified at compile-time. The volume size used in this project is 65536 which is the maximum size we could reach in one volume.
+
+An interface named \emph{Flash} \ref{lst:flash} was created to accommodate the \emph{Sender} and the \emph{Receiver} which both needs to be able to write and read from the flash. 
+
+\begin{lstlisting}[caption={The interface flash}, label=lst:flash]
+interface Flash
+{
+	command error_t write(uint8_t* data, uint32_t addr, uint8_t size);
+	command error_t read(uint8_t* data, uint32_t addr, uint8_t size);
+	command error_t sync();
+	command error_t erase();
+	event void readDone(error_t result, storage_len_t len);
+	event void writeDone(error_t result);
+	event void syncDone(error_t result);
+	event void eraseDone(error_t result);	
+}
+\end{lstlisting}
 
 The implementation of write requires three parameters. The first parameter is the data which should be written to the flash. The second parameter is the address which it should start the write at. The third parameter is the length of the data. 
 
 The implementation of read is like the implementation of write. The difference between them is the first parameter is an array where the ridden data is placed in. 
+
+Other commands like sync and erase is also implemented. the command sync is used to finalize writes to the volume. The sync operation must be issued to ensure the data is stored in a non-volatile storage. 
+
+The interface also includes events for all the commands. 
 
 \section{Image Compression}
 A lossy compression is chosen because it is normal when working with images, and it is fairly simple. The first compression that was implemented was a lossy compression which removed every eight bit. This was done by:
