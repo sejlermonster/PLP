@@ -45,20 +45,24 @@ Using states is a core technique to reduce the energy consumption in wireless se
 Another way of controlling the energy consumption intead of states, is to scale the voltage as required. This can be done by using the full power of the microcontroller and get the task done as fast as possible, and go back to low energy consumption again. By doing this the task is done as fast as possible, and the high energy consumption is active in a limited time only. This may not be the most energy effecient approach, as the task may be computed at a low energy level. By using Dynamic Voltage Scaling(DVS) a task will be computed only at the speed needed of the task, to get it done before a given deadline.
 
 \subsection{Memory}
- The most relevant kinds of memory when looking from an energy perspective is the FLASH memory and in generally on-chip memory. The off-chip RAM is not interesting, because they are rarely used, and is usually powered of the energy that runs the controller.
- The FLASH memory can have heavily influence on the lifetime of a controller. Writing and reading to the FLASH memory is tasks that consume energy, specially writing to it consumes a lot. The reason why is that is a more complicated process that the read process and it is furthermore time consuming.
- If it can be avoided it would be the best solution.  
+The most relevant kinds of memory when looking from an energy perspective is the FLASH memory and in generally on-chip memory. The off-chip RAM is not interesting, because they are rarely used, and is usually powered of the energy that runs the controller.
+The FLASH memory can have heavily influence on the lifetime of a controller. Writing and reading to the FLASH memory is tasks that consume energy, specially writing to it consumes a lot. The reason why is that is a more complicated process that the read process and it is furthermore time consuming.
+If it can be avoided it would be the best solution.  
  
- \subsection{Radio transceivers}
+\subsection{Radio transceivers}
   
-  There is two tasks for a a radio transceiver: transmitting and receiving data between nodes. Just like controllers radio transceiver works in different modes. The most common is \emph{turned on} or \emph{turned off}. To ensure a low energy consumption the transceivers has to be turned off most of the time, and only turned on when it is required. this meaning that they work at a low duty cycle.
-  This increase the level of complexity, power overhead and time. 
+There is two tasks for a a radio transceiver: transmitting and receiving data between nodes. Just like controllers radio transceiver works in different modes. The most common is \emph{turned on} or \emph{turned off}. To ensure a low energy consumption the transceivers has to be turned off most of the time, and only turned on when it is required. this meaning that they work at a low duty cycle.
+This increase the level of complexity, power overhead and time. 
   
-  \subsubsection{Energy consumption during transmission}
-  When transmitting the energy consumed is due to two sources. the first soruce is the RF signal that is generated which mostly depends on target distance, the chosen modulation and the transmission power which is one of the most crucially decisions when transmitting a packet.. The second source is due to electronic components. These costs are mostly constant.
-  
-  \subsection{Sensors and actuators}
-  It is difficult to state guidelines for the energy consumptions for sensors and actuators due to the wide diversity of these devices.
+\subsubsection*{Energy consumption during transmission}
+When transmitting the energy consumed is due to two sources. The first source is the radio frequency signal that is generated which mostly depends on target distance, the chosen modulation and the transmission power which is one of the most crucially decisions when transmitting a packet. The second source is due to electronic components. These costs are mostly constant.
+
+\subsubsection*{Energy consumption during receiving}
+The receiver works in two states, on and off. It is ready for receiving when it is turned on, this is called the idle state. The difference in energy consumption from idle to when it is receiving is close to zero, and therefore in most cases counted as zero.
+
+
+\subsection{Sensors and actuators}
+It is difficult to state guidelines for the energy consumptions for sensors and actuators due to the wide diversity of these devices.
   
  
 \section{Radio communication}
