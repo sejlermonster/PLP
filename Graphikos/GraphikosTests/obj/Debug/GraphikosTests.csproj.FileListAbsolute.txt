@@ -29,3 +29,34 @@ C:\Workspace\PLP\Graphikos\GraphikosTests\obj\Debug\GraphikosTests.dll
 C:\Workspace\PLP\Graphikos\GraphikosTests\obj\Debug\GraphikosTests.pdb
 C:\Workspace\PLP\Graphikos\GraphikosTests\bin\Debug\Shouldly.dll
 C:\Workspace\PLP\Graphikos\GraphikosTests\bin\Debug\Shouldly.pdb
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\GraphikosTests.dll
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\GraphikosTests.pdb
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\Caliburn.Micro.dll
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\Graphikos.exe
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\IronScheme.dll
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\IronScheme.Web.Runtime.dll
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\Moq.dll
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\Shouldly.dll
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\xunit.abstractions.dll
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\xunit.assert.dll
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\xunit.core.dll
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\xunit.execution.desktop.dll
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\Caliburn.Micro.Platform.dll
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\System.Windows.Interactivity.dll
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\Caliburn.Micro.Platform.Core.dll
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\Graphikos.pdb
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\Caliburn.Micro.xml
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\Moq.xml
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\Shouldly.pdb
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\xunit.abstractions.xml
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\xunit.assert.pdb
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\xunit.assert.xml
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\xunit.core.pdb
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\xunit.core.xml
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\xunit.execution.desktop.pdb
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\xunit.execution.desktop.xml
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\Caliburn.Micro.Platform.xml
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\bin\Debug\Caliburn.Micro.Platform.Core.xml
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\obj\Debug\GraphikosTests.csprojResolveAssemblyReference.cache
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\obj\Debug\GraphikosTests.dll
+C:\Users\SimonOestergaard\Documents\8. semester\PLP\Graphikos\GraphikosTests\obj\Debug\GraphikosTests.pdb
