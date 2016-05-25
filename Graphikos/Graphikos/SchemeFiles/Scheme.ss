@@ -7,7 +7,7 @@
           (if ( > y y2)
               (lineCoor x (- y 1) x2 y2 (cons x (cons (- y 1) a)))))
   (if ( = x x2)
-      (if (= xOrg X2Org)
+      (if (= xOrg x2Org)
                (append a (append (cons xOrg '()) (cons yOrg '())))
       (if (< xOrg x2Org)
            (cons xOrg (cons yOrg a))

@@ -77,7 +77,7 @@ namespace Graphikos.ViewModels
                 {
                     result = _schemeHandler.CallSchemeFunc(expression);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     Error = "Error in evaluation";
                     return;
