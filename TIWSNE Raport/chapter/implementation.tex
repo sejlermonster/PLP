@@ -14,7 +14,7 @@ As seen in the figure all the classes are again used in \emph{Mote2} and \emph{P
 The serial communication is used to pass the image from the PC to the TelosB mote. when the image has been passed, it will be stored in the flash memory of the TelosB. Both the PC and the mote has a class called serial communication, which handles the passing of the image.
 
 \section{Flash storage}
-When passing the image from the pc to TelosB, the flash storage is required, because the file size is too big to be stored elsewhere.
+When passing an image from the pc to the TelosB, the external flash storage is required. The reason for this requirement is the size of the image. 
 
 \section{Image Compression}
 A lossy compression is chosen because it is normal when working with images, and it is fairly simple. The first compression that was implemented was a lossy compression which removed every eight bit. This was done by:
