@@ -6,9 +6,17 @@ In this chapter the theory of the project will be described. This includes the c
 \section{Compression}
 In general image compression is about the removal of data in order to minimize a file size. This can be done lossless or lossy, depending on the use and importance of the data.
 
-When using a lossless image compression, every bit information in the file remains when compressed, and it will be just like the original when decompressed. This technique is preferred when compressing spreadsheet or text files, as it can be useless, if some of the text i missing.
+\subsection{Lossy and lossless compression}
+When using a lossless image compression, every bit information in the file remains when compressed, and it will be just like the original when decompressed. This technique is preferred when compressing spreadsheet or text files, as it can be useless, if some of the text i missing. It is also a more complex compression method so if high quality is not a factor, then a lossy compression is maybe preferred 
 
-Opposite in the lossy compression, some data is permanently removed which reduces the size of the image file. This means that when the image is decompressed only a part of the original image is still there. Mostly the user will not notice the missing information. This compression is widely used in video and sound. An example in the video domain is the image file \emph{JPEG} file format.
+In the lossy compression, some data is permanently removed which reduces the size of the image file. This means that when the image is decompressed only a part of the original image is still there. It is not sure that the user will not notice the missing information, but it will cause a lower quality in the picture. This compression is widely used in video and sound where the quality can be reduced.  
+
+\subsection{N-bit compression}
+In this project three n-bit compressions has been used namely 1-bit, 2-bit and 4-bit compression. in figure \ref{fig:NbitCompression} an example of a 1-bit compression is shown. When it is compressed the least significant bit (LSB) is removed in every byte. This resulting in less data in the image. When it is decompressed, there is added a \emph{0} is added on the least significant bit in every byte, so the image get the same length. 
+
+\myFigure{NbitCompression}{1-bit compression.}{fig:NbitCompression}{0.7}
+
+The image with the compression will loose some details and will generally be in a lower quality than the original image during the lack of information the compression has cost. So if the quality of a picture needs to be hight, this is not the best compression to do.  
 
 \section{Energy consumption}
 When looking at wireless sensor networks, energy consumption is an important issue. When transferring data there is a consumption of energy, this can be affected by the size of the data being transferred. When transferring data between two TelosBs, the level of energy consumptions needs to be at your attention because the TelosB has a limited amount of battery capacity. The challenge is to know when and how to use the radio communication.
