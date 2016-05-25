@@ -17,20 +17,19 @@ The class diagram shown in figure \ref{fig:class} illustrates the essential desi
 
 SchemeHandler handles the evaluation of the Scheme code by using IronScheme. BitmapDrawing is used for drawing single pixels and text on the bitmap.
 
-\FloatBarrier
-\myFigure{class.png}{UML class diagram for C\# WPF}{fig:class}{0.6} 
-\FloatBarrier
-
 Furthermore the C\# WPF also holds the state of the bounding-box in the ShellViewModel. This was chosen to keep the Scheme code stateless. If a bounding-box was set by the user in the input field then the view model parsed the called Scheme function to the filter function as a parameter. By doing this  all the coordinates outside the bounding-box are filtered away.
 
+\myFigure{class.png}{UML class diagram for C\# WPF}{fig:class}{0.8} 
+\FloatBarrier
+
 \section{Drawing Engine in Scheme}
-Scheme was used for developing the drawing engine. This allowed for a fast and stateless computation of the coordinates being drawn in the user interface. 
+Scheme was used for developing the drawing engine. This allowed for a fast and stateless computation of the coordinates being drawn in the user interface.
+ 
 
 For drawing lines in the application the Bresenham’s line algorithm was used. This algorithm can draw a line between two points. The circle Midpoint algorithm was used for drawing circles. The implementation of the circle function is shown in listing \ref{lst:circle}. The function takes three parameters, \emph{centerX	} and \emph{centerY} for center coordinate and the radius. First the variables \emph{x}, \emph{y} and \emph{d} are binded. \emph{x} is binded to the value 0, and is used as a counter. \emph{y} is binded to the value of \emph{r}, and is used in the algorithm calculations. Finally \emph{d} is  a decision parameter that decides the calculation of parameters passed to the recursive call. The stop condition is when \emph{x} is bigger than \emph{y}, then the last element \emph{'()} is returned.
 	
 The circle function is implemented with classic recursion. Tail recursion could also have been used but in this case classic recursion was sufficient. If the circles instead had to be drawn on a bigger bitmap the classic recursive calls could lead to stack overflow.
 
-\newpage
 \begin{lstlisting}[caption={Scheme function circle}, label=lst:circle]
 (define (circle centerX centerY r)
 (let((x 0) (y r) (d (/ (- 5 (* r 4)) 4)))
@@ -67,6 +66,7 @@ A function where tail recursion was required is the implemented function \emph{f
 
 \emph{fill} was first created with classic recursion but this gave a stack overflow as two many stack frames were created. Instead tail recursion was used so that the compiler could optimize this function and avoid stack overflow.  This is because the Scheme compiler is able to effectively optimize tail recursion compared to classic recursion.
 
+\newpage
 \vspace{-1.4em}
 \begin{lstlisting}[caption={Scheme function fill}, label=lst:fill]
 (define (fill c g)
