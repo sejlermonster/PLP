@@ -23,7 +23,7 @@ When looking at wireless sensor networks, energy consumption is an important iss
 
 \section{New Energy consumption}
 When talking about sensor nodes the energy supply is a crucial factor. Batteries that runs the sensor nodes has small capacity and recharging them can be difficult and complicated. Hence the energy consumption must be controlled in the best way, to keep a low energy consumption.
-The main consumers of energy are
+The main consumers of energy are:
 \begin{itemize}
 	\item[--] The controller
 	\item[--] Radio front ends
@@ -33,13 +33,16 @@ The main consumers of energy are
 	 
 To reduce the energy consumptions a low-power chip is preferred, but it is only one half of the picture. If the chip is used improperly it will consume as much energy as an non low-power chip.
 
-To avoid this, one have to observe that the wireless sensor node must of the time nothing has to do. This can be handled by use the controller different states. The typical states a controller can be in is
+Avoiding this can be accomplished by observation of the wireless sensor node, and make sure that it has nothing to do most of the time. This can be handled by use of the controller's different states. The typical states of a controller is:
 \begin{itemize}
 	\item[--] \textbf{\emph{active}:} Working 
 	\item[--] \textbf{\emph{idle}}: Ready to communicate 
 	\item[--] \textbf{\emph{sleep}}: Waiting.
 \end{itemize}
-Using the state is  a core technique to reduce the energy consumption in wireless sensor nodes. Some sensors can also go into \emph{deeper sleep} to save even more energy. When working with deeper sleep, it has to be taken into account that it takes more time and energy to make the controller wake up and be fully operational again.
+
+Using states is a core technique to reduce the energy consumption in wireless sensor nodes. Some sensors also uses \emph{deeper sleep} to save even more energy. When working with deeper sleep, it has to be taken into account that it takes more time and energy to make the controller wake up and be fully operational again.
+
+Another way of controlling the energy consumption intead of states, is to scale the voltage as required. This can be done by using the full power of the microcontroller and get the task done as fast as possible, and go back to low energy consumption again. By doing this the task is done as fast as possible, and the high energy consumption is active in a limited time only. This may not be the most energy effecient approach, as the task may be computed at a low energy level. By using Dynamic Voltage Scaling(DVS) a task will be computed only at the speed needed of the task, to get it done before a given deadline.
 
 \subsection{Memory}
  The most relevant kinds of memory when looking from an energy perspective is the FLASH memory and in generally on-chip memory. The off-chip RAM is not interesting, because they are rarely used, and is usually powered of the energy that runs the controller.
