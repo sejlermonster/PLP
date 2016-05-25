@@ -19,6 +19,8 @@ When transferring an image from the pc to the TelosB, the external flash storage
 
 The Block storage is a write-once model of storage. Rewriting requires an erase. Rewriting is required in this project as the image needs to be transfered with different compression/decompressions and therefor new data needs to be written to the flash.
 
+To be able to use the Block storage the flash chip needs to be divided into one or more fixed-sized volumes. The volume is specified at compile-time. The volume size used in this project is 65536 which is the maximum size we could reach in one volume.
+
 An interface named \emph{Flash} \ref{lst:flash} was created to accommodate the \emph{Sender} and the \emph{Receiver} which both needs to be able to write and read from the flash. 
 
 \begin{lstlisting}[caption={The interface flash}, label=lst:flash]
