@@ -18,6 +18,9 @@ In this project three n-bit compressions has been used namely 1-bit, 2-bit and 4
 
 The image with the compression will loose some details and will generally be in a lower quality than the original image during the lack of information the compression has cost. So if the quality of a picture needs to be hight, this is not the best compression to do.  
 
+\subsection{Huffman coding}
+The huffman code is a way of doing a lossless compression. It is based on the frequency of appearance of a pixel in a image. The idea is to use a low number of bits when encode data that occurs more frequently. So if there is a lot of black on a picture, it is encoded to a lower number of bits. All the code are stored in a code book. This code book along with the encoded data must be tranmittet along to make the decond possible. This means that there is no data in the image that are missing when decoded and the image is in the same quality as it was when send.
+
 \section{Energy consumption}
 When looking at wireless sensor networks, energy consumption is an important issue. When transferring data there is a consumption of energy, this can be affected by the size of the data being transferred. When transferring data between two TelosBs, the level of energy consumptions needs to be at your attention because the TelosB has a limited amount of battery capacity. The challenge is to know when and how to use the radio communication.
 
