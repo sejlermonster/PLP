@@ -11,7 +11,12 @@ The objective of the project is to send an image, compressed and not compressed,
 As seen in the figure all the classes are again used in \emph{Mote2} and \emph{PC2}. The compressed data is received in \emph{Mote2}, decompressed and stored in the flash. From the flash it is sent to the \emph{PC2} via the serial communication. 
 
 \section{Serial communication}
-The serial communication is used to pass the image from the PC to the TelosB mote. when the image has been passed, it will be stored in the flash memory of the TelosB. Both the PC and the mote has a class called serial communication, which handles the passing of the image.
+The serial communication is used to pass the image from the PC to the TelosB mote. when the image has been passed, it will be stored in the external flash memory of the TelosB. When the image has been transferred between the TelosB's the serial communication was used to send the image back to the PC. On the PC the image is reconstructed and the image is saved on the PC.
+
+To enable serial communication on the TelosB an interface for serial communication was created. This interface gave access to the serial communication features. 
+
+Before the image was transferred from either the PC or the TelosB the image was divided into packages of 64 bytes. The intended receiver kept waiting for packages until the sender signals it is the last package the receiver is receiving. Then the receiver will stop the process of receiving packages. 
+
 
 \section{Flash storage}
 
