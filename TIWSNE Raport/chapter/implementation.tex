@@ -4,11 +4,13 @@
 This chapter explains the design and implementation of the application and the choices made during the development.
 
 \section{Architecture}
-The objective of the project is to send an image, compressed and not compressed, from one mote to another. To do this two PCs and two TelosB motes has been used, one sender mote and one receiver mote. The architecture of the system is shown in figure \ref{fig:SystemOverview}. \emph{PC1} contains two classes to handle the image and send it. Before the image is ready to be send, it has to be converted from bitmap to binary array, and then it is ready sent via the serial communication. When it is transfered to \emph{Mote1} the serial communication class on \emph{Mote1} is used. The image is stored in the flash storage, because it is to big to be stored in the ram or cache. From the flash it is compressed and sent to \emph{Mote2}, via the radio communication class.
+The objective of the project is to send an image, compressed and not compressed, from one mote to another. To do this two PCs and two TelosB motes has been used, one sender mote and one receiver mote. The architecture of the system is shown in Figure \ref{fig:SystemOverview}. \emph{PC1} contains two classes to handle the image and send it. Before the image is ready to be send, it has to be converted from a bitmap to a byte array, and then it is ready be send via the serial communication. When it is transfered to \emph{Mote1} the serial communication interface on \emph{Mote1} is used. The image is stored in the flash storage, because it is to big to be stored in the ram or cache. From the flash it is compressed and sent to \emph{Mote2}, via the radio communication interface.
 
-\myFigure{SystemOverview}{The architecture of the system.}{fig:SystemOverview}{0.7}
+\myFigure{SystemOverview}{The architecture of the system}{fig:SystemOverview}{0.7}
 
-As seen in the figure all the classes are again used in \emph{Mote2} and \emph{PC2}. The compressed data is received in \emph{Mote2}, decompressed and stored in the flash. From the flash it is sent to the \emph{PC2} via the serial communication. 
+As seen in the Figure all the classes and interfaces are also used in \emph{Mote2} and \emph{PC2}. The compressed data is received in \emph{Mote2}, then decompressed and stored in the flash. From the flash it is send to \emph{PC2} via serial communication. 
+
+The image which is send around is only the raster of the original BMP. The header and footer has been stripped before it is send to a TelosB. When a PC receives the image back from a TelosB the image is then reconstructed according to its original.
 
 \section{Serial communication}
 The serial communication is used to pass the image from the PC to the TelosB mote. when the image has been passed, it will be stored in the external flash memory of the TelosB. When the image has been transferred between the TelosB's the serial communication was used to send the image back to the PC. On the PC the image is reconstructed and the image is saved on the PC.
@@ -16,6 +18,8 @@ The serial communication is used to pass the image from the PC to the TelosB mot
 To enable serial communication on the TelosB an interface for serial communication was created. This interface gave access to the serial communication features. 
 
 Before the image was transferred from either the PC or the TelosB the image was divided into packages of 64 bytes. The intended receiver kept waiting for packages until the sender signals it is the last package the receiver is receiving. Then the receiver will stop the process of receiving packages. 
+
+Everytime a package is received on a TelosB the 64 bytes of the image is written to the flash. When a package is received on a PC the 64 bytes of the image is stored in an array. 
 
 
 \section{Flash storage}
@@ -54,145 +58,20 @@ The interface also includes events for all the commands.
 A lossy compression is chosen because it is normal when working with images, and it is fairly simple. The first compression that was implemented was a lossy compression which removed every eight bit. This was done by:
 
 \section{Radio communication}
-The radio communication is splitted up in two different parts. The sender and the receiver.
+To enable communication between the TelosB’s, radio communication is used. The radio communication was used for transferring an image form one TelosB to another TelosB. Before each transferon the \emph{Sender} side, the image has been reed in chunks of 1024 bytes. The chunk of 1024 bytes is loaded into a buffer. The buffer is then divided into packages of 64 bytes and then sent to the receiving TelosB. The sequence diagram in Figure \ref{fig:radioCom} gives an overview of how this process works.
 
-\subsection{Sender}
-The radio communication was established with the use of a button on the TelosB. This is done so that the 
-user can start the transfer manual. When the button is clicked, the function \emph{Flash.read()} is executed. This functions takes three parameters
+LINK TIL AT RETTE I DIAGRAMMET FJERN DENNE NÅR I ER FÆRDIGE \url{https://drive.google.com/file/d/0Bw37nIXex8aXZTlxSWlfeWU2UjA/view?usp=sharing}
 
-\begin{lstlisting}[caption={The function Flash.read}, label=lst:fread]
-call Flash.read(readArray,0, SIZE+(bytesToRemove*8));
-\end{lstlisting}
+\myFigure{MoteToMoteCom}{TelosB to TelosB radio communication sequence diagram}{fig:radioCom}{0.9}
 
-All the data is packed from \emph{readArray} into a data package. Now the package is ready to be sent, this is done by calling \emph{AMSend.send()}. This runs the function \emph{AMSend.sendDone()}. Here it is checked, if there is more data to be sent, if there is, the \emph{Flash.read()} is called again, until all data is sent. 
+\FloatBarrier
 
-\begin{lstlisting}[caption={the function Flash.ReadDone}, label=lst:freaddone]
-event void Flash.readDone(error_t result)
-{	
-	int i = 0;
-	uint8_t status = 0;		
-	readPacketCounter++;	
-	if (result != SUCCESS)
-	{
-		call Leds.led0On();
-	}		
-	
-	printf("Value: %u\n",
-	Round(((packetCounter*SIZE)/(SIZE+(bytesToRemove*8)))));
-	printfflush();
-	if(readPacketCounter >=
-	Round(((packetCounter*SIZE)/(SIZE+(bytesToRemove*8)))))
-	{
-		status = 1;
-		call Leds.led1On();
-		call Leds.led2On();
-		printf("Sending last package\n");
-		printf("ReadPacketCounter %u\n", readPacketCounter);
-		printfflush();
-	}
-	
-	if (!busy) 
-	{
-		test_serial_msg_t* btrpkt = (test_serial_msg_t*)
-			(call Packet.getPayload(&pkt, sizeof (test_serial_msg_t)));
-		btrpkt->status = status;
-		btrpkt->bytesRemoved = bytesToRemove;
-		btrpkt->diff = packageDiff;
-		if(bytesToRemove == 1)
-		{
-			uint8_t* compressedImage;
-			printf("Compressing data\n");
-			printfflush();
-			call Compression.compress(readArray, compressedImage);
-			printf("Done Compressing data\n");
-			printfflush();
-			
-			for(i=0; i < SIZE; i++)
-			{
-			btrpkt->image[i] = compressedImage[i];
-			}
-		
-		}
-		else
-		{
-			printf("Packaging data\n");
-			printfflush();
-			for(i=0; i < SIZE; i++)
-			{
-			
-			btrpkt->image[i] = readArray[i];   	
-			}	
-		}
-		
-		if (call AMSend.send(AM_BROADCAST_ADDR, &pkt,
-		sizeof(test_serial_msg_t)) == SUCCESS) 
-		{
-			busy = TRUE;
-		}
-		else
-		{
-			//call Leds.led0On();
-		}
-	}
-	//call Leds.led2Toggle();
-}
-\end{lstlisting}
+The sequence diagram in Figure \ref{fig:radioCom} is an example of a non-compressed image which is then transferred to a receiver. If the image has been compressed it will send the packages corresponding to the compressed size. For example, if the image has been compressed with a 4-bit compression the 1024 bytes will be reduced to 512 bytes. So instead of sending 16 packages the \emph{Sender} sends 8 packages of 64 bytes each.
 
-\begin{lstlisting}[caption={the function AMSend.sendDone}, label=lst:]
-event void AMSend.sendDone(message_t *msg, error_t error)
-{
-	if(receiving == TRUE)
-		return;
-	
-	busy = FALSE;
-	
-	if(readPacketCounter < 
-		Round(((packetCounter*SIZE)/(SIZE+(bytesToRemove*8)))))
-	{	
-		call Flash.read(readArray, 
-		readPacketCounter*SIZE+(bytesToRemove*8),
-		SIZE+(bytesToRemove*8));
-	}
-}
-\end{lstlisting}
+When the \emph{Sender} has send 16 packages with 64 bytes in each. Then the \emph{Sender} waits for a \emph{TRANSFER\_ACK } from the \emph{Receiver}. The \emph{Recevier} sends the \emph{TRANSFER\_ACK } to signal that the \emph{Receiver} is ready to receive 16 new packages. When the \emph{Sender} receives the \emph{TRANSFER\_ACK } the \emph{Sender} will read the next chunk of 1024 bytes and put it into the buffer.
 
-\subsection{Receiver}
-To receive an image on a TelosB the \emph{receive()} function is developed in TestSerial.nc. Receive i shown in listing \ref{lst:receive}. It takes three parameters, a message, a payload, and lenght. At first it tests if the size of the message is the same as the lenght. As it receives the data, it checks if all data is sent. if status is '1' the data is received. When each package is received, it is checked if it has been compressed, by eksamining if any bytes have been removed. If it is so, then it will be decompressed. if not, it will be loaded into the flash memory.
+When the last package of the image is about to be send the \emph{Sender} sends a \emph{TRANSFER\_DONE} with the last package. The \emph{Receiver} will not send any \emph{TRANSFER\_ACK} back and the \emph{Sender} will neither expect a \emph{TRANSFER\_ACK }.
 
-\begin{lstlisting}[label=lst:receive, caption=Receive function in TestSerialC.nc]
-event message_t * Receive.receive(message_t *msg, void *payload,
-uint8_t len){
-	uint8_t* imageForFlashWrite;
-	call Leds.led0Toggle();
-	if (len != sizeof(test_serial_msg_t)) 
-	{
-		return msg;
-	}
-	else 
-	{ 	     
-		test_serial_msg_t* rcm = (test_serial_msg_t*)payload;
-		receiving = TRUE;
-		if(rcm->status == 1)
-		{
-			call Leds.led2On();			
-			receiving = FALSE;
-			packageDiff = rcm->diff;
-		}
-		
-		if(rcm->bytesRemoved > 0)
-		{
-			imageForFlashWrite = call Compression.decompress(rcm->image,
-				(SIZE+(rcm->bytesRemoved*SIZE)));
-		}
-		else
-		{
-			imageForFlashWrite = rcm->image;
-		}
-		
-		call Flash.write(imageForFlashWrite, addr);
-		addr = addr + SIZE;
-		packetCounter++;
-	}
-	return msg;
-}
-\end{lstlisting}
+Each time the \emph{Receiver} receives a package of 64 bytes it stores the image in a buffer. The buffer is of the size of 1024 bytes. When the buffer is full the \emph{Receiver} takes the buffer and writes all the bytes into the external flash. If a compression is applied the buffer will be decompressed before writing to the flash.
+
+For the \emph{Sender} to signal that a compression has been applied to the image. The \emph{Sender} applies the information to the header. The \emph{Receiver} then do the necessary actions to the image.
