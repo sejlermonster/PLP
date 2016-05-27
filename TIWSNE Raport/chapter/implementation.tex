@@ -55,7 +55,21 @@ Other commands like sync and erase is also implemented. the command sync is used
 The interface also includes events for all the commands. 
 
 \section{Image Compression}
-A lossy compression is chosen because it is normal when working with images, and it is fairly simple. The first compression that was implemented was a lossy compression which removed every eight bit. This was done by:
+Three different lossy image compressions has been implemented in this project. A 1-bit, 2-bit and a 4-bit compression. Each of the compressions compresses the image by removing n-bits from every byte. 
+
+The 1-bit image compression is illustrated in \ref{fig:1bitCom}. For every 8 bytes the last byte is splitted up and placed as the least significant bit in the 7 other bytes. This is done by performing an AND operation on byte 1-7 with the value (11111110). This AND operation leaves bit 1-7 untouched and sets the last bit to 0.  Afterwards the bits of the 8th byte is added to byte 1-7 by using and OR operation.
+
+\myFigure{1BitCompression.png}{1 bit Compression}{fig:1bitCom}{1}
+
+The 1-bit image decompression is illustrated in \ref{fig:1bitDecom}. For every 7 bytes the least significant bit of all 7 bytes is used to create the 8th byte. The least significant bit of all 8 bytes is then set to 0.
+
+\myFigure{1BitDecompression.png}{1 bit decompression}{fig:1bitDecom}{1}
+
+
+The implementation of the 2-bit and 4-bit compression is created similar to the 1-bit compression. The 2-bit compression maps 4 bytes into 2 bytes and the 4-bit compression maps 2 bytes into 1 byte.
+\FloatBarrier
+All implemented compression and decompression are done using bitwise operators on the array of bytes and only iterates through the byte arrays a single time. Furthermore the implemented compression and decompression does not require more computation for a higher compression ratio.
+
 
 \section{Radio communication}
 To enable communication between the TelosB’s, radio communication is used. The radio communication was used for transferring an image form one TelosB to another TelosB. Before each transferon the \emph{Sender} side, the image has been reed in chunks of 1024 bytes. The chunk of 1024 bytes is loaded into a buffer. The buffer is then divided into packages of 64 bytes and then sent to the receiving TelosB. The sequence diagram in Figure \ref{fig:radioCom} gives an overview of how this process works.
