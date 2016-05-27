@@ -40,24 +40,6 @@ namespace GraphikosTests.Utility
         }
 
         [Fact]
-        public void CanDrawText()
-        {
-            var listOfCoordinates = new List<object> { 1, 1, 2, 2, "hej" };
-            var result = _bitmapDrawing.DrawText(listOfCoordinates, Color.Black, new Bitmap(400, 400));
-            var bitmapComp = Ext.LoadBytes("CanDrawText.bmp");
-            result.GetBytes().SequenceEqual(bitmapComp).ShouldBe(true);
-        }
-
-        [Fact]
-        public void CanDrawTextWithLessThanThreeCoordinates()
-        {
-            var listOfCoordinates = new List<object> { 1, 1, 2, 2 };
-            var result = _bitmapDrawing.DrawText(listOfCoordinates, Color.Black, new Bitmap(400, 400));
-            var bitmapComp = Ext.LoadBytes("CanDrawTextWithLessThanThreeCoordinates.bmp");
-            result.GetBytes().SequenceEqual(bitmapComp).ShouldBe(true);
-        }
-
-        [Fact]
         public void ThrowWhenPixelsIsDrawnOutsideBitmap()
         {
             var listOfCoordinates = new List<object> { 0, 0, 2, 2, 401, 401 };

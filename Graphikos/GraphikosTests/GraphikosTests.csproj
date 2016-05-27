@@ -353,8 +353,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BitmapsForTesting\CanDrawPixels.bmp" />
-    <Content Include="BitmapsForTesting\CanDrawText.bmp" />
-    <Content Include="BitmapsForTesting\CanDrawTextWithLessThanThreeCoordinates.bmp" />
     <Content Include="BitmapsForTesting\TestImage.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

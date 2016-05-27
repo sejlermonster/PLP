@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graphikos", "Graphikos\Graphikos.csproj", "{BDFB7421-DDD9-41C2-80AE-9DDCF664CA7A}"
 EndProject
@@ -10,17 +10,27 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{BDFB7421-DDD9-41C2-80AE-9DDCF664CA7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BDFB7421-DDD9-41C2-80AE-9DDCF664CA7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDFB7421-DDD9-41C2-80AE-9DDCF664CA7A}.Debug|x64.ActiveCfg = Debug|x64
+		{BDFB7421-DDD9-41C2-80AE-9DDCF664CA7A}.Debug|x64.Build.0 = Debug|x64
 		{BDFB7421-DDD9-41C2-80AE-9DDCF664CA7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDFB7421-DDD9-41C2-80AE-9DDCF664CA7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDFB7421-DDD9-41C2-80AE-9DDCF664CA7A}.Release|x64.ActiveCfg = Release|x64
+		{BDFB7421-DDD9-41C2-80AE-9DDCF664CA7A}.Release|x64.Build.0 = Release|x64
 		{A386CDD0-1060-480C-8ED3-6440B0F621CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A386CDD0-1060-480C-8ED3-6440B0F621CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A386CDD0-1060-480C-8ED3-6440B0F621CE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A386CDD0-1060-480C-8ED3-6440B0F621CE}.Debug|x64.Build.0 = Debug|Any CPU
 		{A386CDD0-1060-480C-8ED3-6440B0F621CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A386CDD0-1060-480C-8ED3-6440B0F621CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A386CDD0-1060-480C-8ED3-6440B0F621CE}.Release|x64.ActiveCfg = Release|Any CPU
+		{A386CDD0-1060-480C-8ED3-6440B0F621CE}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
