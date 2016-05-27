@@ -34,22 +34,22 @@ To measure the voltage over the mote and the transmission time, a oscilloscope w
 \myFigure{senderResultconverted}{Mesured values for no compressed on sender side}{fig:senderresult}{0.6}
 
 
-The table below shows all measurements and calculations of the 3 compressions and one transmission without any compression.
+The table below shows all measurements and calculations of the 3 compressions and one transmission without any compression. The battery voltage for the sender was measured to $3.028V$ and the resistor to $9.93\Omega$. For the receiver it is $3.214V$ battery voltage and a resistance of $9.98\Omega$.
 
-\begin{tabular}{l l l l r r r r r}
-	Sender           	& $V_{avg}\lbrack mV\rbrack$ & $Res\lbrack \Omega\rbrack$ & $V_{bat}\lbrack V\rbrack$ & $t\lbrack sec\rbrack$ & $V_{mote}$  & $I_{mote}$ & $W_{mote}\lbrack W\rbrack$ & Energy cons.\\ \hline
-	No compr.	 & 0.194 & 9.93 & 3.028 & 25.2 & 2.834 & 0.020 & 0.055 & 1.395 \\
-	1-bit compr. & 0.192 & 9.93 & 3.028 & 24.5 & 2.836 & 0.019 & 0.055 & 1.343 \\
-	2-bit compr. & 0.193 & 9.93 & 3.028 & 23   & 2.835 & 0.019 & 0.055 & 1.267 \\
-	4-bit compr. & 0.194 & 9.93 & 3.028 & 18.2 & 2.834 & 0.020 & 0.055 & 1.008 \\
+\begin{tabular}{l l l r r r r}
+	Sender           	& $V_{avg}\lbrack mV\rbrack$ & $t\lbrack sec\rbrack$ & $V_{mote}$  & $I_{mote}$ & $W_{mote}\lbrack W\rbrack$ & Energy cons.\\ \hline
+	No compr.	 & 0.194 & 25.2 & 2.834 & 0.020 & 0.055 & 1.395 \\
+	1-bit compr. & 0.192 & 24.5 & 2.836 & 0.019 & 0.055 & 1.343 \\
+	2-bit compr. & 0.193 & 23   & 2.835 & 0.019 & 0.055 & 1.267 \\
+	4-bit compr. & 0.194 & 18.2 & 2.834 & 0.020 & 0.055 & 1.008 \\
 	
-	&&&&&&&& \\
+	&&&&&& \\
 
-	Receiver           	& $V_{avg}\lbrack mV\rbrack$ & $Res\lbrack \Omega\rbrack$ & $V_{bat}\lbrack V\rbrack$ & $t\lbrack sec\rbrack$ & $V_{mote}$  & $I_{mote}$ & $W_{mote}\lbrack W\rbrack$ & Energy cons.\\ \hline
-	No compr.	 & 0.201 & 9.98 & 3.214 & 25.2 & 3.013 & 0.020 & 0.060 & 1.529 \\
-	1-bit compr. & 0.201 & 9.98 & 3.214 & 24.5 & 3.013 & 0.020 & 0.060 & 1.487 \\
-	2-bit compr. & 0.2   & 9.98 & 3.214 & 23   & 3.014 & 0.020 & 0.060 & 1.389 \\
-	4-bit compr. & 0.2   & 9.98 & 3.214 & 18.2 & 3.014 & 0.020 & 0.060 & 1.099
+	Receiver           	& $V_{avg}\lbrack mV\rbrack$ & $t\lbrack sec\rbrack$ & $V_{mote}$  & $I_{mote}$ & $W_{mote}\lbrack W\rbrack$ & Energy cons.\\ \hline
+	No compr.	 & 0.201 & 25.2 & 3.013 & 0.020 & 0.060 & 1.529 \\
+	1-bit compr. & 0.201 & 24.5 & 3.013 & 0.020 & 0.060 & 1.487 \\
+	2-bit compr. & 0.2   & 23   & 3.014 & 0.020 & 0.060 & 1.389 \\
+	4-bit compr. & 0.2   & 18.2 & 3.014 & 0.020 & 0.060 & 1.099
 \end{tabular}
 
 Before transmission of images the resistanse of the resistor and voltage of the battery was measured. This is done to calculate $V_{mote}$, $I_{mote}$, $W_{mote}$ and \emph{energy consumption}. Below the calculations are shown:
