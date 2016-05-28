@@ -1,39 +1,38 @@
 \chapter{Theory}
 \label{chp:theory}
 
-In this chapter the theory of the project will be described. This includes the compression, energy consumption and radio communication.
+In this chapter the theory of the project will be described. This includes compression and energy comsumption
 
 \section{Compression}
 In general image compression is about the removal of data in order to minimize a file size. This can be done lossless or lossy, depending on the use and importance of the data.
 
 \subsection{Lossy and lossless compression}
-When using a lossless image compression, every bit information in the file remains when compressed, and it will be just like the original when decompressed. This technique is preferred when compressing spreadsheet or text files, as it can be useless, if some of the text i missing. It is also a more complex compression method so if high quality is not a factor, then a lossy compression is maybe preferred 
+When using a lossless compression, every bit information in the file remains when compressed, and it will be just like the original when decompressed. This technique is more complex but preferred when compressing files where all the data must be left intact.
 
-In the lossy compression, some data is permanently removed which reduces the size of the image file. This means that when the image is decompressed only a part of the original image is still there. It is not sure that the user will not notice the missing information, but it will cause a lower quality in the picture. This compression is widely used in video and sound where the quality can be reduced.  
+When removing data still leaves the file quality satisfying for the user, lossy compression can instead be relevant. When using lossy compression, some data is permanently removed which reduces the size of the file. This means that when the file is decompressed only a part of the original file remains. Perhaps the user will not notice the missing data. This compression is widely used in video and sound where the quality can be reduced.  
 
 \subsection{N-bit compression}
-In this project three n-bit compressions has been used namely 1-bit, 2-bit and 4-bit compression. in figure \ref{fig:NbitCompression} an example of a 1-bit compression is shown. When it is compressed the least significant bit (LSB) is removed in every byte. This resulting in less data in the image. When it is decompressed, there is added a \emph{0} is added on the least significant bit in every byte, so the image get the same length. 
+In this project three n-bit compressions has been used namely 1-bit, 2-bit and 4-bit compression. In figure \ref{fig:NbitCompression} an example of a 1-bit compression is shown. When it is compressed the least significant bit (LSB) is removed in every byte. This resulting in less data in the image. When it is decompressed a \emph{0} is added on LSB in every byte, so the image has the same length. 
 
 \myFigure{NbitCompression}{1-bit compression.}{fig:NbitCompression}{0.7}
 
-The image with the compression will loose some details and will generally be in a lower quality than the original image during the lack of information the compression has cost. So if the quality of a picture needs to be hight, this is not the best compression to do.  
+The image with the compression will loose some details and will generally be in a lower quality than the original image during the lack of data. If the quality of an image needs to remain at the same level, this is might not the best compression.  
 
 \subsection{Huffman coding}
-The huffman code is a way of doing a lossless compression. It is based on the frequency of appearance of a pixel in a image. The idea is to use a low number of bits when encode data that occurs more frequently. So if there is a lot of black on a picture, it is encoded to a lower number of bits. All the code are stored in a code book. This code book along with the encoded data must be tranmittet along to make the decond possible. This means that there is no data in the image that are missing when decoded and the image is in the same quality as it was when send.
+The Huffman code is a lossless compression. It is based on the frequency of appearance of data in a file. The idea is that more frequently appearing data is represented by a lower amount of bits.
+All the codes are stored in a code book. This code book along with the encoded data must be transmitted. This means that there is no data in the file that is missing when decoding the file.
 
-\section{New Energy consumption}
-When talking about sensor nodes the energy supply is a crucial factor. Batteries that runs the sensor nodes has small capacity and recharging them can be difficult and complicated. Hence the energy consumption must be controlled in the best way, to keep a low energy consumption.
+\section{Energy consumption}
+In wireless sensor networks the energy supply is a crucial factor. Batteries that runs the sensor nodes has small a capacity and recharging them can be difficult and complicated. Hence the energy consumption must be controlled in the best way possible, to keep a low energy consumption.
 The main consumers of energy are:
 \begin{itemize}
 	\item[--] The controller
 	\item[--] Radio front ends
-	\item[--] To some degree the memory
+	\item[--] The memory
 	\item[--] The sensors, depending on the type
 \end{itemize}
 	 
-To reduce the energy consumptions a low-power chip is preferred, but it is only one half of the picture. If the chip is used improperly it will consume as much energy as an non low-power chip.
-
-Avoiding this can be accomplished by observation of the wireless sensor node, and make sure that it has nothing to do most of the time. This can be handled by use of the controller's different states. The typical states of a controller is:
+To reduce the energy consumption a low-power chip is preferred but using the chip properly is also important. This can be handled by using the controller's different states. The typical states of a controller is:
 \begin{itemize}
 	\item[--] \textbf{\emph{active}:} Working 
 	\item[--] \textbf{\emph{idle}}: Ready to communicate 
@@ -42,23 +41,17 @@ Avoiding this can be accomplished by observation of the wireless sensor node, an
 
 Using states is a core technique to reduce the energy consumption in wireless sensor nodes. Some sensors also uses \emph{deeper sleep} to save even more energy. When working with deeper sleep, it has to be taken into account that it takes more time and energy to make the controller wake up and be fully operational again.
 
-Another way of controlling the energy consumption intead of states, is to scale the voltage as required. This can be done by using the full power of the microcontroller and get the task done as fast as possible, and go back to low energy consumption again. By doing this the task is done as fast as possible, and the high energy consumption is active in a limited time only. This may not be the most energy effecient approach, as the task may be computed at a low energy level. By using Dynamic Voltage Scaling(DVS) a task will be computed only at the speed needed of the task, to get it done before a given deadline.
+Another way of controlling the energy consumption instead of states, is to scale the voltage as required. This can be done by using the full power of the microcontroller and get the task done as fast as possible, and go back to low energy consumption again. By doing this the task is done as fast as possible, and the high energy consumption is active in a limited time only. Depending on the task this may not be the most energy efficient approach, as the task may be computed at a lower energy level. By using Dynamic Voltage Scaling(DVS) a task will be computed only at the speed needed of the task, to get it done before a given deadline.
 
 \subsection{Memory}
-The most relevant kinds of memory when looking from an energy perspective is the FLASH memory and in generally on-chip memory. The off-chip RAM is not interesting, because they are rarely used, and is usually powered of the energy that runs the controller.
-The FLASH memory can have heavily influence on the lifetime of a controller. Writing and reading to the FLASH memory is tasks that consume energy, specially writing to it consumes a lot. The reason why is that is a more complicated process that the read process and it is furthermore time consuming.
-If it can be avoided it would be the best solution.  
+One of the most important types of memory when looking from an energy perspective is the flash memory.
+The flash memory influences the lifetime of a node. Writing and reading to the flash memory is tasks that consumes energy, especially writing, as it is more complicated and a time consuming process. The flash memory should therefore only be used if necessary. 
  
 \subsection{Radio transceivers}
-  
-There is two tasks for a a radio transceiver: transmitting and receiving data between nodes. Just like controllers radio transceiver works in different modes. The most common is \emph{turned on} or \emph{turned off}. To ensure a low energy consumption the transceivers has to be turned off most of the time, and only turned on when it is required. this meaning that they work at a low duty cycle.
-This increase the level of complexity, power overhead and time. 
+The two tasks for a radio transceiver is transmitting and receiving data. Just like controllers, radio transceivers works in different modes. The most common is turned on or off. To ensure a low energy consumption the transceivers has to be turned off, and only turned on when it is required.
   
 \subsubsection*{Energy consumption during transmission}
-When transmitting the energy consumed is due to two sources. The first source is the radio frequency signal that is generated which mostly depends on target distance, the chosen modulation and the transmission power which is one of the most crucially decisions when transmitting a packet. The second source is due to electronic components. These costs are mostly constant.
+When transmitting the energy consumed is due to the transmission power and the electronic components. The transmission power is affected by both the distance to the receiver and the chosen modulation.
 
 \subsubsection*{Energy consumption during receiving}
-The receiver works in two states, on and off. It is ready for receiving when it is turned on, this is called the idle state. The difference in energy consumption from idle to when it is receiving is close to zero, and therefore in most cases counted as zero.
-  
- 
-\section{Radio communication}
+The receiver can either be on or off. The receiver is ready for receiving a package when it is turned on, this is called the idle state. The difference in energy consumption from the idle state to when it is receiving is close to zero. Therefore a lower energy consumption can be obtained by toggling off for a given time period where there is nothing to receive.

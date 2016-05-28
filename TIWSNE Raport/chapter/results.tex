@@ -1,9 +1,9 @@
 \chapter{Results}
 \label{chp:results}
 
-In this chapter the results of the project will be shown. This contains measurements of transmission of 4 images. No compression, 1-bit compression, 2-bit compression and 4-bit compression.
+In this chapter the results of the project will be presented. This includes measurements of four transmissions of the image. No compression, 1-bit compression, 2-bit compression and 4-bit compression.
 
-To get the results, an image was send between two TelosBs, one as a sender and one as a receiver. These was implemented as described in chapter \ref{chp:impl}
+To acquire the results, an image was transferred between the two TelosB motes, one as a sender and another as a receiver. These was implemented as described in chapter \ref{chp:impl}
 
 Three different compressions was developed, and each with a different result, as expected. As shown i figure \ref{fig:one}, \ref{fig:two} and \ref{fig:four}.
 
@@ -11,17 +11,17 @@ Three different compressions was developed, and each with a different result, as
 \begin{figure}[h]
 	\centering
 	\begin{subfigure}{0.3\textwidth}
-		\includegraphics[width=\textwidth]{senderResultconverted}
+		\includegraphics[width=\textwidth]{oneBit}
 		\caption{1-bit compression}
 		\label{fig:one}
 	\end{subfigure}
 	\begin{subfigure}{0.3\textwidth}
-		\includegraphics[width=\textwidth]{senderResultconverted}
+		\includegraphics[width=\textwidth]{twoBit}
 		\caption{2-bit compression}
 		\label{fig:two}
 	\end{subfigure}
 	\begin{subfigure}{0.3\textwidth}
-		\includegraphics[width=\textwidth]{senderResultconverted}
+		\includegraphics[width=\textwidth]{fourbit}
 		\caption{4-bit compression}
 		\label{fig:four}
 	\end{subfigure}
@@ -29,15 +29,17 @@ Three different compressions was developed, and each with a different result, as
 \end{figure}
 
 
-To measure the voltage over the mote and the transmission time, a oscilloscope was used. Figure \ref{fig:senderresult} shows the measurement of no compression from the sender. 
+To measure the voltage over the mote and the transmission time, an oscilloscope was used. Figure \ref{fig:receiverresult} shows the measurement of the time for transferring with no compression. 
 
-\myFigure{senderResultconverted}{Mesured values for no compressed on sender side}{fig:senderresult}{0.6}
+\myFigure{senderResultconverted}{Measured time for no compression for \emph{Receiver Mote}}{fig:receiverresult}{0.5}
 
 
-The table below shows all measurements and calculations of the 3 compressions and one transmission without any compression. The battery voltage for the sender was measured to $3.028V$ and the resistor to $9.93\Omega$. For the receiver it is $3.214V$ battery voltage and a resistance of $9.98\Omega$.
+The table below shows all measurements and calculations of the three compressions and the one without compression. The battery voltage for the sender was measured to $3.028V$ and the resistor to $9.93\Omega$. For the receiver the battery voltage was $3.214V$ and the resistor was measured to of $9.98\Omega$.
 
+\vspace{0.5cm}
+{\renewcommand{\arraystretch}{1.2}
 \begin{tabular}{l l l r r r r}
-	Sender           	& $V_{avg}\lbrack mV\rbrack$ & $t\lbrack sec\rbrack$ & $V_{mote}$  & $I_{mote}$ & $W_{mote}\lbrack W\rbrack$ & Energy cons.\\ \hline
+	Sender           	& $V_{avg}\lbrack mV\rbrack$ & $t\lbrack sec\rbrack$ & $V_{mote}$  & $I_{mote}$ & $W_{mote}\lbrack W\rbrack$ & Energy cons.$\lbrack J \rbrack$\\ \hline
 	No compr.	 & 0.194 & 25.2 & 2.834 & 0.020 & 0.055 & 1.395 \\
 	1-bit compr. & 0.192 & 24.5 & 2.836 & 0.019 & 0.055 & 1.343 \\
 	2-bit compr. & 0.193 & 23   & 2.835 & 0.019 & 0.055 & 1.267 \\
@@ -45,14 +47,16 @@ The table below shows all measurements and calculations of the 3 compressions an
 	
 	&&&&&& \\
 
-	Receiver           	& $V_{avg}\lbrack mV\rbrack$ & $t\lbrack sec\rbrack$ & $V_{mote}$  & $I_{mote}$ & $W_{mote}\lbrack W\rbrack$ & Energy cons.\\ \hline
+	Receiver           	& $V_{avg}\lbrack mV\rbrack$ & $t\lbrack sec\rbrack$ & $V_{mote}$  & $I_{mote}$ & $W_{mote}\lbrack W\rbrack$ & Energy cons.$\lbrack J \rbrack$\\ \hline
 	No compr.	 & 0.201 & 25.2 & 3.013 & 0.020 & 0.060 & 1.529 \\
 	1-bit compr. & 0.201 & 24.5 & 3.013 & 0.020 & 0.060 & 1.487 \\
 	2-bit compr. & 0.2   & 23   & 3.014 & 0.020 & 0.060 & 1.389 \\
 	4-bit compr. & 0.2   & 18.2 & 3.014 & 0.020 & 0.060 & 1.099
 \end{tabular}
 
-Before transmission of images the resistanse of the resistor and voltage of the battery was measured. This is done to calculate $V_{mote}$, $I_{mote}$, $W_{mote}$ and \emph{energy consumption}. Below the calculations are shown:
+\vspace{0.5cm}
+
+The calculations for $V_{mote}$, $I_{mote}$, $W_{mote}$ and \emph{energy consumption} is listed below.
  
 \begin{align*}
 	V_{bat}&=V_{bat}-V_{res}\\
@@ -60,3 +64,5 @@ Before transmission of images the resistanse of the resistor and voltage of the 
 	W_{mote}&=I_{mote}\cdot V_{mote} \\
 	EC&=W_{mote}\cdot t
 \end{align*}
+
+The measurement shows a lower energy consumption when applying a higher compression ratio. In the table it is shown how the power used during the transmission, compression and decompression is approximately the same. When applying compression it can though be seen that the transmission time is lower.
