@@ -4,11 +4,11 @@
 This chapter explains the design and implementation of the application and the choices made during the development.
 
 \section{Architecture}
-The objective of the project is to send an image, compressed and uncompressed, from one mote to another. To do this two PCs and two TelosB motes has been used, one sender mote and one receiver mote. The architecture of the system is shown in Figure \ref{fig:SystemOverview}. \emph{PC1} has the responsibility of converting an image into a byte array and transferring it to Mote1 over serial communication. When it is transfered to \emph{Mote1} the implemented \emph{SerialCom} module is used. The image is stored in the flash memory, because it is to big to be stored in the RAM. From the flash it is compressed and sent to \emph{Mote2}, via the \emph{RadioCom} module.
+The objective of the project is to send an image, compressed and uncompressed, from one mote to another. To do this two PCs and two TelosB motes has been used, one sender mote and one receiver mote. The architecture of the system is shown in Figure \ref{fig:SystemOverview}. \emph{PC1} has the responsibility of converting an image into a byte array and transferring it to Sender Mote over serial communication. When it is transfered to \emph{Sender Mote} the implemented \emph{SerialCom} module is used. The image is stored in the flash memory, because it is to big to be stored in the RAM. From the flash it is compressed and sent to \emph{Receiver Mote}, via the \emph{RadioCom} module.
 
 \myFigure{classDiagram.png}{The architecture of the system}{fig:SystemOverview}{0.7}
 
-As seen in the figure \ref{fig:SystemOverview} the same modules and interfaces are also used in \emph{Mote2}. The compressed data is received in \emph{Mote2}, then decompressed and stored in the flash. From the flash it is send to \emph{PC2} via serial communication. 
+As seen in the figure \ref{fig:SystemOverview} the same modules and interfaces are also used in \emph{Receiver Mote}. The compressed data is received in \emph{Receiver Mote}, then decompressed and stored in the flash. From the flash it is send to \emph{PC2} via serial communication. 
 
 %The image which is send around is only the raster of the original BMP.
 %Be the image is transferred the header and footer has been stripped. When a PC receives the image back from a TelosB the image is then reconstructed according to its original.
@@ -24,9 +24,9 @@ As seen in the figure \ref{fig:SystemOverview} the same modules and interfaces a
 
 The serial communication is used to transfer the image between the PCs and the TelosB motes. 
 
-In figure \ref{fig:serialCom} the serial communication between \emph{PC1} and \emph{Mote1} is explained. \emph{PC1} transfers a stream of packages to \emph{Mote1}. The image is transferred in packages of 64 bytes and \emph{Mote1} writes the data to the flash when it is received. When the last packages is signaled the flash is synchronized.
+In figure \ref{fig:serialCom} the serial communication between \emph{PC1} and \emph{Sender Mote} is explained. \emph{PC1} transfers a stream of packages to \emph{Sender Mote}. The image is transferred in packages of 64 bytes and \emph{Sender Mote} writes the data to the flash when it is received. When the last packages is signaled the flash is synchronized.
 
-\myFigure{serialCom.png}{Serial Communication from \emph{PC1} to \emph{Mote1}}{fig:serialCom}{0.7}
+\myFigure{serialCom.png}{Serial Communication from \emph{PC1} to \emph{Sender Mote}}{fig:serialCom}{0.7}
 
 Similar when the sink mote transfers the image to \emph{PC2} the PC reconstruct the image when the last package is received.
 
@@ -38,7 +38,7 @@ The Block storage is a write-once model of storage. Rewriting requires an erase.
 
 To be able to use the Block storage the flash chip needs to be divided into one or more fixed-sized volumes. The volume is specified at compile-time. The volume size used in this project is 65,536 bytes which is the maximum size.
 
-The interface \emph{Flash} was created to accommodate \emph{Mote1} and \emph{Mote2} which both needs to be able to write and read from the flash. \emph{Flash} is presented in Listing \ref{lst:flash}.
+The interface \emph{Flash} was created to accommodate \emph{Sender Mote} and \emph{Receiver Mote} which both needs to be able to write and read from the flash. \emph{Flash} is presented in Listing \ref{lst:flash}.
 
 \begin{lstlisting}[caption={The interface flash}, label=lst:flash]
 interface Flash
@@ -81,7 +81,7 @@ All implemented compressions and decompressions are done using bitwise operators
 
 
 \section{Radio communication}
-Radio communication was used for transferring an image from one mote to another. The transferred image is read from the flash in chunks of 1024 bytes and saved to a buffer. Afterwards it is transferred to \emph{Mote2} in packages of 64 bytes. Figure \ref{fig:radioCom} presents the transfer between \emph{Mote1} and the sink, \emph{Mote2}.
+Radio communication was used for transferring an image from one mote to another. The transferred image is read from the flash in chunks of 1024 bytes and saved to a buffer. Afterwards it is transferred to \emph{Receiver Mote} in packages of 64 bytes. Figure \ref{fig:radioCom} presents the transfer between \emph{Sender Mote} and the sink, \emph{Receiver Mote}.
 
 %Before each transfer the \emph{Sender} side, the image has been reed in chunks of 1024 bytes. The chunk of 1024 bytes is loaded into a buffer. The buffer is then divided into packages of 64 bytes and then sent to the receiving TelosB. The sequence diagram in Figure \ref{fig:radioCom} gives an overview of how this process works.
 
@@ -90,7 +90,7 @@ Radio communication was used for transferring an image from one mote to another.
 
 
 
-The sequence diagram in figure \ref{fig:radioCom} illustrates how a non-compressed image is transferred. \emph{Mote1} start by reading 1024 bytes from the flash when the user button is pressed. It then transfers 16 packages and waits for an acknowledge. When \emph{Mote1} has received the acknowledge it will read another 1024 bytes from the flash and transfer the next 16 packages. When transferring the last package the status will be set to \emph{TRANSFER\_DONE} and the stream of bytes is transferred.
+The sequence diagram in figure \ref{fig:radioCom} illustrates how a non-compressed image is transferred. \emph{Sender Mote} starts by reading 1024 bytes from the flash when the user button is pressed. It then transfers 16 packages and waits for an acknowledge. When \emph{Sender Mote} has received the acknowledge it will read another 1024 bytes from the flash and transfer the next 16 packages. When transferring the last package the status will be set to \emph{TRANSFER\_DONE} and the stream of bytes is transferred.
 
 \FloatBarrier
 
@@ -98,8 +98,8 @@ The sequence diagram in figure \ref{fig:radioCom} illustrates how a non-compress
 
 %When the last package of the image is about to be send the \emph{Sender} sends a \emph{TRANSFER\_DONE} with the last package. The \emph{Receiver} will not send any \emph{TRANSFER\_ACK} back and the \emph{Sender} will neither expect a \emph{TRANSFER\_ACK }.
 
-Each time \emph{Mote2} receives a package of 64 bytes it stores the data in a buffer. The buffer has the size of 1024 bytes. When the buffer is full it is written to the flash. If a compression is applied the data in the buffer will be decompressed before writing it to the flash. Similar \emph{Mote1} will compress after reading from the flash and before transferring.
+Each time \emph{Receiver Mote} receives a package of 64 bytes it stores the data in a buffer. The buffer has the size of 1024 bytes. When the buffer is full it is written to the flash. If a compression is applied the data in the buffer will be decompressed before writing it to the flash. Similar \emph{Sender Mote} will compress after reading from the flash and before transferring.
 
-If the image has been compressed it will transfer the packages corresponding to the compressed size. For example, if the image has been compressed with a 4-bit compression the 1024 bytes will be reduced to 512 bytes. So instead of transferring 16 packages the \emph{Mote1} transfers 8 packages of 64 bytes each and waits for an acknowledge.
+If the image has been compressed it will transfer the packages corresponding to the compressed size. For example, if the image has been compressed with a 4-bit compression the 1024 bytes will be reduced to 512 bytes. So instead of transferring 16 packages the \emph{Sender Mote} transfers 8 packages of 64 bytes each and waits for an acknowledge.
 
-If the image is being compressed, \emph{Mote1} signals which compression has been used by adding the information to the header. \emph{Mote2} then  decompresses based on the header information.
+If the image is being compressed, \emph{Sender Mote} signals which compression has been used by adding the information to the header. \emph{Receiver Mote} then  decompresses based on the header information.
