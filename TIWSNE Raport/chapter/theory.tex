@@ -23,7 +23,7 @@ The Huffman code is a lossless compression. It is based on the frequency of appe
 All the codes are stored in a code book. This code book along with the encoded data must be transmitted. This means that there is no data in the file that is missing when decoding the file.
 
 \section{Energy consumption}
-In wireless sensor networks the energy supply is a crucial factor. Batteries that runs the sensor nodes has small a capacity and recharging them can be difficult and complicated. Hence the energy consumption must be controlled in the best way possible, to keep a low energy consumption.
+In wireless sensor networks the energy supply is a crucial factor. Batteries that runs the sensor nodes has a small capacity and recharging them can be difficult and complicated. Hence the energy consumption must be controlled in the best way possible, to keep a low energy consumption.
 The main consumers of energy are:
 \begin{itemize}
 	\item[--] The controller
@@ -39,13 +39,13 @@ To reduce the energy consumption a low-power chip is preferred but using the chi
 	\item[--] \textbf{\emph{sleep}}: Waiting.
 \end{itemize}
 
-Using states is a core technique to reduce the energy consumption in wireless sensor nodes. Some sensors also uses \emph{deeper sleep} to save even more energy. When working with deeper sleep, it has to be taken into account that it takes more time and energy to make the controller wake up and be fully operational again.
+Using states is a core technique to reduce the energy consumption in wireless sensor nodes. Some sensors also uses \emph{deeper sleep} to save even more energy. When working with \emph{deeper sleep}, it has to be taken into account that it takes more time and energy to make the controller wake up and be fully operational again.
 
 Another way of controlling the energy consumption instead of states, is to scale the voltage as required. This can be done by using the full power of the microcontroller and get the task done as fast as possible, and go back to low energy consumption again. By doing this the task is done as fast as possible, and the high energy consumption is active in a limited time only. Depending on the task this may not be the most energy efficient approach, as the task may be computed at a lower energy level. By using Dynamic Voltage Scaling(DVS) a task will be computed only at the speed needed of the task, to get it done before a given deadline.
 
 \subsection{Memory}
 One of the most important types of memory when looking from an energy perspective is the flash memory.
-The flash memory influences the lifetime of a node. Writing and reading to the flash memory is tasks that consumes energy, especially writing, as it is more complicated and a time consuming process. The flash memory should therefore only be used if necessary. 
+The flash memory influences the lifetime of a node. Writing to and reading from the flash memory is tasks that consumes energy, especially writing, as it is more complicated and a time consuming process. The flash memory should therefore only be used if necessary. 
  
 \subsection{Radio transceivers}
 The two tasks for a radio transceiver is transmitting and receiving data. Just like controllers, radio transceivers works in different modes. The most common is turned on or off. To ensure a low energy consumption the transceivers has to be turned off, and only turned on when it is required.

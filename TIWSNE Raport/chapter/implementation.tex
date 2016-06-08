@@ -90,7 +90,7 @@ Radio communication was used for transferring an image from one mote to another.
 
 
 
-The sequence diagram in figure \ref{fig:radioCom} illustrates how a non-compressed image is transferred. \emph{Sender Mote} starts by reading 1024 bytes from the flash when the user button is pressed. It then transfers 16 packages and waits for an acknowledge. When \emph{Sender Mote} has received the acknowledge it will read another 1024 bytes from the flash and transfer the next 16 packages. When transferring the last package the status will be set to \emph{TRANSFER\_DONE} and the stream of bytes is transferred.
+The sequence diagram in figure \ref{fig:radioCom} illustrates how a non-compressed image is transferred. \emph{Sender Mote} starts by reading 1024 bytes from the flash when the user button is pressed. It then transfers 16 packages and waits for an acknowledge. When \emph{Sender Mote} has received the acknowledge it will read another 1024 bytes from the flash and transfer the next 16 packages. When transferring the last package the status will be set to \emph{TRANSFER\_DONE} and the transfer is done.
 
 \FloatBarrier
 

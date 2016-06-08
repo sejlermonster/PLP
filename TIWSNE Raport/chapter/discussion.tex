@@ -1,17 +1,15 @@
 \chapter{Discussion}
 \label{chp:disc}
 
-In this chapter the project will evaluated and discussed.
+In this chapter the project will be evaluated and discussed.
 
 The implementation is developed to evaluate on the assignment given. The developed project can transfer an image without compression and with a 1, 2 and 4-bit compression. The implementation is focused on analyzing the difference in energy consumption when transferring an image with and without compression. As the project has focused on the given assignment it is still possible to optimize the application for the use in a wireless sensor network.  
 
-In this project radio communication and serial communication is always turned on. When not using the radio and serial communication these should be turned off to lower the energy consumption. This could be done by scheduling when to transfer data. This scheduling could also be used for going into idle state when no communication, processing or sensing is done.
+In this project radio communication and serial communication is always turned on. When not using the radio and serial communication these should be turned off to lower the energy consumption. This could be done by scheduling when to transfer data. This scheduling could also be used for entering idle state when no communication, processing or sensing is done.
 
 In the implementation an acknowledge is sent after receiving 1024 decompressed bytes. Implementing a negative-acknowledgment when for example receiving a package out of order would be an improvement to the solution. The sender mote could then resend the packages needed. This would create a more reliable communication between the motes. In this project it was only checked if all data was received correctly and if this was not the case a complete resend was necessary. By keeping the communication simple the comparison could be more accurate as no retransmission affected the results.
 
-Even though some improvements have been identified the implementation has been able to solve both basic requirements and advanced study. The image has been transferred with and without compression using 1, 2 and 4-bit compression. 
-
-The measured results showed that compression could significantly lower the energy consumption. The results showed that this was due to a lower transmission time and that  mean power was approximately the same. Using no compression compared to 4-bit compression showed a lower energy consumption of 27.74 \% for the sender mote and 28.12 \% for the receiver mote. Therefore compression can definitely be used for lowering the energy consumption.
+In the project an image was transferred with and without compression using 1, 2 and 4-bit compression. The measured results revealed that compression could significantly lower the energy consumption. This was due to a lower transmission time and the mean power was approximately the same. Using no compression compared to 4-bit compression showed a lower energy consumption of 27.74 \% for the sender mote and 28.12 \% for the receiver mote. Therefore compression can definitely be used for lowering the energy consumption.
 
 If a lossy compression can be used depends on the user requirements. When sending an image a lossy compression results in a lesser detailed image. If the quality of an image or other data must remain a lossless compression could be used instead. For some data formats a lossy data compression might not even make sense.
 
